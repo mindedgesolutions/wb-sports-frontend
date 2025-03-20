@@ -1,4 +1,5 @@
 import { WbFooter, WbHeaderBottom, WbHeaderTop, WbMenu } from '@/components';
+import { Menus } from '@/constants/testMenu';
 import { Outlet } from 'react-router-dom';
 
 const WbLayout = () => {
@@ -6,7 +7,9 @@ const WbLayout = () => {
     <>
       <WbHeaderTop />
       <WbHeaderBottom />
-      <WbMenu />
+      {Menus.map((menu) => (
+        <WbMenu menu={menu} />
+      ))}
       <div className="max-w-screen-xl mx-auto">
         <Outlet />
       </div>

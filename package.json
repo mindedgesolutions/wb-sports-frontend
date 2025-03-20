@@ -32,6 +32,7 @@
     "crypto-js": "^4.2.0",
     "dayjs": "^1.11.13",
     "dotenv": "^16.4.7",
+    "framer-motion": "^12.5.0",
     "lucide-react": "^0.483.0",
     "nanoid": "^5.1.5",
     "react": "^19.0.0",
