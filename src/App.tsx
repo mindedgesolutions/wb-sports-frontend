@@ -1,0 +1,76 @@
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import * as sy from '@/pages';
+
+const router = createBrowserRouter([
+  { path: '/', element: <sy.WbLanding /> },
+  // Services Website routes start -----------------------------------
+  {
+    path: `/${import.meta.env.VITE_SERVICES}`,
+    element: <sy.WbLayout />,
+    children: [
+      { path: 'home', element: <sy.WbHomePage /> },
+      {
+        path: 'about',
+        children: [
+          { path: 'about-department', element: <sy.WbAboutDept /> },
+          { path: 'organisation-chart', element: <sy.WbOrgChart /> },
+          { path: 'address-of-dept-director', element: <sy.WbDeptAddress /> },
+          { path: 'district-block-offices', element: <sy.WbDistrictOffice /> },
+          { path: 'helpline', element: <sy.WbHelpline /> },
+        ],
+      },
+      { path: 'hon-mic', element: <sy.WbMic /> },
+      {
+        path: 'youth-training-program',
+        children: [
+          { path: 'computer-training', element: <sy.WbCompTraining /> },
+          { path: 'vocational-training', element: <sy.WbVocationalTraining /> },
+        ],
+      },
+      {
+        path: 'mountaineering',
+        children: [
+          { index: true, element: <sy.WbMountaineering /> },
+          { path: 'news-events', element: <sy.WbMountainNewsEvents /> },
+        ],
+      },
+      {
+        path: 'fairs-programs',
+        children: [
+          { path: 'wbsme', element: <sy.WbSme /> },
+          { path: 'wbssyf', element: <sy.WbSyf /> },
+          { path: 'wbsysf', element: <sy.WbSysf /> },
+          { path: 'bangla-yuva-kendra', element: <sy.WbBanglaYuvaKendra /> },
+          { path: 'coaching-for-job', element: <sy.WbCoachingForJob /> },
+          { path: 'vivek-chetna-utsab', element: <sy.WbVivekChetna /> },
+          { path: 'rakhibandhan-utsab', element: <sy.WbRakhiBandhan /> },
+          { path: 'subhas-utsab', element: <sy.WbSubhas /> },
+        ],
+      },
+      { path: 'news-events', element: <sy.WbNewsEvents /> },
+      {
+        path: 'youth-hostel',
+        children: [
+          { path: 'hostel-list', element: <sy.WbHostelList /> },
+          { path: 'how-to-book', element: <sy.WbHowBookHostel /> },
+        ],
+      },
+      { path: 'photo-gallery', element: <sy.WbPhotoGallery /> },
+    ],
+  },
+  // Services Website routes end -----------------------------------
+
+  // Sports Website routes start -----------------------------------
+  {
+    path: `/${import.meta.env.VITE_SPORTS}`,
+    element: <sy.SpLayout />,
+    children: [{ path: 'home', element: <sy.SpHomePage /> }],
+  },
+  // Sports Website routes end -----------------------------------
+]);
+
+function App() {
+  return <RouterProvider router={router} />;
+}
+
+export default App;
