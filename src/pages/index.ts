@@ -28,6 +28,17 @@ export { default as WbPhotoGallery } from '@/pages/website/wb-services/WbPhotoGa
 
 // Services Website exports end --------------------------------
 
+// Service Admin / CMS exports start --------------------------------
+
+export { default as WbSignIn } from '@/pages/cms-service/auth/WbSignIn';
+export { default as WbForgotPassword } from '@/pages/cms-service/auth/WbForgotPassword';
+export { default as WbResetPassword } from '@/pages/cms-service/auth/WbResetPassword';
+export { default as WbCmsLayout } from '@/pages/cms-service/WbCmsLayout';
+export { default as WbCmsDashboard } from '@/pages/cms-service/WbCmsDashboard';
+
+// Service Admin / CMS exports end --------------------------------
+
 // Sports Website exports start --------------------------------
+
 export { default as SpLayout } from '@/pages/website/wb-sports/SpLayout';
 export { default as SpHomePage } from '@/pages/website/wb-sports/SpHomePage';
