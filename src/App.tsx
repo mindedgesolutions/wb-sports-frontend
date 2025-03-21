@@ -60,6 +60,26 @@ const router = createBrowserRouter([
   },
   // Services Website routes end -----------------------------------
 
+  // Services Admin / CMS routes start -----------------------------------
+  {
+    path: `/${import.meta.env.VITE_SERVICES}/cms/sign-in`,
+    element: <sy.WbSignIn />,
+  },
+  {
+    path: `/${import.meta.env.VITE_SERVICES}/cms/forgot-password`,
+    element: <sy.WbForgotPassword />,
+  },
+  {
+    path: `/${import.meta.env.VITE_SERVICES}/cms/reset-password`,
+    element: <sy.WbResetPassword />,
+  },
+  {
+    path: `/${import.meta.env.VITE_SERVICES}/cms`,
+    element: <sy.WbCmsLayout />,
+    children: [{ path: 'dashboard', element: <sy.WbCmsDashboard /> }],
+  },
+  // Services Admin / CMS routes end -----------------------------------
+
   // Sports Website routes start -----------------------------------
   {
     path: `/${import.meta.env.VITE_SPORTS}`,
