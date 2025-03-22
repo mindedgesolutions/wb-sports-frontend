@@ -1,4 +1,8 @@
+import { titles } from '@/constants';
+
 const WbCmsDashboard = () => {
-  return <div>WbCmsDashboard</div>;
+  document.title = `Dashboard | ${titles.services}`;
+
+  return <div></div>;
 };
 export default WbCmsDashboard;

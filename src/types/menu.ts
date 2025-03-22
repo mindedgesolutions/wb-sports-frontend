@@ -13,3 +13,15 @@ export type WebsiteMenuProps = {
   subMenus?: WebsiteSubMenuProps[] | null;
   gridCols?: number | null;
 };
+
+export type CmsSubMenuProps = {
+  title: string;
+  url: string;
+};
+
+export type CmsMenuProps = {
+  title: string;
+  url?: string | null;
+  icon?: React.ElementType | null;
+  children?: CmsSubMenuProps[] | null;
+};
