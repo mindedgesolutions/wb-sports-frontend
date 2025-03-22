@@ -35,6 +35,7 @@ export { default as WbForgotPassword } from '@/pages/cms-service/auth/WbForgotPa
 export { default as WbResetPassword } from '@/pages/cms-service/auth/WbResetPassword';
 export { default as WbCmsLayout } from '@/pages/cms-service/WbCmsLayout';
 export { default as WbCmsDashboard } from '@/pages/cms-service/WbCmsDashboard';
+export { default as WbCmsBanners } from '@/pages/cms-service/WbCmsBanners';
 
 // Service Admin / CMS exports end --------------------------------
 

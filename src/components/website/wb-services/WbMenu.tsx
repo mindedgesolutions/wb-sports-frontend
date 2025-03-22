@@ -1,6 +1,5 @@
-import { menus } from '@/constants/wbMenu';
-import { WebsiteMenuProps } from '@/types/menu';
-import { nanoid } from '@reduxjs/toolkit';
+// import { menus } from '@/constants/wbMenu';
+// import { WebsiteMenuProps } from '@/types/menu';
 
 const WbMenu = () => {
   return <></>;

@@ -1,0 +1,27 @@
+import { images, titles } from '@/constants';
+
+const WbcFooter = () => {
+  return (
+    <>
+      <div className="bg-muted-foreground/60 p-2 md:p-4 flex flex-col md:flex-row gap-4 md:gap-0 justify-between items-center">
+        <span className="flex flex-row justify-start md:justify-center items-center px-2 gap-2 text-card text-sm">
+          <img
+            src={images.biswaBangla}
+            alt={titles.servicesShort}
+            className="h-6"
+          />
+          &copy; {new Date().getFullYear()} {titles.services}
+        </span>
+        <span className="flex flex-row justify-start md:justify-center items-center gap-2 text-card text-sm">
+          <p>Designed, developed and powered by </p>
+          <img
+            src={images.nicLogo}
+            alt="National Informatics Centre"
+            className="h-6"
+          />
+        </span>
+      </div>
+    </>
+  );
+};
+export default WbcFooter;

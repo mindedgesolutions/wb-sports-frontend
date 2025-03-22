@@ -1,5 +1,22 @@
+// Services Website Components start ----------------------------
 export { default as WbHeaderTop } from '@/components/website/wb-services/WbHeaderTop';
 export { default as WbHeaderBottom } from '@/components/website/wb-services/WbHeaderBottom';
 export { default as WbFooter } from '@/components/website/wb-services/WbFooter';
 export { default as WbMenu } from '@/components/website/wb-services/WbMenu';
 export { default as WbHomeTopSlider } from '@/components/website/wb-services/WbHomeTopSlider';
+// Services Website Components end ----------------------------
+
+// Services App Components start ----------------------------
+export { default as WbcFooter } from '@/components/cms-services/WbcFooter';
+export { default as WbcTopnav } from '@/components/cms-services/WbcTopnav';
+export { default as WbcProfileContainer } from '@/components/cms-services/WbcProfileContainer';
+export { default as WbcSubmitBtn } from '@/components/cms-services/WbcSubmitBtn';
+export { default as WbcAddEditBanner } from '@/components/cms-services/half-forms/WbcAddEditBanner';
+export { default as WbcBannerPopover } from '@/components/cms-services/pop-overs/WbcBannerPopover';
+// Services App Components end ----------------------------
+
+// Common Components start ----------------------------
+export { default as AppMainWrapper } from '@/components/app-wrappers/AppMainWrapper';
+export { default as AppTitleWrapper } from '@/components/app-wrappers/AppTitleWrapper';
+export { default as AppContentWrapper } from '@/components/app-wrappers/AppContentWrapper';
+// Common Components end ----------------------------

@@ -11,7 +11,7 @@ const customFetch = axios.create({
 
 customFetch.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem(import.meta.env.VITE_TOKEN_NAME);
+    const token = localStorage.getItem(import.meta.env.VITE_SERVICE_TOKEN);
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }

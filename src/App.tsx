@@ -1,5 +1,9 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import * as sy from '@/pages';
+import { store } from './store';
+
+// --------------------------------------------
+import { loader as wbLayoutLoader } from '@/pages/cms-service/WbCmsLayout';
 
 const router = createBrowserRouter([
   { path: '/', element: <sy.WbLanding /> },
@@ -74,9 +78,13 @@ const router = createBrowserRouter([
     element: <sy.WbResetPassword />,
   },
   {
-    path: `/${import.meta.env.VITE_SERVICES}/cms`,
+    path: `/${import.meta.env.VITE_SERVICES}/cms/:slug`,
     element: <sy.WbCmsLayout />,
-    children: [{ path: 'dashboard', element: <sy.WbCmsDashboard /> }],
+    loader: wbLayoutLoader(store),
+    children: [
+      { path: 'dashboard', element: <sy.WbCmsDashboard /> },
+      { path: 'banners', element: <sy.WbCmsBanners /> },
+    ],
   },
   // Services Admin / CMS routes end -----------------------------------
 
