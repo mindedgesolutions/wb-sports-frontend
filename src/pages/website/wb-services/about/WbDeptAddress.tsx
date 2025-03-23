@@ -1,4 +1,11 @@
+import { WbPageTopBanner } from '@/components';
+
 const WbDeptAddress = () => {
-  return <div>WbDeptAddress</div>;
+  return (
+    <div>
+      <WbPageTopBanner />
+      WbDeptAddress
+    </div>
+  );
 };
 export default WbDeptAddress;

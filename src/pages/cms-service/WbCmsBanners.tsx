@@ -22,7 +22,7 @@ import customFetch from '@/utils/customFetch';
 import { serialNo } from '@/utils/function';
 import { nanoid } from '@reduxjs/toolkit';
 import { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import dayjs from 'dayjs';
 import { EyeIcon, Pencil } from 'lucide-react';
 import { Switch } from '@/components/ui/switch';
@@ -45,6 +45,7 @@ const WbCmsBanners = () => {
   const queryString = new URLSearchParams(search);
   const { srCounter } = useAppSelector((state) => state.common);
   const dispatch = useAppDispatch();
+  const [editId, setEditId] = useState<number | null>(null);
 
   // ------------------------------
 
@@ -97,7 +98,7 @@ const WbCmsBanners = () => {
       <AppTitleWrapper>upload banner for individual pages</AppTitleWrapper>
       <AppContentWrapper>
         <div className="flex md:flex-row flex-col-reverse justify-start items-start gap-4">
-          <div className="basis-full md:basis-3/5">
+          <div className="basis-full md:basis-2/3">
             <Table>
               <TableHeader>
                 <TableRow>
@@ -150,15 +151,20 @@ const WbCmsBanners = () => {
                         </TableCell>
                         <TableCell>
                           <Switch
-                            className="data-[state=checked]:bg-sky"
+                            className="data-[state=checked]:bg-sky cursor-pointer"
                             checked={banner.is_active}
                             onCheckedChange={handleActive(banner.id)}
                           />
                         </TableCell>
                         <TableCell>
-                          <div className="flex flex-row justify-center items-center gap-1">
-                            <EyeIcon className="h-4 group-hover:text-blue-500 duration-200 cursor-pointer" />
-                            <Pencil className="h-4 group-hover:text-yellow-500 duration-200 cursor-pointer" />
+                          <div className="flex flex-row justify-center items-center gap-2">
+                            <Link to={titles.websiteBaseUrl + banner.page_url}>
+                              <EyeIcon className="h-4 group-hover:text-blue-500 duration-200 cursor-pointer" />
+                            </Link>
+                            <Pencil
+                              className="h-4 group-hover:text-yellow-500 duration-200 cursor-pointer"
+                              onClick={() => setEditId(banner.id)}
+                            />
                             <WbcDeleteBanner
                               id={banner.id}
                               setIsLoading={setIsLoading}
@@ -173,8 +179,8 @@ const WbCmsBanners = () => {
             </Table>
             {meta?.total && meta?.total > 10 && <WbcPaginationContainer />}
           </div>
-          <div className="basis-full w-full md:basis-2/5">
-            <WbcAddEditBanner />
+          <div className="basis-full w-full md:basis-1/3">
+            <WbcAddEditBanner editId={editId} setEditId={setEditId} />
           </div>
         </div>
       </AppContentWrapper>

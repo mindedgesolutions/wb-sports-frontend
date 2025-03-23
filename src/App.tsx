@@ -14,7 +14,7 @@ const router = createBrowserRouter([
     children: [
       { path: 'home', element: <sy.WbHomePage /> },
       {
-        path: 'about',
+        path: '',
         children: [
           { path: 'about-department', element: <sy.WbAboutDept /> },
           { path: 'organisation-chart', element: <sy.WbOrgChart /> },
@@ -25,7 +25,7 @@ const router = createBrowserRouter([
       },
       { path: 'hon-mic', element: <sy.WbMic /> },
       {
-        path: 'youth-training-program',
+        path: '',
         children: [
           { path: 'computer-training', element: <sy.WbCompTraining /> },
           { path: 'vocational-training', element: <sy.WbVocationalTraining /> },
@@ -39,7 +39,7 @@ const router = createBrowserRouter([
         ],
       },
       {
-        path: 'fairs-programs',
+        path: '',
         children: [
           { path: 'wbsme', element: <sy.WbSme /> },
           { path: 'wbssyf', element: <sy.WbSyf /> },
@@ -53,7 +53,7 @@ const router = createBrowserRouter([
       },
       { path: 'news-events', element: <sy.WbNewsEvents /> },
       {
-        path: 'youth-hostel',
+        path: '',
         children: [
           { path: 'hostel-list', element: <sy.WbHostelList /> },
           { path: 'how-to-book', element: <sy.WbHowBookHostel /> },

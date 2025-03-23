@@ -1,4 +1,11 @@
+import { WbPageTopBanner } from '@/components';
+
 const WbHelpline = () => {
-  return <div>WbHelpline</div>;
+  return (
+    <div>
+      <WbPageTopBanner />
+      WbHelpline
+    </div>
+  );
 };
 export default WbHelpline;

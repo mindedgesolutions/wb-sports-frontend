@@ -6,24 +6,51 @@ import { WbcBannerPopover } from '@/components';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
 import { Button } from '@/components/ui/button';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { X } from 'lucide-react';
 import WbcSubmitBtn from '../WbcSubmitBtn';
 import customFetch from '@/utils/customFetch';
 import showSuccess from '@/utils/showSuccess';
 import showError from '@/utils/showError';
-import { useAppDispatch } from '@/hooks';
+import { useAppDispatch, useAppSelector } from '@/hooks';
 import { updateSrCounter } from '@/features/commonSlice';
+import { BannerProps } from '@/types/contents';
+import { titles } from '@/constants';
 
-const WbcAddEditBanner = () => {
+const WbcAddEditBanner = ({
+  editId,
+  setEditId,
+}: {
+  editId: number | null;
+  setEditId: React.Dispatch<React.SetStateAction<number | null>>;
+}) => {
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState<{ [key: string]: string[] } | null>(
     null
   );
   const [form, setForm] = useState({ page: '', pageTitle: '' });
   const [banner, setBanner] = useState<File | null>(null);
+  const [savedImage, setSavedImage] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const dispatch = useAppDispatch();
+  const { banners } = useAppSelector((state) => state.banners);
+
+  const editData: BannerProps | 0 | null | undefined =
+    banners &&
+    editId &&
+    banners.find((banner: BannerProps) => banner.id === editId);
+
+  // ------------------------------
+
+  useEffect(() => {
+    if (editData) {
+      setForm({
+        page: (editData as BannerProps).page_url ?? null,
+        pageTitle: (editData as BannerProps).page_title ?? null,
+      });
+      setSavedImage((editData as BannerProps).image_path ?? null);
+    }
+  }, [editId]);
 
   // ------------------------------
 
@@ -77,6 +104,8 @@ const WbcAddEditBanner = () => {
     setForm({ ...form, page: '', pageTitle: '' });
     setBanner(null);
     setErrors(null);
+    setSavedImage(null);
+    setEditId(null);
     if (fileInputRef.current) fileInputRef.current.value = '';
   };
 
@@ -150,7 +179,7 @@ const WbcAddEditBanner = () => {
   };
 
   return (
-    <div className="border p-4">
+    <div className="border p-2">
       <div className="bg-muted-foreground/10 text-muted-foreground p-2 text-base font-medium tracking-wider">
         Add new banner
       </div>
@@ -166,6 +195,7 @@ const WbcAddEditBanner = () => {
               id="page"
               value={form.page}
               onChange={handleChange}
+              disabled={!!editId}
             >
               <option value="">- Select -</option>
               {menus.map((menu: WebsiteMenuProps) => {
@@ -213,13 +243,19 @@ const WbcAddEditBanner = () => {
               value={form.pageTitle}
               onChange={handleChange}
               onKeyUp={resetError}
+              placeholder="Leave empty to use dropdown page title"
             />
             <span className="text-red-500 text-xs"></span>
           </div>
           <div className="flex flex-col justify-start items-start gap-2 my-4">
             <div className="flex flex-row gap-2">
               <Label className="text-muted-foreground">
-                Select an image <span className="text-red-500">*</span>
+                Select an image{' '}
+                {!!editId ? (
+                  '(optional)'
+                ) : (
+                  <span className="text-red-500">*</span>
+                )}
               </Label>
               <WbcBannerPopover />
             </div>
@@ -238,6 +274,12 @@ const WbcAddEditBanner = () => {
                 {banner ? (
                   <img
                     src={URL.createObjectURL(banner)}
+                    alt="banner"
+                    className="w-full h-full object-cover"
+                  />
+                ) : savedImage ? (
+                  <img
+                    src={titles.baseUrl + savedImage}
                     alt="banner"
                     className="w-full h-full object-cover"
                   />

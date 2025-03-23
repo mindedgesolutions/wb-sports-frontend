@@ -34,4 +34,5 @@ export const titles = {
   servicesShort: import.meta.env.VITE_SERVICE_APP_NAME_SHORT,
   sportsShort: import.meta.env.VITE_SPORTS_APP_NAME_SHORT,
   baseUrl: import.meta.env.VITE_BASE_URL,
+  websiteBaseUrl: import.meta.env.VITE_WEBSITE_BASE_URL,
 };
