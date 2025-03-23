@@ -11,9 +11,7 @@ const WbLayout = () => {
           <WbMenu />
         </div>
       </div>
-      <div className="max-w-screen-xl mx-auto">
-        <Outlet />
-      </div>
+      <Outlet />
       <WbFooter />
     </>
   );

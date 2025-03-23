@@ -1,7 +1,7 @@
 import youth from '@/assets/images/youth.jpg';
 import sports from '@/assets/images/sports.jpg';
 import biswaBangla from '@/assets/images/biswa-bangla.png';
-import homepageBanner from '@/assets/images/home-page-banner.jpg';
+import defaultBanner from '@/assets/images/home-page-banner.jpg';
 import nationalEmblem from '@/assets/images/national-emblem.png';
 import nicLogo from '@/assets/images/NIC_logo.png';
 import wbSignInBg from '@/assets/images/services/signin-bg.jpg';
@@ -13,7 +13,7 @@ export const images = {
   youth,
   sports,
   biswaBangla,
-  homepageBanner,
+  defaultBanner,
   nationalEmblem,
   nicLogo,
   wbSignInBg,
@@ -33,4 +33,5 @@ export const titles = {
   sportsToken: import.meta.env.VITE_SPORTS_TOKEN,
   servicesShort: import.meta.env.VITE_SERVICE_APP_NAME_SHORT,
   sportsShort: import.meta.env.VITE_SPORTS_APP_NAME_SHORT,
+  baseUrl: import.meta.env.VITE_BASE_URL,
 };

@@ -6,6 +6,7 @@ import {
   CircleHelp,
   ContactRound,
   Headset,
+  House,
   Images,
   LaptopMinimalCheck,
   ListChecks,
@@ -22,6 +23,11 @@ import {
 import { titles } from '.';
 
 export const menus: WebsiteMenuProps[] = [
+  {
+    name: 'Home',
+    link: `/${titles.serviceUrlWeb}/home`,
+    icon: House,
+  },
   {
     name: 'About Us',
     subMenus: [

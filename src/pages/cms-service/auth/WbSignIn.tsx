@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { images, titles } from '@/constants';
-import { ChangeEvent, FormEvent, useState } from 'react';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { IoReload } from 'react-icons/io5';
 import customFetch from '@/utils/customFetch';
@@ -14,6 +14,7 @@ import { WbcSubmitBtn } from '@/components';
 
 const WbSignIn = () => {
   document.title = `Admin Sign In | ${titles.services}`;
+
   const [isLoading, setIsLoading] = useState(false);
   const [form, setForm] = useState({
     username: 'souvik@test.com',
@@ -28,7 +29,7 @@ const WbSignIn = () => {
 
   // ------------------------------
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
@@ -40,7 +41,7 @@ const WbSignIn = () => {
 
   // ------------------------------
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     let errorBag = {};
