@@ -2,14 +2,151 @@ import { Label } from '@/components/ui/label';
 import { menus } from '@/constants/wbMenu';
 import { WebsiteMenuProps } from '@/types/menu';
 import { nanoid } from '@reduxjs/toolkit';
-import WbcBannerPopover from '../pop-overs/WbcBannerPopover';
+import { WbcBannerPopover } from '@/components';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
 import { Button } from '@/components/ui/button';
+import { useRef, useState } from 'react';
+import { X } from 'lucide-react';
+import WbcSubmitBtn from '../WbcSubmitBtn';
+import customFetch from '@/utils/customFetch';
+import showSuccess from '@/utils/showSuccess';
+import showError from '@/utils/showError';
+import { useAppDispatch } from '@/hooks';
+import { updateSrCounter } from '@/features/commonSlice';
 
 const WbcAddEditBanner = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [errors, setErrors] = useState<{ [key: string]: string[] } | null>(
+    null
+  );
+  const [form, setForm] = useState({ page: '', pageTitle: '' });
+  const [banner, setBanner] = useState<File | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const dispatch = useAppDispatch();
+
+  // ------------------------------
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  // ------------------------------
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (!file.type.startsWith('image/')) {
+      setErrors({
+        ...errors,
+        banner: ['Invalid file type. Allowed: jpeg, png, jpg, webp'],
+      });
+      setBanner(null);
+      if (fileInputRef.current) fileInputRef.current.value = '';
+      return;
+    }
+    if (file.size > 500 * 1024) {
+      setErrors({ ...errors, banner: ['File size must be less than 500 KB'] });
+      setBanner(null);
+      if (fileInputRef.current) fileInputRef.current.value = '';
+      return;
+    }
+    setBanner(file);
+  };
+
+  // ------------------------------
+
+  const resetError = (
+    e: React.KeyboardEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    setErrors({ ...errors, [e.currentTarget.name]: [] });
+  };
+
+  // ------------------------------
+
+  const clearImage = () => {
+    setBanner(null);
+  };
+
+  // ------------------------------
+
+  const resetForm = () => {
+    setForm({ ...form, page: '', pageTitle: '' });
+    setBanner(null);
+    setErrors(null);
+    if (fileInputRef.current) fileInputRef.current.value = '';
+  };
+
+  // ------------------------------
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    let errorBag = {};
+    let errorCount = 0;
+
+    if (!form.page) {
+      errorBag = { ...errorBag, page: ['Page is required'] };
+      errorCount++;
+    }
+    if (!banner) {
+      errorBag = { ...errorBag, banner: ['Banner is required'] };
+      errorCount++;
+    }
+    if (errorCount > 0) {
+      setErrors(errorBag);
+      return;
+    }
+
+    let defaultTitle = '';
+
+    (menus as WebsiteMenuProps[]).map((menu) => {
+      if (menu.link === form.page) {
+        defaultTitle = menu.name;
+      } else {
+        menu.subMenus?.map((subMenu) => {
+          if (subMenu.link === form.page) {
+            defaultTitle = subMenu.name;
+          }
+        });
+      }
+    });
+
+    const data = new FormData();
+    data.append('page', form.page);
+    data.append('pageTitle', form.pageTitle || defaultTitle);
+    banner && data.append('banner', banner);
+
+    // for (let entry of data) {
+    //   console.log(entry);
+    // }
+    // return;
+
+    setIsLoading(true);
+    try {
+      const response = await customFetch.post(`/banners`, data, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      if (response.status === 201) {
+        showSuccess('Banner uploaded successfully');
+        resetForm();
+        dispatch(updateSrCounter());
+      }
+    } catch (error) {
+      console.error(error);
+      if ((error as any).status === 400) {
+        return setErrors((error as any)?.response?.data?.message);
+      }
+      showError((error as any)?.response?.data?.message[0]);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -26,6 +163,9 @@ const WbcAddEditBanner = () => {
             <select
               className="flex h-10 w-full items-center justify-between rounded-xs border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground/70 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1"
               name="page"
+              id="page"
+              value={form.page}
+              onChange={handleChange}
             >
               <option value="">- Select -</option>
               {menus.map((menu: WebsiteMenuProps) => {
@@ -60,6 +200,20 @@ const WbcAddEditBanner = () => {
                 );
               })}
             </select>
+            <span className="text-red-500 text-xs">
+              {!form.page && errors?.page?.[0]}
+            </span>
+          </div>
+          <div className="flex flex-col justify-start items-start gap-2 my-4">
+            <Label className="text-muted-foreground">Change page title</Label>
+            <Input
+              type="text"
+              name="pageTitle"
+              id="pageTitle"
+              value={form.pageTitle}
+              onChange={handleChange}
+              onKeyUp={resetError}
+            />
             <span className="text-red-500 text-xs"></span>
           </div>
           <div className="flex flex-col justify-start items-start gap-2 my-4">
@@ -69,12 +223,35 @@ const WbcAddEditBanner = () => {
               </Label>
               <WbcBannerPopover />
             </div>
-            <Input type="file" name="banner" id="banner" />
-            <span className="text-red-500 text-xs"></span>
-            <div className="w-full h-28 border border-dashed flex justify-center items-center">
-              <p className="text-sm font-extralight tracking-widest">
-                preview banner
-              </p>
+            <Input
+              type="file"
+              name="banner"
+              id="banner"
+              ref={fileInputRef}
+              onChange={handleImageChange}
+            />
+            <span className="text-red-500 text-xs">
+              {!banner && errors?.banner?.[0]}
+            </span>
+            <div className="w-full flex justify-start items-start gap-2">
+              <div className="w-full h-28 border border-dashed flex justify-center items-center">
+                {banner ? (
+                  <img
+                    src={URL.createObjectURL(banner)}
+                    alt="banner"
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <p className="text-sm font-extralight tracking-widest">
+                    preview banner
+                  </p>
+                )}
+              </div>
+              {banner && (
+                <Button variant="ghost" onClick={clearImage}>
+                  <X className="text-red-500 h-8" />
+                </Button>
+              )}
             </div>
           </div>
           <Separator />
@@ -83,12 +260,15 @@ const WbcAddEditBanner = () => {
               type="button"
               variant="outline"
               className="tracking-widest text-base font-normal"
+              onClick={resetForm}
             >
               Reset
             </Button>
-            <Button type="submit" className="cs-btn">
-              Upload
-            </Button>
+            <WbcSubmitBtn
+              isLoading={isLoading}
+              text="Upload"
+              customClass="cs-btn"
+            />
           </div>
         </div>
       </form>
