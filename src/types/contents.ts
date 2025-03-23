@@ -20,3 +20,8 @@ export type BannerProps = {
   banner_added_by: UserProps;
   banner_updated_by: UserProps | null;
 };
+
+export type PageBannerProps = {
+  image_path?: string;
+  page_title?: string;
+};

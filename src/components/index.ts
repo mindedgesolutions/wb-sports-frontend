@@ -4,6 +4,9 @@ export { default as WbHeaderBottom } from '@/components/website/wb-services/WbHe
 export { default as WbFooter } from '@/components/website/wb-services/WbFooter';
 export { default as WbMenu } from '@/components/website/wb-services/WbMenu';
 export { default as WbHomeTopBanner } from '@/components/website/wb-services/WbHomeTopBanner';
+export { default as WbContentWrapper } from '@/components/app-wrappers/WbContentWrapper';
+export { default as WbPageLoader } from '@/components/website/wb-services/WbPageLoader';
+export { default as WbPageTopBanner } from '@/components/website/wb-services/WbPageTopBanner';
 // Services Website Components end ----------------------------
 
 // Services App Components start ----------------------------
