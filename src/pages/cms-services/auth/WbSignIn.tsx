@@ -82,7 +82,7 @@ const WbSignIn = () => {
     } catch (error) {
       setIsLoading(false);
       if ((error as any).status === 400) {
-        return setErrors((error as any)?.response?.data?.message);
+        return setErrors((error as any)?.response?.data?.errors);
       }
       showError((error as any)?.response?.data?.message[0]);
     }

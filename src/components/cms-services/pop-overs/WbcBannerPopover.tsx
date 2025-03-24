@@ -12,7 +12,7 @@ const WbcBannerPopover = () => {
         <SlQuestion />
       </PopoverTrigger>
       <PopoverContent align="center" className="p-3 rounded-xs">
-        <ol className="list-decimal pl-3 text-sky text-sm">
+        <ol className="list-decimal pl-3 text-sky text-xs">
           <li className="mb-2">
             For best result, upload an image of 1600 x 400 pixel resolution
           </li>

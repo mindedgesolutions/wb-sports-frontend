@@ -83,7 +83,7 @@ const WbcPaginationContainer = ({
   });
 
   return (
-    <div className={`${addClass || 'w-full'} my-2`}>
+    <div className={`${addClass || 'w-full'} mt-8`}>
       <Pagination>
         <PaginationContent>
           {currentPage > 1 && (
