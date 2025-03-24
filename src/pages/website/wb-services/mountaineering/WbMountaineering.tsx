@@ -1,4 +1,11 @@
+import { WbPageTopBanner } from '@/components';
+
 const WbMountaineering = () => {
-  return <div>WbMountaineering</div>;
+  return (
+    <div>
+      <WbPageTopBanner />
+      WbMountaineering
+    </div>
+  );
 };
 export default WbMountaineering;

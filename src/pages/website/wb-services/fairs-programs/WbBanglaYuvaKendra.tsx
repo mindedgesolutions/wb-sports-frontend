@@ -1,4 +1,11 @@
+import { WbPageTopBanner } from '@/components';
+
 const WbBanglaYuvaKendra = () => {
-  return <div>WbBanglaYuvaKendra</div>;
+  return (
+    <div>
+      <WbPageTopBanner />
+      WbBanglaYuvaKendra
+    </div>
+  );
 };
 export default WbBanglaYuvaKendra;

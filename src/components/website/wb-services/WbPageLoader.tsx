@@ -1,5 +1,3 @@
-import { images } from '@/constants';
-
 const WbPageLoader = () => {
   return (
     <div className="flex items-center justify-center h-screen bg-transparent fixed inset-0 z-50">

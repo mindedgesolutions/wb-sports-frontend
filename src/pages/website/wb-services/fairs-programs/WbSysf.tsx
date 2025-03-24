@@ -1,4 +1,11 @@
+import { WbPageTopBanner } from '@/components';
+
 const WbSysf = () => {
-  return <div>WbSysf</div>;
+  return (
+    <div>
+      <WbPageTopBanner />
+      WbSysf
+    </div>
+  );
 };
 export default WbSysf;

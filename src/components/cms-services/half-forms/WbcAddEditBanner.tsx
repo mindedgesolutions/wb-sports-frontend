@@ -11,7 +11,6 @@ import { X } from 'lucide-react';
 import WbcSubmitBtn from '../WbcSubmitBtn';
 import customFetch from '@/utils/customFetch';
 import showSuccess from '@/utils/showSuccess';
-import showError from '@/utils/showError';
 import { useAppDispatch, useAppSelector } from '@/hooks';
 import { updateSrCounter } from '@/features/commonSlice';
 import { BannerProps } from '@/types/contents';
@@ -96,6 +95,7 @@ const WbcAddEditBanner = ({
 
   const clearImage = () => {
     setBanner(null);
+    if (fileInputRef.current) fileInputRef.current.value = '';
   };
 
   // ------------------------------
@@ -117,11 +117,11 @@ const WbcAddEditBanner = ({
     let errorBag = {};
     let errorCount = 0;
 
-    if (!form.page) {
+    if (!editId && !form.page) {
       errorBag = { ...errorBag, page: ['Page is required'] };
       errorCount++;
     }
-    if (!banner) {
+    if (!editId && !banner) {
       errorBag = { ...errorBag, banner: ['Banner is required'] };
       errorCount++;
     }
@@ -132,17 +132,19 @@ const WbcAddEditBanner = ({
 
     let defaultTitle = '';
 
-    (menus as WebsiteMenuProps[]).map((menu) => {
-      if (menu.link === form.page) {
-        defaultTitle = menu.name;
-      } else {
-        menu.subMenus?.map((subMenu) => {
-          if (subMenu.link === form.page) {
-            defaultTitle = subMenu.name;
+    !editId
+      ? (menus as WebsiteMenuProps[]).map((menu) => {
+          if (menu.link === form.page) {
+            defaultTitle = menu.name;
+          } else {
+            menu.subMenus?.map((subMenu) => {
+              if (subMenu.link === form.page) {
+                defaultTitle = subMenu.name;
+              }
+            });
           }
-        });
-      }
-    });
+        })
+      : form.pageTitle;
 
     const data = new FormData();
     data.append('page', form.page);
@@ -154,25 +156,28 @@ const WbcAddEditBanner = ({
     // }
     // return;
 
+    const url = editId ? `/banners/update/${editId}` : `/banners`;
+    const msg = editId ? 'Banner updated' : 'Banner uploaded successfully';
+
     setIsLoading(true);
     try {
-      const response = await customFetch.post(`/banners`, data, {
+      const response = await customFetch.post(url, data, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
       });
 
-      if (response.status === 201) {
-        showSuccess('Banner uploaded successfully');
+      if (response.status === 200 || response.status === 201) {
+        showSuccess(msg);
         resetForm();
         dispatch(updateSrCounter());
       }
     } catch (error) {
-      console.error(error);
+      console.log(error);
       if ((error as any).status === 400) {
         return setErrors((error as any)?.response?.data?.message);
       }
-      showError((error as any)?.response?.data?.message[0]);
+      setErrors((error as any)?.response?.data?.errors);
     } finally {
       setIsLoading(false);
     }

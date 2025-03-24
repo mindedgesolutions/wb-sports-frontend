@@ -8,6 +8,8 @@ import wbSignInBg from '@/assets/images/services/signin-bg.jpg';
 import wbSignInFormBg from '@/assets/images/services/signin-form-bg.jpg';
 import sportsLogo from '@/assets/images/sports-logo.png';
 import profileImg from '@/assets/images/000m.jpg';
+import computerTraining from '@/assets/images/services/computerTraining.jpg';
+import hostel from '@/assets/images/services/hostel.jpg';
 
 export const images = {
   youth,
@@ -20,6 +22,8 @@ export const images = {
   wbSignInFormBg,
   sportsLogo,
   profileImg,
+  computerTraining,
+  hostel,
 };
 
 export const titles = {

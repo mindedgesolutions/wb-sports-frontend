@@ -1,4 +1,11 @@
+import { WbPageTopBanner } from '@/components';
+
 const WbMic = () => {
-  return <div>WbMic</div>;
+  return (
+    <div>
+      <WbPageTopBanner />
+      WbMic
+    </div>
+  );
 };
 export default WbMic;
