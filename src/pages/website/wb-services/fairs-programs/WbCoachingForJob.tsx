@@ -1,4 +1,11 @@
+import { WbPageTopBanner } from '@/components';
+
 const WbCoachingForJob = () => {
-  return <div>WbCoachingForJob</div>;
+  return (
+    <div>
+      <WbPageTopBanner />
+      WbCoachingForJob
+    </div>
+  );
 };
 export default WbCoachingForJob;

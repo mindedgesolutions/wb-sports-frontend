@@ -6,6 +6,12 @@ export type MetaProps = {
   total: number | null;
 };
 
+export type PaginationProps = {
+  totalPages: number;
+  currentPage: number;
+  addClass?: string;
+};
+
 export type BannerProps = {
   id: number;
   organization: string;

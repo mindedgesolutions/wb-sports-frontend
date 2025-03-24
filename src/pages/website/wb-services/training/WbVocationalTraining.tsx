@@ -1,4 +1,11 @@
+import { WbPageTopBanner } from '@/components';
+
 const WbVocationalTraining = () => {
-  return <div>WbVocationalTraining</div>;
+  return (
+    <div>
+      <WbPageTopBanner />
+      WbVocationalTraining
+    </div>
+  );
 };
 export default WbVocationalTraining;
