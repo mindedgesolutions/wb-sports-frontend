@@ -1,4 +1,11 @@
+import { WbPageTopBanner } from '@/components';
+
 const WbRakhiBandhan = () => {
-  return <div>WbRakhiBandhan</div>;
+  return (
+    <div>
+      <WbPageTopBanner />
+      WbRakhiBandhan
+    </div>
+  );
 };
 export default WbRakhiBandhan;

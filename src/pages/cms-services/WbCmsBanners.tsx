@@ -177,7 +177,14 @@ const WbCmsBanners = () => {
                 )}
               </TableBody>
             </Table>
-            {meta?.total && meta?.total > 10 && <WbcPaginationContainer />}
+            {meta?.total
+              ? meta?.total > 10 && (
+                  <WbcPaginationContainer
+                    currentPage={meta.currentPage!}
+                    totalPages={meta.lastPage!}
+                  />
+                )
+              : null}
           </div>
           <div className="basis-full w-full md:basis-1/3">
             <WbcAddEditBanner editId={editId} setEditId={setEditId} />

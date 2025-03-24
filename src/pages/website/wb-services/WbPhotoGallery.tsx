@@ -1,4 +1,11 @@
+import { WbPageTopBanner } from '@/components';
+
 const WbPhotoGallery = () => {
-  return <div>WbPhotoGallery</div>;
+  return (
+    <div>
+      <WbPageTopBanner />
+      WbPhotoGallery
+    </div>
+  );
 };
 export default WbPhotoGallery;

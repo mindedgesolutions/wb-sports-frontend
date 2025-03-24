@@ -18,12 +18,18 @@ For this project:
 1. php artisan db:seed --class=RoleSeeder
 2. php artisan db:seed --class=UserSeeder
 
+For passport run: php artisan passport:keys
+
+Run: php artisan optimize:clear
+
 php artisan passport:client --personal
 
 Update values of the following in .env:
 
 PASSPORT_PERSONAL_ACCESS_CLIENT_ID="client-id-value"
 PASSPORT_PERSONAL_ACCESS_CLIENT_SECRET="unhashed-client-secret-value"
+
+Run: php artisan optimize:clear
 
 Run php artisan serve
 

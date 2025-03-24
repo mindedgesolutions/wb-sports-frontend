@@ -1,4 +1,11 @@
+import { WbPageTopBanner } from '@/components';
+
 const WbMountainNewsEvents = () => {
-  return <div>WbMountainNewsEvents</div>;
+  return (
+    <div>
+      <WbPageTopBanner />
+      WbMountainNewsEvents
+    </div>
+  );
 };
 export default WbMountainNewsEvents;

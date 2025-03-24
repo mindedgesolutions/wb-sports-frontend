@@ -96,6 +96,7 @@ const WbcAddEditBanner = ({
 
   const clearImage = () => {
     setBanner(null);
+    if (fileInputRef.current) fileInputRef.current.value = '';
   };
 
   // ------------------------------

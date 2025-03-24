@@ -30,12 +30,12 @@ export { default as WbPhotoGallery } from '@/pages/website/wb-services/WbPhotoGa
 
 // Service Admin / CMS exports start --------------------------------
 
-export { default as WbSignIn } from '@/pages/cms-service/auth/WbSignIn';
-export { default as WbForgotPassword } from '@/pages/cms-service/auth/WbForgotPassword';
-export { default as WbResetPassword } from '@/pages/cms-service/auth/WbResetPassword';
-export { default as WbCmsLayout } from '@/pages/cms-service/WbCmsLayout';
-export { default as WbCmsDashboard } from '@/pages/cms-service/WbCmsDashboard';
-export { default as WbCmsBanners } from '@/pages/cms-service/WbCmsBanners';
+export { default as WbSignIn } from '@/pages/cms-services/auth/WbSignIn';
+export { default as WbForgotPassword } from '@/pages/cms-services/auth/WbForgotPassword';
+export { default as WbResetPassword } from '@/pages/cms-services/auth/WbResetPassword';
+export { default as WbCmsLayout } from '@/pages/cms-services/WbCmsLayout';
+export { default as WbCmsDashboard } from '@/pages/cms-services/WbCmsDashboard';
+export { default as WbCmsBanners } from '@/pages/cms-services/WbCmsBanners';
 
 // Service Admin / CMS exports end --------------------------------
 

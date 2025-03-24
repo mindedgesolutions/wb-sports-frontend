@@ -3,7 +3,7 @@ import * as sy from '@/pages';
 import { store } from './store';
 
 // --------------------------------------------
-import { loader as wbLayoutLoader } from '@/pages/cms-service/WbCmsLayout';
+import { loader as wbLayoutLoader } from '@/pages/cms-services/WbCmsLayout';
 
 const router = createBrowserRouter([
   { path: '/', element: <sy.WbLanding /> },
