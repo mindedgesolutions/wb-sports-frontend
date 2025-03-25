@@ -1,4 +1,4 @@
-import { WbHomepageCard, WbHomeTopBanner } from '@/components';
+import { WbHomepageCard, WbHomepageCard2, WbHomeTopBanner } from '@/components';
 import { images, titles } from '@/constants';
 
 const training = `Computer Training Centres run by the Department of Youth Services &
@@ -8,18 +8,19 @@ const training = `Computer Training Centres run by the Department of Youth Servi
         themselves fit for employment`;
 const trainingReadMore = `/${titles.serviceUrlWeb}/computer-training`;
 
-const hostel = `Lorem ipsum dolor sit amet consectetur, adipisicing elit. Magni recusandae fugit similique consequatur hic assumenda! Temporibus eligendi quia dolorem quam?`;
+const hostel = `Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas, voluptas. Ducimus quas numquam dolor explicabo quia sed vel, deserunt mollitia architecto aliquid quis corrupti neque, blanditiis et a obcaecati molestias recusandae cumque magnam officia placeat, ad minus repellendus? Iusto eum voluptas corrupti nam quos. Sequi, in dolorem quibusdam aliquam et corrupti rem voluptatibus nesciunt, esse perferendis`;
+
 const hostelReadMore = `/${titles.serviceUrlWeb}/hostel-list`;
 
 const WbHomePage = () => {
-  document.title = `Welcome! ${import.meta.env.VITE_SERVICE_APP_NAME}`;
+  document.title = `${import.meta.env.VITE_SERVICE_APP_NAME}`;
 
   return (
     <div>
       <WbHomeTopBanner />
-      <div className="max-w-screen-xl mx-auto p-4">
+      <div className="md:max-w-screen-xl md:mx-auto p-4">
         <div className="flex-1 mt-8">
-          <p className="text-base tracking-wider leading-relaxed text-justify [text-align-last:center]">
+          <p className="text-sm md:text-base tracking-wider leading-relaxed text-justify [text-align-last:center]">
             The major area of activities of Department of Youth Services &
             Sports (Youth Services Wing) are essentially focussed at the Student
             - Youth section of the society. It is the Student - Youth, which
@@ -31,22 +32,44 @@ const WbHomePage = () => {
             meeting up the demand of the day.
           </p>
         </div>
-        <div className="mt-16 flex-1 flex justify-center items-center gap-8">
-          <WbHomepageCard
-            title="Computer training"
-            content={training}
-            img={images.computerTraining}
-            readmore={trainingReadMore}
-            btn={false}
-          />
-          <WbHomepageCard
-            content={hostel}
-            img={images.hostel}
-            readmore={hostelReadMore}
-            title="Youth hostels"
-            btn={true}
-            href={`https://youthhostelbooking.wb.gov.in/pages/Home.aspx`}
-          />
+        <div className="mt-8 md:mt-16 flex flex-col md:flex-row justify-center items-start gap-8">
+          <div className="flex flex-col md:flex-row justify-center items-center gap-4 md:gap-8">
+            <WbHomepageCard
+              title="Computer training"
+              content={training}
+              img={images.computerTraining}
+              readmore={trainingReadMore}
+              btn={false}
+            />
+            <WbHomepageCard
+              content={hostel}
+              img={images.hostel}
+              readmore={hostelReadMore}
+              title="Youth hostels"
+              btn={true}
+              href={`https://youthhostelbooking.wb.gov.in/pages/Home.aspx`}
+            />
+          </div>
+          <div className="flex-1 flex flex-col justify-center items-center gap-8">
+            <WbHomepageCard2
+              title="E-tender"
+              content="Click for more details"
+              href={`/${titles.serviceUrlWeb}/e-tender`}
+              abbrev={`T`}
+            />
+            <WbHomepageCard2
+              title="West Bengal State Student Youth Science Fair"
+              content="Click for more details"
+              href={`/${titles.serviceUrlWeb}/wbsysf`}
+              abbrev={`S`}
+            />
+            <WbHomepageCard2
+              title="News & Events"
+              content="Click for more details"
+              href={`/${titles.serviceUrlWeb}/news-events`}
+              abbrev={`N`}
+            />
+          </div>
         </div>
       </div>
     </div>

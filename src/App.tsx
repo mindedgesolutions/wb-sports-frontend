@@ -84,6 +84,14 @@ const router = createBrowserRouter([
     children: [
       { path: 'dashboard', element: <sy.WbCmsDashboard /> },
       { path: 'banners', element: <sy.WbCmsBanners /> },
+      {
+        path: 'computer-training',
+        children: [
+          { path: 'course-details', element: <sy.WbCompCourseDetails /> },
+          { path: 'course-syllabus', element: <sy.WbCompCourseSyllabus /> },
+          { path: 'training-centres', element: <sy.WbCompCentres /> },
+        ],
+      },
     ],
   },
   // Services Admin / CMS routes end -----------------------------------

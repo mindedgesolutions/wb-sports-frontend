@@ -8,6 +8,8 @@ export { default as WbContentWrapper } from '@/components/app-wrappers/WbContent
 export { default as WbPageLoader } from '@/components/website/wb-services/WbPageLoader';
 export { default as WbPageTopBanner } from '@/components/website/wb-services/WbPageTopBanner';
 export { default as WbHomepageCard } from '@/components/website/wb-services/WbHomepageCard';
+export { default as WbHomepageCard2 } from '@/components/website/wb-services/WbHomepageCard2';
+export { default as WbFooterLogo } from '@/components/website/wb-services/WbFooterLogo';
 // Services Website Components end ----------------------------
 
 // Services App Components start ----------------------------
@@ -20,6 +22,7 @@ export { default as WbcBannerPopover } from '@/components/cms-services/pop-overs
 export { default as WbcPaginationContainer } from '@/components/cms-services/WbcPaginationContainer';
 export { default as WbcSkeletonRows } from '@/components/cms-services/WbcSkeletonRows';
 export { default as WbcDeleteBanner } from '@/components/cms-services/delete-modals/WbcDeleteBanner';
+export { default as WbcAddEditCourseDetails } from '@/components/cms-services/modal-forms/WbcAddEditCourseDetails';
 // Services App Components end ----------------------------
 
 // Common Components start ----------------------------
