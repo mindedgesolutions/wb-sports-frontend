@@ -10,6 +10,8 @@ import sportsLogo from '@/assets/images/sports-logo.png';
 import profileImg from '@/assets/images/000m.jpg';
 import computerTraining from '@/assets/images/services/computerTraining.jpg';
 import hostel from '@/assets/images/services/hostel.jpg';
+import scienceFair from '@/assets/images/services/science-fair.jpg';
+import footerBg from '@/assets/images/services/footer_top_bg.gif';
 
 export const images = {
   youth,
@@ -24,6 +26,8 @@ export const images = {
   profileImg,
   computerTraining,
   hostel,
+  scienceFair,
+  footerBg,
 };
 
 export const titles = {
@@ -40,3 +44,15 @@ export const titles = {
   baseUrl: import.meta.env.VITE_BASE_URL,
   websiteBaseUrl: import.meta.env.VITE_WEBSITE_BASE_URL,
 };
+
+export const compCourseTypes = [
+  { label: 'Certificate', value: 'certificate' },
+  { label: 'Diploma', value: 'diploma' },
+  { label: 'Advanced Diploma', value: 'advanced diploma' },
+];
+
+export const compCourseDuration = [
+  { label: '6 months', value: '6 months' },
+  { label: '1 year', value: '1 year' },
+  { label: '1 year 6 months', value: '1 year 6 months' },
+];

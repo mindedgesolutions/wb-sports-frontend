@@ -1,4 +1,4 @@
-import { Gauge, Images, Settings } from 'lucide-react';
+import { Gauge, Images, LaptopMinimal } from 'lucide-react';
 import { titles } from '.';
 import { CmsMenuProps } from '@/types/menu';
 
@@ -16,17 +16,21 @@ export const adminMenus: CmsMenuProps[] = [
     icon: Images,
   },
   {
-    title: 'Product Settings',
+    title: 'Computer Training',
     url: '#',
-    icon: Settings,
+    icon: LaptopMinimal,
     children: [
       {
-        title: 'Brands',
-        url: `/${titles.servicesUrl}/admin/${slug}/products/brands`,
+        title: 'Course Details',
+        url: `/${titles.servicesUrl}/${slug}/computer-training/course-details`,
       },
       {
-        title: 'Categories',
-        url: `/admin/${slug}/products/categories`,
+        title: 'Course Syllabus (PDF)',
+        url: `/${titles.servicesUrl}/${slug}/computer-training/course-syllabus`,
+      },
+      {
+        title: 'Training Centers',
+        url: `/${titles.servicesUrl}/${slug}/computer-training/training-centres`,
       },
     ],
   },

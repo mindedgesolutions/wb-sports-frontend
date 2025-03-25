@@ -169,3 +169,7 @@ body {
 .cs-btn {
   @apply bg-sky hover:bg-sky/90 duration-200 tracking-widest text-base font-normal;
 }
+
+.cs-btn-primary {
+  @apply capitalize tracking-widest text-base font-normal bg-primary text-primary-foreground shadow-xs hover:bg-primary/90;
+}
