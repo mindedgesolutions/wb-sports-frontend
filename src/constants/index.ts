@@ -10,6 +10,8 @@ import sportsLogo from '@/assets/images/sports-logo.png';
 import profileImg from '@/assets/images/000m.jpg';
 import computerTraining from '@/assets/images/services/computerTraining.jpg';
 import hostel from '@/assets/images/services/hostel.jpg';
+import scienceFair from '@/assets/images/services/science-fair.jpg';
+import footerBg from '@/assets/images/services/footer_top_bg.gif';
 
 export const images = {
   youth,
@@ -24,6 +26,8 @@ export const images = {
   profileImg,
   computerTraining,
   hostel,
+  scienceFair,
+  footerBg,
 };
 
 export const titles = {

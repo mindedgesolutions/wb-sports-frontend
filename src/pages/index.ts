@@ -36,6 +36,9 @@ export { default as WbResetPassword } from '@/pages/cms-services/auth/WbResetPas
 export { default as WbCmsLayout } from '@/pages/cms-services/WbCmsLayout';
 export { default as WbCmsDashboard } from '@/pages/cms-services/WbCmsDashboard';
 export { default as WbCmsBanners } from '@/pages/cms-services/WbCmsBanners';
+export { default as WbCompCentres } from '@/pages/cms-services/computer-training/WbCompCentres';
+export { default as WbCompCourseDetails } from '@/pages/cms-services/computer-training/WbCompCourseDetails';
+export { default as WbCompCourseSyllabus } from '@/pages/cms-services/computer-training/WbCompCourseSyllabus';
 
 // Service Admin / CMS exports end --------------------------------
 
