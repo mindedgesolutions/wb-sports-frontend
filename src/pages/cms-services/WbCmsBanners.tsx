@@ -151,7 +151,7 @@ const WbCmsBanners = () => {
                         </TableCell>
                         <TableCell>
                           <Switch
-                            className="data-[state=checked]:bg-sky cursor-pointer"
+                            className="data-[state=checked]:bg-muted-foreground group-hover:data-[state=checked]:bg-sky cursor-pointer"
                             checked={banner.is_active}
                             onCheckedChange={handleActive(banner.id)}
                           />

@@ -314,7 +314,7 @@ const WbcAddEditBanner = ({
             <WbcSubmitBtn
               isLoading={isLoading}
               text="Upload"
-              customClass="cs-btn"
+              customClass="cs-btn-primary"
             />
           </div>
         </div>

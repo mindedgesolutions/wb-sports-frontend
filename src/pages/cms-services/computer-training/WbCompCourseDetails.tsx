@@ -7,7 +7,6 @@ import {
   WbcPaginationContainer,
   WbcSkeletonRows,
 } from '@/components';
-import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
 import {
   Table,

@@ -23,6 +23,7 @@ export { default as WbcPaginationContainer } from '@/components/cms-services/Wbc
 export { default as WbcSkeletonRows } from '@/components/cms-services/WbcSkeletonRows';
 export { default as WbcDeleteBanner } from '@/components/cms-services/delete-modals/WbcDeleteBanner';
 export { default as WbcAddEditCourseDetails } from '@/components/cms-services/modal-forms/WbcAddEditCourseDetails';
+export { default as WbcBtn } from '@/components/cms-services/WbcBtn';
 // Services App Components end ----------------------------
 
 // Common Components start ----------------------------
