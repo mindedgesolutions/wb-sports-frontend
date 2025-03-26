@@ -235,7 +235,7 @@ const WbcAddEditBanner = ({
                 );
               })}
             </select>
-            <span className="text-red-500 text-xs">
+            <span className="text-red-500 text-xs -mt-1">
               {!form.page && errors?.page?.[0]}
             </span>
           </div>
@@ -250,7 +250,7 @@ const WbcAddEditBanner = ({
               onKeyUp={resetError}
               placeholder="Leave empty to use dropdown page title"
             />
-            <span className="text-red-500 text-xs"></span>
+            <span className="text-red-500 text-xs -mt-1"></span>
           </div>
           <div className="flex flex-col justify-start items-start gap-2 my-4">
             <div className="flex flex-row gap-2">
@@ -271,7 +271,7 @@ const WbcAddEditBanner = ({
               ref={fileInputRef}
               onChange={handleImageChange}
             />
-            <span className="text-red-500 text-xs">
+            <span className="text-red-500 text-xs -mt-1">
               {!banner && errors?.banner?.[0]}
             </span>
             <div className="w-full flex justify-start items-start gap-2">
@@ -306,7 +306,7 @@ const WbcAddEditBanner = ({
             <Button
               type="button"
               variant="outline"
-              className="tracking-widest text-base font-normal"
+              className="cs-btn-reset"
               onClick={resetForm}
             >
               Reset

@@ -4,6 +4,7 @@ import {
   AppTooltip,
   WbcAddEditCourseDetails,
   WbcDeleteBanner,
+  WbcDeleteCompCourse,
   WbcPaginationContainer,
   WbcSkeletonRows,
 } from '@/components';
@@ -17,13 +18,18 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { titles } from '@/constants';
-import { MetaProps } from '@/types/contents';
-import { serialNo } from '@/utils/function';
+import { updateSrCounter } from '@/features/commonSlice';
+import { setCourses } from '@/features/compCourseSlice';
+import { useAppDispatch, useAppSelector } from '@/hooks';
+import { ComputerCourseProps, MetaProps } from '@/types/contents';
+import customFetch from '@/utils/customFetch';
+import { currencyFormat, serialNo } from '@/utils/function';
+import showSuccess from '@/utils/showSuccess';
 import { nanoid } from '@reduxjs/toolkit';
 import dayjs from 'dayjs';
-import { EyeIcon, Pencil } from 'lucide-react';
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { EyeIcon } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 
 const WbCompCourseDetails = () => {
   document.title = `Computer Training: Course Details | ${titles.services}`;
@@ -34,7 +40,61 @@ const WbCompCourseDetails = () => {
     lastPage: null,
     total: null,
   });
-  const [data, setData] = useState<any[] | null>(null);
+  const [data, setData] = useState<ComputerCourseProps[] | null>(null);
+  const { search } = useLocation();
+  const queryString = new URLSearchParams(search);
+  const page = queryString.get('page') || 1;
+  const dispatch = useAppDispatch();
+  const { srCounter } = useAppSelector((state) => state.common);
+
+  // ----------------------------------------
+
+  const fetchData = async () => {
+    setIsLoading(true);
+    try {
+      const response = await customFetch.get('com-training-courses', {
+        params: { page },
+      });
+
+      if (response.status === 200) {
+        setData(response.data.courses.data);
+        dispatch(setCourses(response.data.courses.data));
+        setMeta({
+          currentPage: response.data.courses.current_page,
+          lastPage: response.data.courses.last_page,
+          total: response.data.courses.total,
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // ----------------------------------------
+
+  useEffect(() => {
+    fetchData();
+  }, [page, srCounter]);
+
+  // ----------------------------------------
+
+  const handleActive = (id: number) => async (checked: boolean) => {
+    setIsLoading(true);
+    try {
+      await customFetch.put(`com-training-courses/activate/${id}`, {
+        is_active: checked,
+      });
+      const msg = checked ? 'Course published' : 'Banner removed from website';
+      showSuccess(msg);
+      dispatch(updateSrCounter());
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <AppMainWrapper>
@@ -75,7 +135,7 @@ const WbCompCourseDetails = () => {
                   </TableCell>
                 </TableRow>
               ) : (
-                data?.map((banner: any, index: number) => {
+                data?.map((course: ComputerCourseProps, index: number) => {
                   return (
                     <TableRow
                       key={nanoid()}
@@ -84,33 +144,39 @@ const WbCompCourseDetails = () => {
                       <TableCell className="font-medium">
                         {serialNo(Number(meta.currentPage), 10) + index}.
                       </TableCell>
-                      <TableCell className="w-[100px]">
-                        <img
-                          src={titles.baseUrl + banner.image_path}
-                          alt={banner.page_title}
-                          className="h-8 object-cover"
-                        />
+                      <TableCell className="capitalize">
+                        {course.course_type}
                       </TableCell>
                       <TableCell>
-                        <AppTooltip content={banner.page_title} />
+                        <AppTooltip content={course.course_name} />
+                      </TableCell>
+                      <TableCell>{course.course_duration}</TableCell>
+                      <TableCell>
+                        <AppTooltip content={course.course_eligibility} />
                       </TableCell>
                       <TableCell>
-                        {dayjs(banner.updated_at).format('DD/MM/YYYY h:mm A')}
+                        {currencyFormat().format(course.course_fees)}
+                      </TableCell>
+                      <TableCell>
+                        {dayjs(course.updated_at).format('DD/MM/YYYY h:mm A')}
                       </TableCell>
                       <TableCell>
                         <Switch
-                          className="data-[state=checked]:bg-sky cursor-pointer"
-                          checked={banner.is_active}
+                          className="data-[state=checked]:bg-muted-foreground group-hover:data-[state=checked]:bg-sky cursor-pointer"
+                          checked={course.is_active}
+                          onCheckedChange={handleActive(course.id)}
                         />
                       </TableCell>
                       <TableCell>
                         <div className="flex flex-row justify-center items-center gap-2">
-                          <Link to={titles.websiteBaseUrl + banner.page_url}>
+                          <Link
+                            to={`${titles.websiteBaseUrl}/${titles.serviceUrlWeb}/computer-training`}
+                          >
                             <EyeIcon className="h-4 group-hover:text-blue-500 duration-200 cursor-pointer" />
                           </Link>
-                          <Pencil className="h-4 group-hover:text-yellow-500 duration-200 cursor-pointer" />
-                          <WbcDeleteBanner
-                            id={banner.id}
+                          <WbcAddEditCourseDetails editId={course.id} />
+                          <WbcDeleteCompCourse
+                            id={course.id}
                             setIsLoading={setIsLoading}
                           />
                         </div>
@@ -121,15 +187,15 @@ const WbCompCourseDetails = () => {
               )}
             </TableBody>
           </Table>
-          {meta?.total
-            ? meta?.total > 10 && (
-                <WbcPaginationContainer
-                  currentPage={meta.currentPage!}
-                  totalPages={meta.lastPage!}
-                />
-              )
-            : null}
         </div>
+        {meta?.total
+          ? meta?.total > 10 && (
+              <WbcPaginationContainer
+                currentPage={meta.currentPage!}
+                totalPages={meta.lastPage!}
+              />
+            )
+          : null}
       </AppContentWrapper>
     </AppMainWrapper>
   );
