@@ -1,3 +1,4 @@
+import { titles } from '@/constants';
 import { menus } from '@/constants/wbMenu';
 
 export const serialNo = (page: number, limit: number = 10): number => {
@@ -60,3 +61,32 @@ export const constructPrevOrNext = ({
   return { prevUrl, nextUrl };
 };
 // Pagination ends ------
+
+export const currencyFormat = () => {
+  const formatter = new Intl.NumberFormat('en-IN', {
+    style: 'currency',
+    currency: 'INR',
+    minimumFractionDigits: 0, // Ensures two decimal places
+  });
+  return formatter;
+};
+
+export const handleDownload = ({
+  filePath,
+  fileName,
+}: {
+  filePath: string;
+  fileName: string;
+}) => {
+  if (filePath) {
+    const fileUrl = titles.baseUrl + filePath;
+    const link = document.createElement('a');
+    link.href = fileUrl;
+    link.download = fileName || 'downloaded-file.pdf';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  } else {
+    console.error('File path is missing!');
+  }
+};

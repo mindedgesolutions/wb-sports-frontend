@@ -31,3 +31,28 @@ export type PageBannerProps = {
   image_path?: string;
   page_title?: string;
 };
+
+export type ComputerCourseProps = {
+  course_duration: string;
+  course_eligibility: string;
+  course_fees: number;
+  course_name: string;
+  course_slug: string;
+  course_type: string;
+  id: number;
+  created_at: Date;
+  updated_at: Date;
+  is_active: boolean;
+};
+
+export type CompSyllabusProps = {
+  added_by: number;
+  created_at: Date;
+  file_path: string;
+  id: number;
+  is_active: boolean;
+  name: string;
+  organisation: string;
+  slug: string;
+  updated_at: Date;
+};

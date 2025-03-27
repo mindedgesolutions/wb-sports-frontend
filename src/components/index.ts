@@ -24,6 +24,9 @@ export { default as WbcSkeletonRows } from '@/components/cms-services/WbcSkeleto
 export { default as WbcDeleteBanner } from '@/components/cms-services/delete-modals/WbcDeleteBanner';
 export { default as WbcAddEditCourseDetails } from '@/components/cms-services/modal-forms/WbcAddEditCourseDetails';
 export { default as WbcBtn } from '@/components/cms-services/WbcBtn';
+export { default as WbcDeleteCompCourse } from '@/components/cms-services/delete-modals/WbcDeleteCompCourse';
+export { default as WbcAddEditCompSyllabus } from '@/components/cms-services/half-forms/WbcAddEditCompSyllabus';
+export { default as WbcDeleteSyllabus } from '@/components/cms-services/delete-modals/WbcDeleteSyllabus';
 // Services App Components end ----------------------------
 
 // Common Components start ----------------------------
