@@ -1,5 +1,6 @@
 import {
   AppContentWrapper,
+  AppCountWrapper,
   AppMainWrapper,
   AppTitleWrapper,
   AppTooltip,
@@ -102,6 +103,7 @@ const WbCompCourseSyllabus = () => {
   return (
     <AppMainWrapper>
       <AppTitleWrapper>Computer Training: Course Syllabus</AppTitleWrapper>
+      <AppCountWrapper total={meta.total || 0} />
       <AppContentWrapper>
         <div className="flex md:flex-row flex-col-reverse justify-start items-start gap-4">
           <div className="basis-full md:basis-2/3">

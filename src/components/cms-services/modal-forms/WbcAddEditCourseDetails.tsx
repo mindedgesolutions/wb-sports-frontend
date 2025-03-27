@@ -182,7 +182,7 @@ const WbcAddEditCourseDetails = ({ editId }: { editId?: number }) => {
           </Button>
         )}
       </DialogTrigger>
-      <DialogContent className="sm:max-w-lg">
+      <DialogContent className="sm:max-w-xl">
         <DialogHeader>
           <DialogTitle>
             {editId ? `Edit details` : `Add new course`}
@@ -190,7 +190,7 @@ const WbcAddEditCourseDetails = ({ editId }: { editId?: number }) => {
           <DialogDescription></DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit}>
-          <div className="mt-2 flex flex-col justify-start items-start gap-2">
+          <div className="mt-2.5 flex flex-col justify-start items-start gap-2">
             <Label htmlFor="courseType" className="text-muted-foreground">
               Course type <span className="text-red-500">*</span>
             </Label>
@@ -212,7 +212,7 @@ const WbcAddEditCourseDetails = ({ editId }: { editId?: number }) => {
               {!form.courseType && errors?.courseType?.[0]}
             </span>
           </div>
-          <div className="mt-2 flex flex-col justify-start items-start gap-2">
+          <div className="mt-2.5 flex flex-col justify-start items-start gap-2">
             <Label htmlFor="courseName" className="text-muted-foreground">
               Name <span className="text-red-500">*</span>
             </Label>
@@ -228,7 +228,7 @@ const WbcAddEditCourseDetails = ({ editId }: { editId?: number }) => {
               {errors?.courseName?.[0]}
             </span>
           </div>
-          <div className="mt-2 flex flex-col justify-start items-start">
+          <div className="mt-2.5 flex flex-col justify-start items-start">
             <div className="w-full grid grid-cols-2 gap-4">
               <div className="col-span-1 flex flex-col justify-start items-start gap-2">
                 <Label htmlFor="duration" className="text-muted-foreground">
@@ -270,7 +270,7 @@ const WbcAddEditCourseDetails = ({ editId }: { editId?: number }) => {
               </div>
             </div>
           </div>
-          <div className="mt-2 flex flex-col justify-start items-start gap-2">
+          <div className="mt-2.5 flex flex-col justify-start items-start gap-2">
             <Label htmlFor="eligibility" className="text-muted-foreground">
               Eligibility <span className="text-red-500">*</span>
             </Label>

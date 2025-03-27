@@ -3,7 +3,7 @@ import { images, titles } from '@/constants';
 const WbcFooter = () => {
   return (
     <>
-      <div className="bg-muted-foreground/60 p-2 md:p-4 flex flex-col md:flex-row gap-4 md:gap-0 justify-between items-center">
+      <div className="bg-sky-foreground p-2 md:p-2.5 flex flex-col md:flex-row gap-4 md:gap-0 justify-between items-center">
         <span className="flex flex-row justify-start md:justify-center items-center px-2 gap-2 text-card text-sm">
           <img
             src={images.biswaBangla}
@@ -17,7 +17,7 @@ const WbcFooter = () => {
           <img
             src={images.nicLogo}
             alt="National Informatics Centre"
-            className="h-6"
+            className="h-4"
           />
         </span>
       </div>

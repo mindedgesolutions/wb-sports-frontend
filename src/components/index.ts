@@ -27,6 +27,8 @@ export { default as WbcBtn } from '@/components/cms-services/WbcBtn';
 export { default as WbcDeleteCompCourse } from '@/components/cms-services/delete-modals/WbcDeleteCompCourse';
 export { default as WbcAddEditCompSyllabus } from '@/components/cms-services/half-forms/WbcAddEditCompSyllabus';
 export { default as WbcDeleteSyllabus } from '@/components/cms-services/delete-modals/WbcDeleteSyllabus';
+export { default as WbcAddEditCompCentre } from '@/components/cms-services/modal-forms/WbcAddEditCompCentre';
+export { default as WbcCompCentrePopover } from '@/components/cms-services/pop-overs/WbcCompCentrePopover';
 // Services App Components end ----------------------------
 
 // Common Components start ----------------------------
@@ -34,4 +36,5 @@ export { default as AppMainWrapper } from '@/components/app-wrappers/AppMainWrap
 export { default as AppTitleWrapper } from '@/components/app-wrappers/AppTitleWrapper';
 export { default as AppContentWrapper } from '@/components/app-wrappers/AppContentWrapper';
 export { default as AppTooltip } from '@/components/AppTooltip';
+export { default as AppCountWrapper } from '@/components/app-wrappers/AppCountWrapper';
 // Common Components end ----------------------------

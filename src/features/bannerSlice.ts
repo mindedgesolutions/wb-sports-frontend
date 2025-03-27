@@ -1,7 +1,8 @@
+import { BannerProps } from '@/types/contents';
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  banners: [],
+  banners: [] as BannerProps[],
 };
 
 const bannerSlice = createSlice({

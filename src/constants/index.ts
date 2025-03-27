@@ -58,3 +58,9 @@ export const compCourseDuration = [
   { label: '1 year', value: '1 year' },
   { label: '1 year 6 months', value: '1 year 6 months' },
 ];
+
+export const compCentreCategory = [
+  { label: 'Municipal Corporation Area', value: 'municipal corporation area' },
+  { label: 'Municipality Area', value: 'municipality area' },
+  { label: 'Panchayat Area', value: 'panchayat area' },
+];
