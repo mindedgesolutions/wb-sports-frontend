@@ -56,3 +56,36 @@ export type CompSyllabusProps = {
   slug: string;
   updated_at: Date;
 };
+
+export type DistrictProps = {
+  created_at: Date;
+  district_code: string | null;
+  id: number;
+  is_active: boolean;
+  name: string;
+  updated_at: Date;
+};
+
+export type CompCentreProps = {
+  added_by: number;
+  address_line_1: string | null;
+  address_line_2: string | null;
+  address_line_3: string | null;
+  center_category: string | null;
+  center_incharge_email: string | null;
+  center_incharge_name: string | null;
+  center_incharge_mobile: string | null;
+  center_owner_mobile: string | null;
+  center_owner_name: string | null;
+  city: string | null;
+  created_at: Date;
+  district_id: number;
+  id: number;
+  is_active: boolean;
+  pincode: string | null;
+  slug: string;
+  updated_at: Date;
+  yctc_code: string | null;
+  yctc_name: string;
+  district: DistrictProps;
+};

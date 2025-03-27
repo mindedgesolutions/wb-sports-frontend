@@ -1,5 +1,6 @@
 import {
   AppContentWrapper,
+  AppCountWrapper,
   AppMainWrapper,
   AppTooltip,
   WbcAddEditCourseDetails,
@@ -101,6 +102,7 @@ const WbCompCourseDetails = () => {
         <p>computer training: course details</p>
         <WbcAddEditCourseDetails />
       </div>
+      <AppCountWrapper total={meta.total || 0} />
       <AppContentWrapper>
         <div className="flex md:flex-row flex-col-reverse justify-start items-start gap-4">
           <Table>

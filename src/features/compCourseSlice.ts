@@ -1,8 +1,14 @@
+import {
+  CompCentreProps,
+  CompSyllabusProps,
+  ComputerCourseProps,
+} from '@/types/contents';
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  courses: [],
-  syllabi: [],
+  courses: [] as ComputerCourseProps[],
+  syllabi: [] as CompSyllabusProps[],
+  compCentres: [] as CompCentreProps[],
 };
 
 const compCourseSlice = createSlice({
@@ -21,8 +27,20 @@ const compCourseSlice = createSlice({
     unsetSyllabi: (state) => {
       state.syllabi = [];
     },
+    setCompCentres: (state, action) => {
+      state.compCentres = action.payload;
+    },
+    unsetCompCentres: (state) => {
+      state.compCentres = [];
+    },
   },
 });
-export const { setCourses, unsetCourses, setSyllabi, unsetSyllabi } =
-  compCourseSlice.actions;
+export const {
+  setCourses,
+  unsetCourses,
+  setSyllabi,
+  unsetSyllabi,
+  setCompCentres,
+  unsetCompCentres,
+} = compCourseSlice.actions;
 export default compCourseSlice.reducer;
