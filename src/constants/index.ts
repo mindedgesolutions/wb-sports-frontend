@@ -12,6 +12,7 @@ import computerTraining from '@/assets/images/services/computerTraining.jpg';
 import hostel from '@/assets/images/services/hostel.jpg';
 import scienceFair from '@/assets/images/services/science-fair.jpg';
 import footerBg from '@/assets/images/services/footer_top_bg.gif';
+import pdfIcon from '@/assets/images/pdf.png';
 
 export const images = {
   youth,
@@ -28,6 +29,7 @@ export const images = {
   hostel,
   scienceFair,
   footerBg,
+  pdfIcon,
 };
 
 export const titles = {

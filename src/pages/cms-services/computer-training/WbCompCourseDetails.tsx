@@ -3,7 +3,6 @@ import {
   AppMainWrapper,
   AppTooltip,
   WbcAddEditCourseDetails,
-  WbcDeleteBanner,
   WbcDeleteCompCourse,
   WbcPaginationContainer,
   WbcSkeletonRows,

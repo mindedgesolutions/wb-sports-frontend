@@ -115,7 +115,7 @@ const WbcAddEditCourseDetails = ({ editId }: { editId?: number }) => {
       errorBag = { ...errorBag, courseType: ['Course type is required'] };
       errorCount++;
     }
-    if (!form.courseName) {
+    if (!form.courseName.trim()) {
       errorBag = { ...errorBag, courseName: ['Course name is required'] };
       errorCount++;
     }
@@ -127,7 +127,7 @@ const WbcAddEditCourseDetails = ({ editId }: { editId?: number }) => {
       errorBag = { ...errorBag, courseFee: ['Course fee is required'] };
       errorCount++;
     }
-    if (!form.eligibility) {
+    if (!form.eligibility.trim()) {
       errorBag = { ...errorBag, eligibility: ['Eligibility is required'] };
       errorCount;
     }
@@ -277,7 +277,7 @@ const WbcAddEditCourseDetails = ({ editId }: { editId?: number }) => {
             <Input
               name="eligibility"
               id="eligibility"
-              placeholder="Enter course name"
+              placeholder="Enter course eligibility"
               value={form.eligibility}
               onChange={handleChange}
               onKeyUp={resetError}
@@ -298,7 +298,7 @@ const WbcAddEditCourseDetails = ({ editId }: { editId?: number }) => {
             </Button>
             <WbcSubmitBtn
               isLoading={isLoading}
-              text={`Add Details`}
+              text={editId ? `Update` : `Add Details`}
               customClass="cs-btn-primary"
             />
           </div>

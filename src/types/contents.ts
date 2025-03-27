@@ -44,3 +44,15 @@ export type ComputerCourseProps = {
   updated_at: Date;
   is_active: boolean;
 };
+
+export type CompSyllabusProps = {
+  added_by: number;
+  created_at: Date;
+  file_path: string;
+  id: number;
+  is_active: boolean;
+  name: string;
+  organisation: string;
+  slug: string;
+  updated_at: Date;
+};

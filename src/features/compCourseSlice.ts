@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   courses: [],
+  syllabi: [],
 };
 
 const compCourseSlice = createSlice({
@@ -14,7 +15,14 @@ const compCourseSlice = createSlice({
     unsetCourses: (state) => {
       state.courses = [];
     },
+    setSyllabi: (state, action) => {
+      state.syllabi = action.payload;
+    },
+    unsetSyllabi: (state) => {
+      state.syllabi = [];
+    },
   },
 });
-export const { setCourses, unsetCourses } = compCourseSlice.actions;
+export const { setCourses, unsetCourses, setSyllabi, unsetSyllabi } =
+  compCourseSlice.actions;
 export default compCourseSlice.reducer;

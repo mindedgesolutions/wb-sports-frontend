@@ -14,22 +14,23 @@ import { useAppDispatch } from '@/hooks';
 import customFetch from '@/utils/customFetch';
 import showSuccess from '@/utils/showSuccess';
 import { Trash2 } from 'lucide-react';
+import { SetStateAction } from 'react';
 
-const WbcDeleteCompCourse = ({
+const WbcDeleteSyllabus = ({
   id,
   setIsLoading,
 }: {
   id: number;
-  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsLoading: React.Dispatch<SetStateAction<boolean>>;
 }) => {
   const dispatch = useAppDispatch();
 
   const deleteCourse = async () => {
     setIsLoading(true);
     try {
-      await customFetch.delete(`/com-training-courses/${id}`);
+      await customFetch.delete(`/comp-syllabus/${id}`);
       dispatch(updateSrCounter());
-      showSuccess('Course deleted successfully');
+      showSuccess('Syllabus deleted successfully');
     } catch (error) {
       console.log(error);
     } finally {
@@ -48,8 +49,8 @@ const WbcDeleteCompCourse = ({
         <AlertDialogHeader>
           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
           <AlertDialogDescription>
-            The course will be permanently deleted. You can always come back and
-            add the details again.
+            The syllabus (with attachment) will be permanently deleted. You can
+            always come back and add the details again.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
@@ -65,4 +66,4 @@ const WbcDeleteCompCourse = ({
     </AlertDialog>
   );
 };
-export default WbcDeleteCompCourse;
+export default WbcDeleteSyllabus;
