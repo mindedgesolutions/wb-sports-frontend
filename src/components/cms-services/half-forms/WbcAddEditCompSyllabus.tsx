@@ -144,7 +144,7 @@ const WbcAddEditCompSyllabus = ({
   return (
     <div className="border p-2">
       <div className="bg-muted-foreground/10 text-muted-foreground p-2 text-base font-medium tracking-wider">
-        Add new banner
+        {editId ? 'Edit syllabus' : 'Add new syllabus'}
       </div>
       <form onSubmit={handleSubmit}>
         <div className="mt-6">
