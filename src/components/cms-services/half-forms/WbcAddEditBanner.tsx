@@ -186,9 +186,9 @@ const WbcAddEditBanner = ({
   return (
     <div className="border p-2">
       <div className="bg-muted-foreground/10 text-muted-foreground p-2 text-base font-medium tracking-wider">
-        Add new banner
+        {editId ? 'Edit banner details' : 'Add new banner'}
       </div>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} autoComplete="off">
         <div className="mt-6">
           <div className="flex flex-col justify-start items-start gap-2">
             <Label className="text-muted-foreground">
