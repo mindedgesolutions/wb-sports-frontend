@@ -29,6 +29,7 @@ export { default as WbcAddEditCompSyllabus } from '@/components/cms-services/hal
 export { default as WbcDeleteSyllabus } from '@/components/cms-services/delete-modals/WbcDeleteSyllabus';
 export { default as WbcAddEditCompCentre } from '@/components/cms-services/modal-forms/WbcAddEditCompCentre';
 export { default as WbcCompCentrePopover } from '@/components/cms-services/pop-overs/WbcCompCentrePopover';
+export { default as WbcDeleteCompCentre } from '@/components/cms-services/delete-modals/WbcDeleteCompCentre';
 // Services App Components end ----------------------------
 
 // Common Components start ----------------------------
