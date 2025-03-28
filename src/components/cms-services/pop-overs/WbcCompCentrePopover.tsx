@@ -33,7 +33,7 @@ const WbcCompCentrePopover = ({
 
   return (
     <Popover>
-      <PopoverTrigger className="cursor-pointer">
+      <PopoverTrigger className="cursor-pointer mr-2">
         <SlQuestion className="text-sm ml-1.5" />
       </PopoverTrigger>
       <PopoverContent align="end" className="p-3 rounded-xs">

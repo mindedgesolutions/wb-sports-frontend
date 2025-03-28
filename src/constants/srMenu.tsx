@@ -1,4 +1,13 @@
-import { Gauge, Images, LaptopMinimal } from 'lucide-react';
+import {
+  Building,
+  Fan,
+  Gauge,
+  Images,
+  LaptopMinimal,
+  MapPin,
+  Mountain,
+  Rss,
+} from 'lucide-react';
 import { titles } from '.';
 import { CmsMenuProps } from '@/types/menu';
 
@@ -33,5 +42,69 @@ export const adminMenus: CmsMenuProps[] = [
         url: `/${titles.servicesUrl}/${slug}/computer-training/training-centres`,
       },
     ],
+  },
+  {
+    title: 'Vocational Training',
+    url: '#',
+    icon: MapPin,
+    children: [
+      {
+        title: 'Schemes',
+        url: `/${titles.servicesUrl}/${slug}/vocational-training/schemes`,
+      },
+      {
+        title: 'Training Centres',
+        url: `/${titles.servicesUrl}/${slug}/vocational-training/training-centres`,
+      },
+    ],
+  },
+  {
+    title: 'Mountaineering',
+    url: '#',
+    icon: Mountain,
+    children: [
+      {
+        title: 'General Body Members',
+        url: `/${titles.servicesUrl}/${slug}/mountaineering/general-body-members`,
+      },
+      {
+        title: 'Training Calendar',
+        url: `/${titles.servicesUrl}/${slug}/mountaineering/training-calendar`,
+      },
+      {
+        title: 'Course Details',
+        url: `/${titles.servicesUrl}/${slug}/mountaineering/course-details`,
+      },
+    ],
+  },
+  {
+    title: 'Fairs & Programmes',
+    url: `/${titles.servicesUrl}/${slug}/fairs-programmes`,
+    icon: Fan,
+  },
+  {
+    title: 'News & Events',
+    url: `/${titles.servicesUrl}/${slug}/news-events`,
+    icon: Rss,
+  },
+  {
+    title: 'Youth Hostels',
+    url: '#',
+    icon: Building,
+    children: [
+      {
+        title: 'Hostel List',
+        url: `/${titles.servicesUrl}/${slug}/youth-hostel/hostel-list`,
+      },
+      {
+        title: 'Hostel Info',
+        url: `/${titles.servicesUrl}/${slug}/youth-hostel/hostel-info`,
+      },
+    ],
+  },
+  {
+    title: 'Photo Gallery',
+    url: `/${titles.servicesUrl}/${slug}/photo-gallery`,
+    icon: Images,
   },
 ];
