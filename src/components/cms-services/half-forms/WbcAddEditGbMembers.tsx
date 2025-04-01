@@ -3,10 +3,12 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import WbcSubmitBtn from '../WbcSubmitBtn';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import customFetch from '@/utils/customFetch';
 import showError from '@/utils/showError';
 import showSuccess from '@/utils/showSuccess';
+import { useAppDispatch, useAppSelector } from '@/hooks';
+import { updateSrCounter } from '@/features/commonSlice';
 
 const WbcAddEditGbMembers = ({
   editId,
@@ -24,6 +26,22 @@ const WbcAddEditGbMembers = ({
   const [errors, setErrors] = useState<{ [key: string]: string[] } | null>(
     null
   );
+  const dispatch = useAppDispatch();
+  const { gbMembers } = useAppSelector((state) => state.mountains);
+  const editData = editId && gbMembers.find((item) => item.id === editId);
+
+  // ---------------------------------------
+
+  useEffect(() => {
+    if (editData) {
+      setForm({
+        ...form,
+        designation: editData.designation || '',
+        name: editData.name,
+        desc: editData.description,
+      });
+    }
+  }, [editData]);
 
   // ---------------------------------------
 
@@ -69,15 +87,18 @@ const WbcAddEditGbMembers = ({
     setIsLoading(true);
     const formData = new FormData(e.currentTarget);
     const data = Object.fromEntries(formData);
+    const apiUrl = editId
+      ? `/mountain/general-body/update/${editId}`
+      : `/mountain/general-body/store`;
+    const process = editId ? customFetch.put : customFetch.post;
+    const msg = editId ? `Member details updated` : `Member details added`;
     try {
-      const response = await customFetch.post(
-        `/mountain/general-body/store`,
-        data
-      );
+      const response = await process(apiUrl, data);
 
-      if (response.status === 201) {
-        showSuccess(`Member details added`);
+      if (response.status === 201 || response.status === 200) {
+        showSuccess(msg);
         resetForm();
+        dispatch(updateSrCounter());
       }
     } catch (error) {
       if ((error as any)?.response?.status === 422) {

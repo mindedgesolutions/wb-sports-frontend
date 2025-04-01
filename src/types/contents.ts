@@ -89,3 +89,36 @@ export type CompCentreProps = {
   yctc_name: string;
   district: DistrictProps;
 };
+
+export type srGbMembersProps = {
+  added_by: number;
+  created_at: Date;
+  description: string;
+  designation: string | null;
+  id: number;
+  name: string;
+  organisation: string;
+  updated_at: Date;
+};
+
+export type DeleteProps = {
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  apiUrl: string;
+  title?: string;
+  description: string;
+  successMsg: string;
+};
+
+export type FairProgrammeProps = {
+  added_by: number;
+  created_at: Date;
+  description: string | null;
+  id: number;
+  occurance: string;
+  title: string;
+  slug: string;
+  organisation: string;
+  updated_at: Date;
+  updated_by: number | null;
+  uuid: string;
+};

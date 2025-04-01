@@ -5,7 +5,7 @@ import {
   AppTooltip,
   WbcAddEditCompCentre,
   WbcCompCentrePopover,
-  WbcDeleteCompCentre,
+  WbcDeleteModal,
   WbcPaginationContainer,
   WbcSkeletonRows,
 } from '@/components';
@@ -56,7 +56,6 @@ const WbCompCentres = () => {
       const response = await customFetch.get(`/comp-centres`, {
         params: { page },
       });
-      console.log(response);
 
       if (response.status === 200) {
         setData(response?.data?.data);
@@ -102,14 +101,14 @@ const WbCompCentres = () => {
 
   return (
     <AppMainWrapper>
-      <div className="bg-muted-foreground/10 p-2 pl-4 text-muted-foreground font-medium capitalize text-xl tracking-wider flex justify-between items-center">
+      <div className="bg-muted-foreground/10 p-2 md:pl-4 text-muted-foreground font-medium capitalize text-base md:text-xl tracking-normal md:tracking-wider flex justify-between items-center">
         <p>computer training: training centres</p>
         <WbcAddEditCompCentre />
       </div>
       <AppCountWrapper total={meta.total || 0} />
       <AppContentWrapper>
         <div className="flex md:flex-row flex-col-reverse justify-start items-start gap-4">
-          <Table>
+          <Table className="text-xs md:text-sm">
             <TableHeader>
               <TableRow>
                 <TableHead className="w-[50px]">#</TableHead>
@@ -227,9 +226,12 @@ const WbCompCentres = () => {
                             <EyeIcon className="h-4 group-hover:text-blue-500 duration-200 cursor-pointer" />
                           </Link>
                           <WbcAddEditCompCentre editId={centre.id} />
-                          <WbcDeleteCompCentre
-                            id={centre.id}
+                          <WbcDeleteModal
+                            apiUrl={`/comp-centres/${centre.id}`}
+                            description="The centre will be permanently deleted."
                             setIsLoading={setIsLoading}
+                            successMsg="Centre deleted successfully"
+                            title="Are you absolutely sure?"
                           />
                         </div>
                       </TableCell>

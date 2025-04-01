@@ -5,7 +5,7 @@ import {
   AppTitleWrapper,
   AppTooltip,
   WbcAddEditBanner,
-  WbcDeleteBanner,
+  WbcDeleteModal,
   WbcPaginationContainer,
   WbcSkeletonRows,
 } from '@/components';
@@ -100,8 +100,8 @@ const WbCmsBanners = () => {
       <AppCountWrapper total={meta.total || 0} />
       <AppContentWrapper>
         <div className="flex md:flex-row flex-col-reverse justify-start items-start gap-4">
-          <div className="basis-full md:basis-2/3">
-            <Table>
+          <div className="basis-full w-full md:basis-2/3">
+            <Table className="text-xs md:text-sm">
               <TableHeader>
                 <TableRow>
                   <TableHead className="w-[50px]">#</TableHead>
@@ -130,6 +130,9 @@ const WbCmsBanners = () => {
                   </TableRow>
                 ) : (
                   data?.map((banner: BannerProps, index: number) => {
+                    const deletemsg =
+                      'The banner image will be permanently deleted. There is a default banner set for every page. So rest assured, the page will not be left without a banner.';
+
                     return (
                       <TableRow
                         key={nanoid()}
@@ -138,7 +141,7 @@ const WbCmsBanners = () => {
                         <TableCell className="font-medium">
                           {serialNo(Number(meta.currentPage), 10) + index}.
                         </TableCell>
-                        <TableCell className="w-[100px]">
+                        <TableCell className="w-[100px] md:w-[100px]">
                           <img
                             src={titles.baseUrl + banner.image_path}
                             alt={banner.page_title}
@@ -167,9 +170,12 @@ const WbCmsBanners = () => {
                               className="h-4 group-hover:text-yellow-500 duration-200 cursor-pointer"
                               onClick={() => setEditId(banner.id)}
                             />
-                            <WbcDeleteBanner
-                              id={banner.id}
+                            <WbcDeleteModal
+                              apiUrl={`/banners/${banner.id}`}
+                              description={deletemsg}
+                              successMsg="Banner deleted successfully"
                               setIsLoading={setIsLoading}
+                              title="Are you absolutely sure?"
                             />
                           </div>
                         </TableCell>

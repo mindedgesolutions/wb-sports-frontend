@@ -4,9 +4,8 @@ import {
   AppMainWrapper,
   AppTitleWrapper,
   AppTooltip,
-  WbcAddEditCompSyllabus,
   WbcAddEditGbMembers,
-  WbcDeleteSyllabus,
+  WbcDeleteModal,
   WbcPaginationContainer,
   WbcSkeletonRows,
 } from '@/components';
@@ -18,15 +17,17 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { images, titles } from '@/constants';
-import { MetaProps } from '@/types/contents';
-import { useState } from 'react';
+import { titles } from '@/constants';
+import { MetaProps, srGbMembersProps } from '@/types/contents';
+import { useEffect, useState } from 'react';
 import { nanoid } from 'nanoid';
 import { serialNo } from '@/utils/function';
 import dayjs from 'dayjs';
-import { Switch } from '@/components/ui/switch';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { EyeIcon, Pencil } from 'lucide-react';
+import customFetch from '@/utils/customFetch';
+import { useAppDispatch, useAppSelector } from '@/hooks';
+import { setGbMembers } from '@/features/mountainSlice';
 
 const WbGeneralBodyMembers = () => {
   document.title = `Mountaineering: General Body Members | ${titles.services} `;
@@ -37,8 +38,44 @@ const WbGeneralBodyMembers = () => {
     lastPage: null,
     total: null,
   });
-  const [data, setData] = useState<any[] | null>(null);
+  const [data, setData] = useState<srGbMembersProps[] | null>(null);
   const [editId, setEditId] = useState<number | null>(null);
+  const { search } = useLocation();
+  const queryString = new URLSearchParams(search);
+  const page = queryString.get('page') || 1;
+  const { srCounter } = useAppSelector((state) => state.common);
+  const dispatch = useAppDispatch();
+
+  // -----------------------------------
+
+  const fetchData = async () => {
+    setIsLoading(true);
+    try {
+      const response = await customFetch.get(`/mountain/general-body/list`, {
+        params: { page },
+      });
+
+      if (response.status === 200) {
+        setData(response.data.members.data);
+        setMeta({
+          currentPage: response.data.members.current_page,
+          lastPage: response.data.members.last_page,
+          total: response.data.members.total,
+        });
+        dispatch(setGbMembers(response.data.members.data));
+      }
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // -----------------------------------
+
+  useEffect(() => {
+    fetchData();
+  }, [page, srCounter]);
 
   return (
     <AppMainWrapper>
@@ -46,15 +83,15 @@ const WbGeneralBodyMembers = () => {
       <AppCountWrapper total={meta.total || 0} />
       <AppContentWrapper>
         <div className="flex md:flex-row flex-col-reverse justify-start items-start gap-4">
-          <div className="basis-full md:basis-2/3">
-            <Table>
+          <div className="basis-full w-full md:basis-2/3">
+            <Table className="text-xs md:text-sm">
               <TableHeader>
                 <TableRow>
                   <TableHead className="w-[50px]">#</TableHead>
-                  <TableHead>Title</TableHead>
-                  <TableHead></TableHead>
+                  <TableHead>Name</TableHead>
+                  <TableHead>Designation</TableHead>
+                  <TableHead>Description</TableHead>
                   <TableHead>Last Updated</TableHead>
-                  <TableHead>Active</TableHead>
                   <TableHead></TableHead>
                 </TableRow>
               </TableHeader>
@@ -75,7 +112,9 @@ const WbGeneralBodyMembers = () => {
                     </TableCell>
                   </TableRow>
                 ) : (
-                  data?.map((syllabus: any, index: number) => {
+                  data?.map((gbMember: srGbMembersProps, index: number) => {
+                    const view = `${titles.websiteBaseUrl}/${titles.serviceUrlWeb}/mountaineering`;
+
                     return (
                       <TableRow
                         key={nanoid()}
@@ -85,38 +124,33 @@ const WbGeneralBodyMembers = () => {
                           {serialNo(Number(meta.currentPage), 10) + index}.
                         </TableCell>
                         <TableCell>
-                          <AppTooltip content={syllabus.name} />
+                          <AppTooltip content={gbMember.name} />
                         </TableCell>
                         <TableCell>
-                          <img
-                            src={images.pdfIcon}
-                            alt={titles.services}
-                            className="h-8 cursor-pointer"
-                          />
+                          <AppTooltip content={gbMember.designation || 'NA'} />
                         </TableCell>
                         <TableCell>
-                          {dayjs(syllabus.updated_at).format(
+                          <AppTooltip content={gbMember.description} />
+                        </TableCell>
+                        <TableCell>
+                          {dayjs(gbMember.updated_at).format(
                             'DD/MM/YYYY h:mm A'
                           )}
                         </TableCell>
                         <TableCell>
-                          <Switch
-                            className="data-[state=checked]:bg-muted-foreground group-hover:data-[state=checked]:bg-sky cursor-pointer"
-                            checked={syllabus.is_active}
-                          />
-                        </TableCell>
-                        <TableCell>
                           <div className="flex flex-row justify-center items-center gap-2">
-                            <Link to={titles.websiteBaseUrl}>
+                            <Link to={view}>
                               <EyeIcon className="h-4 group-hover:text-blue-500 duration-200 cursor-pointer" />
                             </Link>
                             <Pencil
                               className="h-4 group-hover:text-yellow-500 duration-200 cursor-pointer"
-                              onClick={() => setEditId(syllabus.id)}
+                              onClick={() => setEditId(gbMember.id)}
                             />
-                            <WbcDeleteSyllabus
-                              id={syllabus.id}
+                            <WbcDeleteModal
                               setIsLoading={setIsLoading}
+                              apiUrl={`/mountain/general-body/delete/${gbMember.id}`}
+                              description="The General Body memeber will be permanently deleted."
+                              successMsg="General Body member deleted successfully"
                             />
                           </div>
                         </TableCell>

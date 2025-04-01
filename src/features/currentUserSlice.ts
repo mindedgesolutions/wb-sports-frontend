@@ -1,7 +1,8 @@
+import { UserProps } from '@/types/user';
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  currentUser: null,
+  currentUser: null as UserProps | null,
 };
 
 const currentUserSlice = createSlice({

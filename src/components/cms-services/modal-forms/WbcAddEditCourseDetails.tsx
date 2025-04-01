@@ -171,7 +171,7 @@ const WbcAddEditCourseDetails = ({ editId }: { editId?: number }) => {
     <Dialog open={open} onOpenChange={openModal}>
       <DialogTrigger asChild>
         {editId ? (
-          <Pencil className="h-4 group-hover:text-yellow-500 duration-200 cursor-pointer" />
+          <Pencil className="h-3 md:h-4 group-hover:text-yellow-500 duration-200 cursor-pointer" />
         ) : (
           <Button
             size={'sm'}

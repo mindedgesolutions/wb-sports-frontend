@@ -21,16 +21,14 @@ export { default as WbcAddEditBanner } from '@/components/cms-services/half-form
 export { default as WbcBannerPopover } from '@/components/cms-services/pop-overs/WbcBannerPopover';
 export { default as WbcPaginationContainer } from '@/components/cms-services/WbcPaginationContainer';
 export { default as WbcSkeletonRows } from '@/components/cms-services/WbcSkeletonRows';
-export { default as WbcDeleteBanner } from '@/components/cms-services/delete-modals/WbcDeleteBanner';
 export { default as WbcAddEditCourseDetails } from '@/components/cms-services/modal-forms/WbcAddEditCourseDetails';
 export { default as WbcBtn } from '@/components/cms-services/WbcBtn';
-export { default as WbcDeleteCompCourse } from '@/components/cms-services/delete-modals/WbcDeleteCompCourse';
 export { default as WbcAddEditCompSyllabus } from '@/components/cms-services/half-forms/WbcAddEditCompSyllabus';
-export { default as WbcDeleteSyllabus } from '@/components/cms-services/delete-modals/WbcDeleteSyllabus';
 export { default as WbcAddEditCompCentre } from '@/components/cms-services/modal-forms/WbcAddEditCompCentre';
 export { default as WbcCompCentrePopover } from '@/components/cms-services/pop-overs/WbcCompCentrePopover';
-export { default as WbcDeleteCompCentre } from '@/components/cms-services/delete-modals/WbcDeleteCompCentre';
 export { default as WbcAddEditGbMembers } from '@/components/cms-services/half-forms/WbcAddEditGbMembers';
+export { default as WbcDeleteModal } from '@/components/cms-services/delete-modals/WbcDeleteModal';
+export { default as WbcFairProgrammPopover } from '@/components/cms-services/pop-overs/WbcFairProgrammPopover';
 // Services App Components end ----------------------------
 
 // Common Components start ----------------------------

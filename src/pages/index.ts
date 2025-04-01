@@ -42,7 +42,8 @@ export { default as WbCompCourseSyllabus } from '@/pages/cms-services/computer-t
 export { default as WbGeneralBodyMembers } from '@/pages/cms-services/mountaineering/WbGeneralBodyMembers';
 export { default as WbTrainingCalendar } from '@/pages/cms-services/mountaineering/WbTrainingCalendar';
 export { default as WbMountainCourseDetails } from '@/pages/cms-services/mountaineering/WbMountainCourseDetails';
-export { default as WbFairsProgrammes } from '@/pages/cms-services/WbFairsProgrammes';
+export { default as WbFairsProgrammes } from '@/pages/cms-services/fairs-programmes/WbFairsProgrammes';
+export { default as WbAddEditFairProgramme } from '@/pages/cms-services/fairs-programmes/WbAddEditFairProgramme';
 export { default as WbAppNewsEvents } from '@/pages/cms-services/WbAppNewsEvents';
 export { default as WbAppHostelList } from '@/pages/cms-services/youth-hostel/WbAppHostelList';
 export { default as WbAppHostelInfo } from '@/pages/cms-services/youth-hostel/WbAppHostelInfo';

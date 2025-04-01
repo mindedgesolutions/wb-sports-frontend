@@ -111,6 +111,10 @@ const router = createBrowserRouter([
         ],
       },
       { path: 'fairs-programmes', element: <sy.WbFairsProgrammes /> },
+      {
+        path: 'fairs-programmes/update/:uuid?',
+        element: <sy.WbAddEditFairProgramme />,
+      },
       { path: 'news-events', element: <sy.WbAppNewsEvents /> },
       {
         path: 'youth-hostel',
