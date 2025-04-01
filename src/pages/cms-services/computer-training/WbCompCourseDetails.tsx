@@ -4,7 +4,7 @@ import {
   AppMainWrapper,
   AppTooltip,
   WbcAddEditCourseDetails,
-  WbcDeleteCompCourse,
+  WbcDeleteModal,
   WbcPaginationContainer,
   WbcSkeletonRows,
 } from '@/components';
@@ -98,14 +98,14 @@ const WbCompCourseDetails = () => {
 
   return (
     <AppMainWrapper>
-      <div className="bg-muted-foreground/10 p-2 pl-4 text-muted-foreground font-medium capitalize text-xl tracking-wider flex justify-between items-center">
+      <div className="bg-muted-foreground/10 p-2 md:pl-4 text-muted-foreground font-medium capitalize text-base md:text-xl tracking-normal md:tracking-wider flex justify-between items-center">
         <p>computer training: course details</p>
         <WbcAddEditCourseDetails />
       </div>
       <AppCountWrapper total={meta.total || 0} />
       <AppContentWrapper>
         <div className="flex md:flex-row flex-col-reverse justify-start items-start gap-4">
-          <Table>
+          <Table className="text-xs md:text-sm">
             <TableHeader>
               <TableRow>
                 <TableHead className="w-[50px]">#</TableHead>
@@ -176,9 +176,11 @@ const WbCompCourseDetails = () => {
                             <EyeIcon className="h-4 group-hover:text-blue-500 duration-200 cursor-pointer" />
                           </Link>
                           <WbcAddEditCourseDetails editId={course.id} />
-                          <WbcDeleteCompCourse
-                            id={course.id}
+                          <WbcDeleteModal
+                            apiUrl={`/com-training-courses/${course.id}`}
+                            description="The course will be permanently deleted."
                             setIsLoading={setIsLoading}
+                            successMsg="Course deleted successfully"
                           />
                         </div>
                       </TableCell>

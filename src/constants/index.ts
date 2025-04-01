@@ -64,3 +64,8 @@ export const compCentreCategory = [
   { label: 'Municipality Area', value: 'municipality area' },
   { label: 'Panchayat Area', value: 'panchayat area' },
 ];
+
+export const fairTypes = [
+  { label: 'One-time', value: 'one-time' },
+  { label: 'Recurring', value: 'recurring' },
+];

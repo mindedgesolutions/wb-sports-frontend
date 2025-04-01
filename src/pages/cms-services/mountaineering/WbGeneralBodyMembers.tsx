@@ -4,7 +4,7 @@ import {
   AppMainWrapper,
   AppTitleWrapper,
   AppTooltip,
-  WbcAddEditBanner,
+  WbcAddEditGbMembers,
   WbcDeleteModal,
   WbcPaginationContainer,
   WbcSkeletonRows,
@@ -18,85 +18,68 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { titles } from '@/constants';
-import { BannerProps, MetaProps } from '@/types/contents';
-import customFetch from '@/utils/customFetch';
-import { serialNo } from '@/utils/function';
-import { nanoid } from '@reduxjs/toolkit';
+import { MetaProps, srGbMembersProps } from '@/types/contents';
 import { useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { nanoid } from 'nanoid';
+import { serialNo } from '@/utils/function';
 import dayjs from 'dayjs';
+import { Link, useLocation } from 'react-router-dom';
 import { EyeIcon, Pencil } from 'lucide-react';
-import { Switch } from '@/components/ui/switch';
+import customFetch from '@/utils/customFetch';
 import { useAppDispatch, useAppSelector } from '@/hooks';
-import { updateSrCounter } from '@/features/commonSlice';
-import showSuccess from '@/utils/showSuccess';
-import { setBanners } from '@/features/bannerSlice';
+import { setGbMembers } from '@/features/mountainSlice';
 
-const WbCmsBanners = () => {
-  document.title = `Upload Banners | ${titles.services}`;
+const WbGeneralBodyMembers = () => {
+  document.title = `Mountaineering: General Body Members | ${titles.services} `;
 
-  const [data, setData] = useState<BannerProps[] | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
   const [meta, setMeta] = useState<MetaProps>({
     currentPage: null,
     lastPage: null,
     total: null,
   });
-  const [isLoading, setIsLoading] = useState(false);
+  const [data, setData] = useState<srGbMembersProps[] | null>(null);
+  const [editId, setEditId] = useState<number | null>(null);
   const { search } = useLocation();
   const queryString = new URLSearchParams(search);
+  const page = queryString.get('page') || 1;
   const { srCounter } = useAppSelector((state) => state.common);
   const dispatch = useAppDispatch();
-  const [editId, setEditId] = useState<number | null>(null);
 
-  // ------------------------------
+  // -----------------------------------
 
   const fetchData = async () => {
     setIsLoading(true);
     try {
-      const response = await customFetch.get('/banners', {
-        params: { page: queryString.get('page') },
+      const response = await customFetch.get(`/mountain/general-body/list`, {
+        params: { page },
       });
 
       if (response.status === 200) {
-        setData(response.data.data.data);
+        setData(response.data.members.data);
         setMeta({
-          currentPage: response.data.data.current_page,
-          lastPage: response.data.data.last_page,
-          total: response.data.data.total,
+          currentPage: response.data.members.current_page,
+          lastPage: response.data.members.last_page,
+          total: response.data.members.total,
         });
-        dispatch(setBanners(response.data.data.data));
+        dispatch(setGbMembers(response.data.members.data));
       }
     } catch (error) {
-      console.log(error);
+      console.error('Error fetching data:', error);
     } finally {
       setIsLoading(false);
     }
   };
 
-  // ------------------------------
+  // -----------------------------------
 
   useEffect(() => {
     fetchData();
-  }, [queryString.get('page'), srCounter]);
-
-  // ------------------------------
-  const handleActive = (id: number) => async (checked: boolean) => {
-    setIsLoading(true);
-    try {
-      await customFetch.put(`/banners/activate/${id}`, { is_active: checked });
-      const msg = checked ? 'Banner activated' : 'Banner deactivated';
-      showSuccess(msg);
-      dispatch(updateSrCounter());
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  }, [page, srCounter]);
 
   return (
     <AppMainWrapper>
-      <AppTitleWrapper>upload banner for individual pages</AppTitleWrapper>
+      <AppTitleWrapper>Mountaineering: General Body Members</AppTitleWrapper>
       <AppCountWrapper total={meta.total || 0} />
       <AppContentWrapper>
         <div className="flex md:flex-row flex-col-reverse justify-start items-start gap-4">
@@ -105,10 +88,10 @@ const WbCmsBanners = () => {
               <TableHeader>
                 <TableRow>
                   <TableHead className="w-[50px]">#</TableHead>
-                  <TableHead></TableHead>
-                  <TableHead>Page</TableHead>
+                  <TableHead>Name</TableHead>
+                  <TableHead>Designation</TableHead>
+                  <TableHead>Description</TableHead>
                   <TableHead>Last Updated</TableHead>
-                  <TableHead>Active</TableHead>
                   <TableHead></TableHead>
                 </TableRow>
               </TableHeader>
@@ -129,9 +112,8 @@ const WbCmsBanners = () => {
                     </TableCell>
                   </TableRow>
                 ) : (
-                  data?.map((banner: BannerProps, index: number) => {
-                    const deletemsg =
-                      'The banner image will be permanently deleted. There is a default banner set for every page. So rest assured, the page will not be left without a banner.';
+                  data?.map((gbMember: srGbMembersProps, index: number) => {
+                    const view = `${titles.websiteBaseUrl}/${titles.serviceUrlWeb}/mountaineering`;
 
                     return (
                       <TableRow
@@ -141,41 +123,34 @@ const WbCmsBanners = () => {
                         <TableCell className="font-medium">
                           {serialNo(Number(meta.currentPage), 10) + index}.
                         </TableCell>
-                        <TableCell className="w-[100px] md:w-[100px]">
-                          <img
-                            src={titles.baseUrl + banner.image_path}
-                            alt={banner.page_title}
-                            className="h-8 object-cover"
-                          />
+                        <TableCell>
+                          <AppTooltip content={gbMember.name} />
                         </TableCell>
                         <TableCell>
-                          <AppTooltip content={banner.page_title} />
+                          <AppTooltip content={gbMember.designation || 'NA'} />
                         </TableCell>
                         <TableCell>
-                          {dayjs(banner.updated_at).format('DD/MM/YYYY h:mm A')}
+                          <AppTooltip content={gbMember.description} />
                         </TableCell>
                         <TableCell>
-                          <Switch
-                            className="data-[state=checked]:bg-muted-foreground group-hover:data-[state=checked]:bg-sky cursor-pointer"
-                            checked={banner.is_active}
-                            onCheckedChange={handleActive(banner.id)}
-                          />
+                          {dayjs(gbMember.updated_at).format(
+                            'DD/MM/YYYY h:mm A'
+                          )}
                         </TableCell>
                         <TableCell>
                           <div className="flex flex-row justify-center items-center gap-2">
-                            <Link to={titles.websiteBaseUrl + banner.page_url}>
+                            <Link to={view}>
                               <EyeIcon className="h-4 group-hover:text-blue-500 duration-200 cursor-pointer" />
                             </Link>
                             <Pencil
                               className="h-4 group-hover:text-yellow-500 duration-200 cursor-pointer"
-                              onClick={() => setEditId(banner.id)}
+                              onClick={() => setEditId(gbMember.id)}
                             />
                             <WbcDeleteModal
-                              apiUrl={`/banners/${banner.id}`}
-                              description={deletemsg}
-                              successMsg="Banner deleted successfully"
                               setIsLoading={setIsLoading}
-                              title="Are you absolutely sure?"
+                              apiUrl={`/mountain/general-body/delete/${gbMember.id}`}
+                              description="The General Body memeber will be permanently deleted."
+                              successMsg="General Body member deleted successfully"
                             />
                           </div>
                         </TableCell>
@@ -195,11 +170,11 @@ const WbCmsBanners = () => {
               : null}
           </div>
           <div className="basis-full w-full md:basis-1/3">
-            <WbcAddEditBanner editId={editId} setEditId={setEditId} />
+            <WbcAddEditGbMembers editId={editId} setEditId={setEditId} />
           </div>
         </div>
       </AppContentWrapper>
     </AppMainWrapper>
   );
 };
-export default WbCmsBanners;
+export default WbGeneralBodyMembers;

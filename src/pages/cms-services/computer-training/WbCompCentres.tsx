@@ -1,10 +1,11 @@
 import {
   AppContentWrapper,
+  AppCountWrapper,
   AppMainWrapper,
   AppTooltip,
   WbcAddEditCompCentre,
   WbcCompCentrePopover,
-  WbcDeleteCompCourse,
+  WbcDeleteModal,
   WbcPaginationContainer,
   WbcSkeletonRows,
 } from '@/components';
@@ -18,11 +19,14 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { titles } from '@/constants';
+import { updateSrCounter } from '@/features/commonSlice';
 import { setCompCentres } from '@/features/compCourseSlice';
 import { useAppDispatch, useAppSelector } from '@/hooks';
 import { CompCentreProps, MetaProps } from '@/types/contents';
 import customFetch from '@/utils/customFetch';
 import { serialNo } from '@/utils/function';
+import showError from '@/utils/showError';
+import showSuccess from '@/utils/showSuccess';
 import { nanoid } from '@reduxjs/toolkit';
 import { EyeIcon, Mail, Phone } from 'lucide-react';
 import { useEffect, useState } from 'react';
@@ -71,19 +75,40 @@ const WbCompCentres = () => {
 
   // ----------------------
 
+  const handleActive = (id: number) => async (checked: boolean) => {
+    setIsLoading(true);
+    try {
+      await customFetch.put(`/comp-centres/activate/${id}`, {
+        is_active: checked,
+      });
+      const msg = checked
+        ? 'Training centre activated'
+        : 'Training centre deactivated';
+      showSuccess(msg);
+      dispatch(updateSrCounter());
+    } catch (error) {
+      showError(`Something went wrong`);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // ----------------------
+
   useEffect(() => {
     fetchData();
   }, [srCounter, page]);
 
   return (
     <AppMainWrapper>
-      <div className="bg-muted-foreground/10 p-2 pl-4 text-muted-foreground font-medium capitalize text-xl tracking-wider flex justify-between items-center">
+      <div className="bg-muted-foreground/10 p-2 md:pl-4 text-muted-foreground font-medium capitalize text-base md:text-xl tracking-normal md:tracking-wider flex justify-between items-center">
         <p>computer training: training centres</p>
         <WbcAddEditCompCentre />
       </div>
+      <AppCountWrapper total={meta.total || 0} />
       <AppContentWrapper>
         <div className="flex md:flex-row flex-col-reverse justify-start items-start gap-4">
-          <Table>
+          <Table className="text-xs md:text-sm">
             <TableHeader>
               <TableRow>
                 <TableHead className="w-[50px]">#</TableHead>
@@ -140,7 +165,7 @@ const WbCompCentres = () => {
                       <TableCell className="capitalize">
                         {centre.center_category || `NA`}
                       </TableCell>
-                      <TableCell>
+                      <TableCell className="flex justify-between items-center max-w-[240px]">
                         <AppTooltip content={addressLabel} />
                         <WbcCompCentrePopover
                           {...{
@@ -190,6 +215,7 @@ const WbCompCentres = () => {
                         <Switch
                           className="data-[state=checked]:bg-muted-foreground group-hover:data-[state=checked]:bg-sky cursor-pointer"
                           checked={centre.is_active}
+                          onCheckedChange={handleActive(centre.id)}
                         />
                       </TableCell>
                       <TableCell>
@@ -200,9 +226,12 @@ const WbCompCentres = () => {
                             <EyeIcon className="h-4 group-hover:text-blue-500 duration-200 cursor-pointer" />
                           </Link>
                           <WbcAddEditCompCentre editId={centre.id} />
-                          <WbcDeleteCompCourse
-                            id={centre.id}
+                          <WbcDeleteModal
+                            apiUrl={`/comp-centres/${centre.id}`}
+                            description="The centre will be permanently deleted."
                             setIsLoading={setIsLoading}
+                            successMsg="Centre deleted successfully"
+                            title="Are you absolutely sure?"
                           />
                         </div>
                       </TableCell>

@@ -11,25 +11,26 @@ import {
 } from '@/components/ui/alert-dialog';
 import { updateSrCounter } from '@/features/commonSlice';
 import { useAppDispatch } from '@/hooks';
+import { DeleteProps } from '@/types/contents';
 import customFetch from '@/utils/customFetch';
 import showSuccess from '@/utils/showSuccess';
 import { Trash2 } from 'lucide-react';
 
-const WbcDeleteBanner = ({
-  id,
+const WbcDeleteModal = ({
   setIsLoading,
-}: {
-  id: number;
-  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
-}) => {
+  apiUrl,
+  title = 'Are you absolutely sure?',
+  description,
+  successMsg,
+}: DeleteProps) => {
   const dispatch = useAppDispatch();
 
-  const deleteBanner = async () => {
+  const deletedata = async () => {
     setIsLoading(true);
     try {
-      await customFetch.delete(`/banners/${id}`);
+      await customFetch.delete(apiUrl);
       dispatch(updateSrCounter());
-      showSuccess('Banner deleted successfully');
+      showSuccess(successMsg);
     } catch (error) {
       console.log(error);
     } finally {
@@ -46,18 +47,16 @@ const WbcDeleteBanner = ({
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+          <AlertDialogTitle>{title}</AlertDialogTitle>
           <AlertDialogDescription>
-            The banner image will be permanently deleted. There is a default
-            banner set for every page. So rest assured, the page will not be
-            left without a banner.
+            {description} You can always come back and add the details again.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
           <AlertDialogAction
             className="bg-destructive hover:bg-destructive/90"
-            onClick={deleteBanner}
+            onClick={deletedata}
           >
             Continue
           </AlertDialogAction>
@@ -66,4 +65,4 @@ const WbcDeleteBanner = ({
     </AlertDialog>
   );
 };
-export default WbcDeleteBanner;
+export default WbcDeleteModal;

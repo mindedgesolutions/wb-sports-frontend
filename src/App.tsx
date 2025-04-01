@@ -92,6 +92,41 @@ const router = createBrowserRouter([
           { path: 'training-centres', element: <sy.WbCompCentres /> },
         ],
       },
+      {
+        path: 'vocational-training',
+        children: [
+          { path: 'schemes', element: <sy.WbAppVocationalSchemes /> },
+          { path: 'training-centres', element: <sy.WbAppVocationalCentres /> },
+        ],
+      },
+      {
+        path: 'mountaineering',
+        children: [
+          {
+            path: 'general-body-members',
+            element: <sy.WbGeneralBodyMembers />,
+          },
+          { path: 'training-calendar', element: <sy.WbTrainingCalendar /> },
+          { path: 'course-details', element: <sy.WbMountainCourseDetails /> },
+        ],
+      },
+      { path: 'fairs-programmes', element: <sy.WbFairsProgrammes /> },
+      {
+        path: 'fairs-programmes/update/:uuid?',
+        element: <sy.WbAddEditFairProgramme />,
+      },
+      { path: 'news-events', element: <sy.WbAppNewsEvents /> },
+      {
+        path: 'youth-hostel',
+        children: [
+          {
+            path: 'hostel-list',
+            element: <sy.WbAppHostelList />,
+          },
+          { path: 'hostel-info', element: <sy.WbAppHostelInfo /> },
+        ],
+      },
+      { path: 'photo-gallery', element: <sy.WbAppPhotoGallery /> },
     ],
   },
   // Services Admin / CMS routes end -----------------------------------

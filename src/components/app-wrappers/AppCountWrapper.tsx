@@ -1,6 +1,6 @@
 const AppCountWrapper = ({ total }: { total: number }) => {
   return (
-    <div className="bg-sky/15 p-1.5 px-4 text-sky-foreground text-xs tracking-widest">
+    <div className="bg-sky/15 p-2 md:p-1.5 md:px-4 text-sky-foreground text-xs tracking-widest">
       Total <span className="font-semibold">{total}</span> records found
     </div>
   );

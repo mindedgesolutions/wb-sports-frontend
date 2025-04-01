@@ -5,7 +5,7 @@ import {
   AppTitleWrapper,
   AppTooltip,
   WbcAddEditCompSyllabus,
-  WbcDeleteSyllabus,
+  WbcDeleteModal,
   WbcPaginationContainer,
   WbcSkeletonRows,
 } from '@/components';
@@ -106,8 +106,8 @@ const WbCompCourseSyllabus = () => {
       <AppCountWrapper total={meta.total || 0} />
       <AppContentWrapper>
         <div className="flex md:flex-row flex-col-reverse justify-start items-start gap-4">
-          <div className="basis-full md:basis-2/3">
-            <Table>
+          <div className="basis-full w-full md:basis-2/3">
+            <Table className="text-xs md:text-sm">
               <TableHeader>
                 <TableRow>
                   <TableHead className="w-[50px]">#</TableHead>
@@ -181,9 +181,12 @@ const WbCompCourseSyllabus = () => {
                               className="h-4 group-hover:text-yellow-500 duration-200 cursor-pointer"
                               onClick={() => setEditId(syllabus.id)}
                             />
-                            <WbcDeleteSyllabus
-                              id={syllabus.id}
+                            <WbcDeleteModal
+                              apiUrl={`/comp-syllabus/${syllabus.id}`}
+                              description="The syllabus (with attachment) will be permanently deleted."
                               setIsLoading={setIsLoading}
+                              successMsg="Syllabus deleted successfully"
+                              title="Are you absolutely sure?"
                             />
                           </div>
                         </TableCell>
