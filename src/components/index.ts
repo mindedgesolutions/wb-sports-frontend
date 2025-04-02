@@ -28,7 +28,9 @@ export { default as WbcAddEditCompCentre } from '@/components/cms-services/modal
 export { default as WbcCompCentrePopover } from '@/components/cms-services/pop-overs/WbcCompCentrePopover';
 export { default as WbcAddEditGbMembers } from '@/components/cms-services/half-forms/WbcAddEditGbMembers';
 export { default as WbcDeleteModal } from '@/components/cms-services/delete-modals/WbcDeleteModal';
-export { default as WbcFairProgrammPopover } from '@/components/cms-services/pop-overs/WbcFairProgrammPopover';
+export { default as WbcFairProgrammePopover } from '@/components/cms-services/pop-overs/WbcFairProgrammePopover';
+export { default as WbcFairProgrammeCoverPopover } from '@/components/cms-services/pop-overs/WbcFairProgrammeCoverPopover';
+export { default as WbcImageGallery } from '@/components/cms-services/WbcImageGallery';
 // Services App Components end ----------------------------
 
 // Common Components start ----------------------------
