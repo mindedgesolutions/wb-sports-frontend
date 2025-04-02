@@ -74,8 +74,8 @@ const WbcAddEditBanner = ({
       if (fileInputRef.current) fileInputRef.current.value = '';
       return;
     }
-    if (file.size > 500 * 1024) {
-      setErrors({ ...errors, banner: ['File size must be less than 500 KB'] });
+    if (file.size > 100 * 1024) {
+      setErrors({ ...errors, banner: ['File size must be less than 100 KB'] });
       setBanner(null);
       if (fileInputRef.current) fileInputRef.current.value = '';
       return;

@@ -88,6 +88,7 @@ const WbcAddEditCompCentre = ({ editId }: { editId?: number }) => {
         ownerName: editData?.center_owner_name,
         ownerMobile: editData?.center_owner_mobile,
       });
+    setErrors(null);
   }, [editId, open]);
 
   // ------------------------------------
