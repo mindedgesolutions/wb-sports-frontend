@@ -85,7 +85,7 @@ export const menus: WebsiteMenuProps[] = [
         link: `/${titles.serviceUrlWeb}/vocational-training`,
       },
     ],
-    gridCols: 2,
+    gridCols: 1,
   },
   {
     name: 'Mountaineering',
@@ -150,7 +150,7 @@ export const menus: WebsiteMenuProps[] = [
     name: 'News & Events',
     link: `/${titles.serviceUrlWeb}/news-events`,
     icon: Rss,
-    gridCols: 2,
+    gridCols: 1,
   },
   {
     name: 'Youth Hostel',
