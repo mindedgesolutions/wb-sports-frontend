@@ -121,4 +121,5 @@ export type FairProgrammeProps = {
   updated_at: Date;
   updated_by: number | null;
   uuid: string;
+  cover_image: string | null;
 };
