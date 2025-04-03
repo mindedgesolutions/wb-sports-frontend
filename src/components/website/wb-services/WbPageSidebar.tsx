@@ -2,6 +2,7 @@ import { Separator } from '@/components/ui/separator';
 import { titles } from '@/constants';
 import { menus } from '@/constants/wbMenu';
 import { WebsiteSubMenuProps } from '@/types/menu';
+import { Building } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 
 const WbPageSidebar = ({ parentMenu }: { parentMenu: string }) => {
@@ -16,18 +17,43 @@ const WbPageSidebar = ({ parentMenu }: { parentMenu: string }) => {
       </h1>
       <Separator className="my-4 bg-sky/20" />
       <ul>
-        {titleSubMenus.map((subMenu) => (
-          <li key={subMenu.name} className="my-2">
+        {titleSubMenus &&
+          titleSubMenus.map((subMenu) => (
+            <li key={subMenu.name} className="my-2">
+              <Link
+                to={`${titles.websiteBaseUrl}${subMenu.link}`}
+                className={`text-sm tracking-wider text-sky-foreground hover:text-sky-foreground/80 duration-200 ${
+                  pathname === subMenu.link ? 'font-semibold' : ''
+                }`}
+              >
+                {subMenu.icon && (
+                  <subMenu.icon className="inline-block size-4 mr-3" />
+                )}
+                {subMenu.name}
+              </Link>
+            </li>
+          ))}
+        {pathname === '/wbyouthservices/hon-mic' && (
+          <li>
             <Link
-              to={`${titles.websiteBaseUrl}${subMenu.link}`}
-              className={`text-sm tracking-wider text-sky-foreground hover:text-sky-foreground/80 duration-200 ${
-                pathname === subMenu.link ? 'font-semibold' : ''
-              }`}
+              to={`#`}
+              className={`text-sm tracking-wider text-sky-foreground hover:text-sky-foreground/80 duration-200`}
             >
-              {subMenu.name}
+              Budget Speech
             </Link>
           </li>
-        ))}
+        )}
+        {pathname === '/wbyouthservices/computer-training' && (
+          <li>
+            <Link
+              to={`#`}
+              className={`text-sm tracking-wider text-sky-foreground hover:text-sky-foreground/80 duration-200`}
+            >
+              <Building className="inline-block size-4 mr-3" />
+              District-wise Computer Training Centres
+            </Link>
+          </li>
+        )}
       </ul>
     </div>
   );

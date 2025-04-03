@@ -16,7 +16,7 @@ const WbAboutDept = () => {
       <WbPageWrapper>
         <WbPageSidebar parentMenu="About Us" />
         <WbContentWrapper title="About the Department">
-          <div className="flex flex-col gap-8 text-sm md:text-base tracking-wider leading-relaxed">
+          <div className="flex flex-col gap-8 text-sm md:text-base tracking-wider leading-relaxed text-justify">
             <p>
               The major area of activities of Department of Youth Services &
               Sports are essentially focussed at the Student - Youth section of
