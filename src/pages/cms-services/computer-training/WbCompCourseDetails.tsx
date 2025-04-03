@@ -163,7 +163,7 @@ const WbCompCourseDetails = () => {
                       </TableCell>
                       <TableCell>
                         <Switch
-                          className="data-[state=checked]:bg-muted-foreground group-hover:data-[state=checked]:bg-sky cursor-pointer"
+                          className="data-[state=checked]:bg-sky group-hover:data-[state=checked]:bg-sky cursor-pointer"
                           checked={course.is_active}
                           onCheckedChange={handleActive(course.id)}
                         />
@@ -173,7 +173,7 @@ const WbCompCourseDetails = () => {
                           <Link
                             to={`${titles.websiteBaseUrl}/${titles.serviceUrlWeb}/computer-training`}
                           >
-                            <EyeIcon className="h-4 group-hover:text-blue-500 duration-200 cursor-pointer" />
+                            <EyeIcon className="h-4 text-blue-500 duration-200 cursor-pointer" />
                           </Link>
                           <WbcAddEditCourseDetails editId={course.id} />
                           <WbcDeleteModal
