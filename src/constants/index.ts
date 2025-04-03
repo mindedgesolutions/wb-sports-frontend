@@ -13,6 +13,7 @@ import hostel from '@/assets/images/services/hostel.jpg';
 import scienceFair from '@/assets/images/services/science-fair.jpg';
 import footerBg from '@/assets/images/services/footer_top_bg.gif';
 import pdfIcon from '@/assets/images/pdf.png';
+import srOrganisationChart from '@/assets/images/services/organisation_chart_box.jpg';
 
 export const images = {
   youth,
@@ -30,6 +31,7 @@ export const images = {
   scienceFair,
   footerBg,
   pdfIcon,
+  srOrganisationChart,
 };
 
 export const titles = {
