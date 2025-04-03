@@ -4,12 +4,14 @@ export { default as WbHeaderBottom } from '@/components/website/wb-services/WbHe
 export { default as WbFooter } from '@/components/website/wb-services/WbFooter';
 export { default as WbMenu } from '@/components/website/wb-services/WbMenu';
 export { default as WbHomeTopBanner } from '@/components/website/wb-services/WbHomeTopBanner';
-export { default as WbContentWrapper } from '@/components/app-wrappers/WbContentWrapper';
+export { default as WbPageWrapper } from '@/components/wrappers/WbPageWrapper';
 export { default as WbPageLoader } from '@/components/website/wb-services/WbPageLoader';
 export { default as WbPageTopBanner } from '@/components/website/wb-services/WbPageTopBanner';
 export { default as WbHomepageCard } from '@/components/website/wb-services/WbHomepageCard';
 export { default as WbHomepageCard2 } from '@/components/website/wb-services/WbHomepageCard2';
 export { default as WbFooterLogo } from '@/components/website/wb-services/WbFooterLogo';
+export { default as WbPageSidebar } from '@/components/website/wb-services/WbPageSidebar';
+export { default as WbContentWrapper } from '@/components/wrappers/WbContentWrapper';
 // Services Website Components end ----------------------------
 
 // Services App Components start ----------------------------
@@ -34,9 +36,9 @@ export { default as WbcImageGallery } from '@/components/cms-services/WbcImageGa
 // Services App Components end ----------------------------
 
 // Common Components start ----------------------------
-export { default as AppMainWrapper } from '@/components/app-wrappers/AppMainWrapper';
-export { default as AppTitleWrapper } from '@/components/app-wrappers/AppTitleWrapper';
-export { default as AppContentWrapper } from '@/components/app-wrappers/AppContentWrapper';
+export { default as AppMainWrapper } from '@/components/wrappers/AppMainWrapper';
+export { default as AppTitleWrapper } from '@/components/wrappers/AppTitleWrapper';
+export { default as AppContentWrapper } from '@/components/wrappers/AppContentWrapper';
 export { default as AppTooltip } from '@/components/AppTooltip';
-export { default as AppCountWrapper } from '@/components/app-wrappers/AppCountWrapper';
+export { default as AppCountWrapper } from '@/components/wrappers/AppCountWrapper';
 // Common Components end ----------------------------

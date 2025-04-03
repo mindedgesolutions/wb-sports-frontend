@@ -2,6 +2,7 @@ import { WebsiteMenuProps } from '@/types/menu';
 import { ChevronDown } from 'lucide-react';
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 
 const WbDesktopMenu = ({ menu }: { menu: WebsiteMenuProps }) => {
   const [isHover, setIsHover] = useState(false);
@@ -39,12 +40,15 @@ const WbDesktopMenu = ({ menu }: { menu: WebsiteMenuProps }) => {
       onHoverEnd={toggleHover}
       onMouseLeave={() => setIsHover(false)}
     >
-      <span className="flex-center gap-1 cursor-pointer px-3 py-2.5 hover:bg-sky-foreground/30 duration-200 text-sm text-white">
+      <Link
+        to={!menu.link ? `#` : menu.link}
+        className="flex-center gap-1 cursor-pointer px-3 py-2.5 hover:bg-sky-foreground/30 duration-200 text-sm text-white"
+      >
         {menu.name}
         {hasSubMenu && (
           <ChevronDown className="size-4 group-hover/link:rotate-180 duration-200" />
         )}
-      </span>
+      </Link>
       {hasSubMenu && (
         <motion.div
           className={`sub-menu ${
@@ -60,7 +64,11 @@ const WbDesktopMenu = ({ menu }: { menu: WebsiteMenuProps }) => {
         >
           <div className={`grid grid-cols-${menu.gridCols || 1} gap-4`}>
             {menu.subMenus?.map((subMenu, index) => (
-              <div key={index} className="relative cursor-pointer">
+              <Link
+                to={subMenu.link}
+                key={index}
+                className="relative cursor-pointer"
+              >
                 <div className="flex-center gap-x-4 group/menubox">
                   <div className="bg-white/20 w-fit p-2 rounded-md group-hover/menubox:bg-white/40 duration-300">
                     {subMenu.icon && (
@@ -71,7 +79,7 @@ const WbDesktopMenu = ({ menu }: { menu: WebsiteMenuProps }) => {
                     {subMenu.name}
                   </h6>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </motion.div>

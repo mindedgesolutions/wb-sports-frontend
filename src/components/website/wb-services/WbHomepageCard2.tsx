@@ -13,22 +13,22 @@ const WbHomepageCard2 = ({
   href,
   abbrev,
 }: WbHomepageCard2Props) => {
-  const fontsize = title.length > 20 ? 'text-lg' : 'text-2xl';
+  const fontsize = title.length > 20 ? 'text-sm' : 'text-base';
   return (
-    <div className="w-full flex flex-row justify-start items-stretch h-full">
-      <div className="w-28 bg-sky-muted rounded-tl-lg rounded-bl-lg overflow-hidden flex justify-center items-center">
+    <div className="w-full flex flex-row justify-start items-stretch">
+      <div className="w-20 bg-sky-muted rounded-tl-lg rounded-bl-lg overflow-hidden flex justify-center items-center">
         <span className="font-oswald text-4xl text-sky-foreground">
           {abbrev}
         </span>
       </div>
       <div className="flex flex-col w-full">
         <div className="bg-sky rounded-lg rounded-l-none rounded-br-none p-2 px-4">
-          <span className={`text-white font-oswald tracking-wider ${fontsize}`}>
+          <span className={`text-white tracking-widest ${fontsize}`}>
             {title}
           </span>
         </div>
         <div className="bg-sky-foreground rounded-lg rounded-l-none rounded-tr-none p-2 px-4">
-          <Link to={href} className="text-white hover:text-sky-muted">
+          <Link to={href} className="text-sky-muted hover:text-white">
             {content}
           </Link>
         </div>
