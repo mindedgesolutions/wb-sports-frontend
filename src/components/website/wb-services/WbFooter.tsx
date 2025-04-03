@@ -5,7 +5,7 @@ import { Separator } from '@/components/ui/separator';
 
 const WbFooter = () => {
   return (
-    <div className="flex-1 mt-16">
+    <div className="flex-1 mt-8">
       <img
         src={images.footerBg}
         alt={titles.services}
