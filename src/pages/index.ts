@@ -50,6 +50,7 @@ export { default as WbAppHostelInfo } from '@/pages/cms-services/youth-hostel/Wb
 export { default as WbAppPhotoGallery } from '@/pages/cms-services/WbAppPhotoGallery';
 export { default as WbAppVocationalSchemes } from '@/pages/cms-services/vocational-training/WbAppVocationalSchemes';
 export { default as WbAppVocationalCentres } from '@/pages/cms-services/vocational-training/WbAppVocationalCentres';
+export { default as WbAppDistrictBlockOffice } from '@/pages/cms-services/WbAppDistrictBlockOffice';
 
 // Service Admin / CMS exports end --------------------------------
 

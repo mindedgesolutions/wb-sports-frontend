@@ -25,6 +25,11 @@ export const adminMenus: CmsMenuProps[] = [
     icon: Images,
   },
   {
+    title: 'District / Block Offices',
+    url: `/${titles.servicesUrl}/${slug}/district-block-offices`,
+    icon: Building,
+  },
+  {
     title: 'Computer Training',
     url: '#',
     icon: LaptopMinimal,

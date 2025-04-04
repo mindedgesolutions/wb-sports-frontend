@@ -33,6 +33,8 @@ export { default as WbcDeleteModal } from '@/components/cms-services/delete-moda
 export { default as WbcFairProgrammePopover } from '@/components/cms-services/pop-overs/WbcFairProgrammePopover';
 export { default as WbcFairProgrammeCoverPopover } from '@/components/cms-services/pop-overs/WbcFairProgrammeCoverPopover';
 export { default as WbcImageGallery } from '@/components/cms-services/WbcImageGallery';
+export { default as WbcAddEditDistrictBlockOffice } from '@/components/cms-services/modal-forms/WbcAddEditDistrictBlockOffice';
+export { default as WbcDistrictBlockOfficePopover } from '@/components/cms-services/pop-overs/WbcDistrictBlockOfficePopover';
 // Services App Components end ----------------------------
 
 // Common Components start ----------------------------

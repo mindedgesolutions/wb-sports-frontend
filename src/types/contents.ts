@@ -123,3 +123,35 @@ export type FairProgrammeProps = {
   uuid: string;
   cover_image: string | null;
 };
+
+export type DistrictBlockOfficeProps = {
+  added_by: number;
+  address: string | null;
+  created_at: Date;
+  district_id: number;
+  district_name: string | null;
+  email: string | null;
+  id: number;
+  is_active: boolean;
+  landline_no: string | null;
+  mobile_1: string | null;
+  mobile_2: string | null;
+  name: string;
+  officer_designation: string | null;
+  officer_mobile: string | null;
+  officer_name: string | null;
+  organisation: string;
+  slug: string;
+  updated_at: Date;
+  updated_by: number | null;
+};
+
+export type DistrictWithOfficeProps = {
+  created_at: Date;
+  district_code: string | null;
+  district_offices: DistrictBlockOfficeProps[];
+  id: number;
+  is_active: boolean;
+  name: string;
+  updated_at: Date;
+};
