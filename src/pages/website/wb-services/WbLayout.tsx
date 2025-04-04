@@ -5,10 +5,13 @@ import {
   WbMenu,
   WbPageLoader,
 } from '@/components';
-import { Outlet, useLocation } from 'react-router-dom';
+import { LoaderFunction, Outlet, useLocation } from 'react-router-dom';
 import { PageBannerProps } from '@/types/contents';
 import customFetch from '@/utils/customFetch';
 import { createContext, useContext, useEffect, useState } from 'react';
+import { Store } from '@reduxjs/toolkit';
+import { RootState } from '@/store';
+import { setDistricts } from '@/features/commonSlice';
 
 const WebsiteContext = createContext<PageBannerProps>({});
 
@@ -63,3 +66,23 @@ export const useWebsiteContext = () => {
   }
   return context;
 };
+
+// ---------------------------------------------
+
+export const loader =
+  (store: Store<RootState>): LoaderFunction =>
+  async () => {
+    const { districts } = store.getState().common;
+
+    try {
+      if (!!districts) {
+        const response = await customFetch.get(`/services/districts`);
+        const districts = response.data.data;
+        store.dispatch(setDistricts(districts));
+      }
+      return null;
+    } catch (error) {
+      console.log(error);
+      return error;
+    }
+  };

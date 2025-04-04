@@ -4,6 +4,8 @@ import { store } from './store';
 
 // --------------------------------------------
 import { loader as wbLayoutLoader } from '@/pages/cms-services/WbCmsLayout';
+import { loader as srWebsiteLayoutLoader } from '@/pages/website/wb-services/WbLayout';
+import { loader as srWebDistrictOfficeLoader } from '@/pages/website/wb-services/about/WbDistrictOffice';
 
 const router = createBrowserRouter([
   { path: '/', element: <sy.WbLanding /> },
@@ -11,6 +13,7 @@ const router = createBrowserRouter([
   {
     path: `/${import.meta.env.VITE_SERVICES}`,
     element: <sy.WbLayout />,
+    loader: srWebsiteLayoutLoader(store),
     children: [
       { path: 'home', element: <sy.WbHomePage /> },
       {
@@ -19,7 +22,11 @@ const router = createBrowserRouter([
           { path: 'about-department', element: <sy.WbAboutDept /> },
           { path: 'organisation-chart', element: <sy.WbOrgChart /> },
           { path: 'address-of-dept-director', element: <sy.WbDeptAddress /> },
-          { path: 'district-block-offices', element: <sy.WbDistrictOffice /> },
+          {
+            path: 'district-block-offices',
+            element: <sy.WbDistrictOffice />,
+            loader: srWebDistrictOfficeLoader,
+          },
           { path: 'helpline', element: <sy.WbHelpline /> },
         ],
       },
@@ -84,6 +91,10 @@ const router = createBrowserRouter([
     children: [
       { path: 'dashboard', element: <sy.WbCmsDashboard /> },
       { path: 'banners', element: <sy.WbCmsBanners /> },
+      {
+        path: 'district-block-offices',
+        element: <sy.WbAppDistrictBlockOffice />,
+      },
       {
         path: 'computer-training',
         children: [
