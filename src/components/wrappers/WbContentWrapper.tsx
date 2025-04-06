@@ -14,7 +14,7 @@ const WbContentWrapper = ({
           {title}
         </h1>
         <Separator className="my-4 bg-sky/20" />
-        <div className="flex flex-col gap-4 text-sm md:text-sm tracking-wider leading-relaxed text-justify">
+        <div className="flex flex-col gap-8 text-sm md:text-base tracking-wider leading-relaxed text-justify">
           {children}
         </div>
       </div>

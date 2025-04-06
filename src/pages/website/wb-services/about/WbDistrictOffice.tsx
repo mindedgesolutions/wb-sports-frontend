@@ -3,6 +3,7 @@ import {
   WbPageSidebar,
   WbPageTopBanner,
   WbContentWrapper,
+  WbDistrictOfficeTable,
 } from '@/components';
 import { titles } from '@/constants';
 import { DistrictWithOfficeProps } from '@/types/contents';
@@ -15,6 +16,9 @@ const WbDistrictOffice = () => {
   const [districtId, setDistrictId] = useState<number>(0);
   const { dbdist } = useLoaderData();
   const districts = dbdist as DistrictWithOfficeProps[];
+  const districtOffices = districts.find(
+    (district) => district.id === districtId
+  )?.district_offices;
 
   return (
     <>
@@ -42,23 +46,29 @@ const WbDistrictOffice = () => {
               </select>
             </div>
           </div>
-          <div className="grid grid-cols-3 grid-flow-row gap-4">
-            {districts?.map((district) => (
-              <div
-                key={district.id}
-                className="w-full grid grid-cols-4 bg-sky/10 p-3 hover:bg-sky/20 duration-200 cursor-pointer group/dist"
-              >
-                <div className="col-span-3 flex justify-start items-center text-sky-foreground text-sm tracking-wider uppercase">
-                  {district.name}
+          {!districtId && (
+            <div className="grid grid-cols-3 grid-flow-row gap-4">
+              {districts?.map((district) => (
+                <div
+                  key={district.id}
+                  className="w-full grid grid-cols-4 bg-sky/10 p-3 hover:bg-sky/20 duration-200 cursor-pointer group/dist"
+                  onClick={() => setDistrictId(district.id)}
+                >
+                  <div className="col-span-3 flex justify-start items-center text-sky-foreground text-sm tracking-wider uppercase">
+                    {district.name}
+                  </div>
+                  <div className="flex justify-center items-center text-sky-foreground text-base font-bold">
+                    {district.district_offices.length < 10
+                      ? `0${district.district_offices.length}`
+                      : `${district.district_offices.length}`}
+                  </div>
                 </div>
-                <div className="flex justify-center items-center text-sky-foreground text-base font-bold">
-                  {district.district_offices.length < 10
-                    ? `0${district.district_offices.length}`
-                    : `${district.district_offices.length}`}
-                </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
+          {districtId && (
+            <WbDistrictOfficeTable districtOffices={districtOffices} />
+          )}
         </WbContentWrapper>
       </WbPageWrapper>
     </>

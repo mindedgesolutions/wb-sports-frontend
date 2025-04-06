@@ -6,6 +6,7 @@ import {
   WbcAddEditDistrictBlockOffice,
   WbcDeleteModal,
   WbcDistrictBlockOfficePopover,
+  WbcDistrictOfficeFilter,
   WbcPaginationContainer,
   WbcSkeletonRows,
 } from '@/components';
@@ -103,6 +104,7 @@ const WbAppDistrictBlockOffice = () => {
         <WbcAddEditDistrictBlockOffice />
       </div>
       <AppCountWrapper total={meta.total || 0} />
+      <WbcDistrictOfficeFilter />
       <AppContentWrapper>
         <div className="flex md:flex-row flex-col-reverse justify-start items-start gap-4">
           <Table className="text-xs md:text-sm">

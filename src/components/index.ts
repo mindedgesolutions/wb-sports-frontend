@@ -12,6 +12,7 @@ export { default as WbHomepageCard2 } from '@/components/website/wb-services/WbH
 export { default as WbFooterLogo } from '@/components/website/wb-services/WbFooterLogo';
 export { default as WbPageSidebar } from '@/components/website/wb-services/WbPageSidebar';
 export { default as WbContentWrapper } from '@/components/wrappers/WbContentWrapper';
+export { default as WbDistrictOfficeTable } from '@/components/website/wb-services/about/WbDistrictOfficeTable';
 // Services Website Components end ----------------------------
 
 // Services App Components start ----------------------------
@@ -35,6 +36,7 @@ export { default as WbcFairProgrammeCoverPopover } from '@/components/cms-servic
 export { default as WbcImageGallery } from '@/components/cms-services/WbcImageGallery';
 export { default as WbcAddEditDistrictBlockOffice } from '@/components/cms-services/modal-forms/WbcAddEditDistrictBlockOffice';
 export { default as WbcDistrictBlockOfficePopover } from '@/components/cms-services/pop-overs/WbcDistrictBlockOfficePopover';
+export { default as WbcDistrictOfficeFilter } from '@/components/cms-services/filters/WbcDistrictOfficeFilter';
 // Services App Components end ----------------------------
 
 // Common Components start ----------------------------
