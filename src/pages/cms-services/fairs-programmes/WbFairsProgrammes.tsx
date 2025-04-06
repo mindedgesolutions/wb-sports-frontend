@@ -137,12 +137,12 @@ const WbFairsProgrammes = () => {
                       <TableCell>
                         <div className="flex flex-row justify-center items-center gap-2">
                           <Link to={view}>
-                            <EyeIcon className="h-4 group-hover:text-blue-500 duration-200 cursor-pointer" />
+                            <EyeIcon className="h-4 text-blue-500 duration-200 cursor-pointer" />
                           </Link>
                           <Link
                             to={`/${titles.servicesUrl}/${slug}/fairs-programmes/update/${fairprogram.uuid}`}
                           >
-                            <Pencil className="h-4 group-hover:text-yellow-500 duration-200 cursor-pointer" />
+                            <Pencil className="h-4 text-yellow-500 duration-200 cursor-pointer" />
                           </Link>
                           <WbcDeleteModal
                             setIsLoading={setIsLoading}

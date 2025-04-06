@@ -21,14 +21,14 @@ const WbHomepageCard = ({
 }: WbHomepageCardProps) => {
   const titleShort = title.length > 20 ? title.slice(0, 20) + `...` : title;
   const contentShort =
-    content.length > 200 ? content.slice(0, 200) + `...` : content;
+    content.length > 140 ? content.slice(0, 140) + `...` : content;
 
   return (
     <div className="w-full md:max-w-sm p-4 rounded-sm border border-muted-foreground/15 duration-300 flex flex-col justify-center items-center gap-2">
       <h1 className="text-2xl tracking-wider font-semibold text-sky capitalize">
         {titleShort}
       </h1>
-      <div className="w-full h-64 overflow-hidden">
+      <div className="w-full h-44 overflow-hidden">
         <img src={img} alt={titles.services} className="w-full object-cover" />
       </div>
       <div className="mt-1 md:mt-4 relative w-full">

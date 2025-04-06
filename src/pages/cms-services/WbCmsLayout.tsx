@@ -3,7 +3,9 @@ import { AppSidebar } from '@/components/cms-services/sidebar/app-sidebar';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import { setDistricts } from '@/features/commonSlice';
 import { setCurrentUser } from '@/features/currentUserSlice';
+import { RootState } from '@/store';
 import customFetch from '@/utils/customFetch';
+import { Store } from '@reduxjs/toolkit';
 import { Outlet } from 'react-router-dom';
 
 const WbCmsLayout = () => {
@@ -23,7 +25,7 @@ const WbCmsLayout = () => {
 export default WbCmsLayout;
 
 // --------------------------------------------
-export const loader = (store: any) => async () => {
+export const loader = (store: Store<RootState>) => async () => {
   const { currentUser } = store.getState().currentUser;
   const { districts } = store.getState().common;
 

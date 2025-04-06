@@ -32,8 +32,8 @@ const WbHomePage = () => {
             meeting up the demand of the day.
           </p>
         </div>
-        <div className="mt-8 md:mt-16 flex flex-col md:flex-row justify-center items-start gap-8">
-          <div className="flex flex-col md:flex-row justify-center items-center gap-4 md:gap-8">
+        <div className="mt-8 md:mt-16 w-full md:max-w-4xl md:mx-auto grid grid-cols-1 md:grid-cols-3 grid-flow-col lg:grid-flow-row gap-4">
+          <div className="w-full">
             <WbHomepageCard
               title="Computer training"
               content={training}
@@ -41,6 +41,8 @@ const WbHomePage = () => {
               readmore={trainingReadMore}
               btn={false}
             />
+          </div>
+          <div className="w-full">
             <WbHomepageCard
               content={hostel}
               img={images.hostel}

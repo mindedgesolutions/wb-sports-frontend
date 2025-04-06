@@ -42,7 +42,7 @@ const WbcDeleteModal = ({
     <AlertDialog>
       <AlertDialogTrigger asChild>
         <button type="button">
-          <Trash2 className="h-4 group-hover:text-red-500 duration-200 cursor-pointer" />
+          <Trash2 className="h-4 text-red-500 duration-200 cursor-pointer" />
         </button>
       </AlertDialogTrigger>
       <AlertDialogContent>

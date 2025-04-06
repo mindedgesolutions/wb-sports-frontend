@@ -4,6 +4,7 @@ import currentUserReducer from '@/features/currentUserSlice';
 import bannerReducer from '@/features/bannerSlice';
 import compCourseReducer from '@/features/compCourseSlice';
 import mountainReducer from '@/features/mountainSlice';
+import districtBlockOfficeReducer from '@/features/districtBlockOfficeSlice';
 
 export const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ export const store = configureStore({
     banners: bannerReducer,
     compCourses: compCourseReducer,
     mountains: mountainReducer,
+    districtBlockOffices: districtBlockOfficeReducer,
   },
 });
 

@@ -1,11 +1,35 @@
-import { WbPageTopBanner } from '@/components';
+import {
+  WbPageWrapper,
+  WbPageSidebar,
+  WbPageTopBanner,
+  WbContentWrapper,
+} from '@/components';
+import { titles } from '@/constants';
 
 const WbDeptAddress = () => {
+  document.title = `Address of Department / Director | ${titles.services}`;
   return (
-    <div>
+    <>
       <WbPageTopBanner />
-      WbDeptAddress
-    </div>
+      <WbPageWrapper>
+        <WbPageSidebar parentMenu="About Us" />
+        <WbContentWrapper title="Address of Department / Director">
+          <div className="">
+            <p>Department of Youth Services & Sports(Youth Services Wing)</p>
+            <p>Standard Building(1st floor)</p>
+            <p>32/1, B.B.D. Bag (South), Kolkata- 700001</p>
+            <p>Ph. No. - 91 - 33 - 2248 - 3794</p>
+          </div>
+
+          <div className="">
+            <p>Directorate of Youth Services</p>
+            <p>Standard Building(2nd floor)</p>
+            <p>32/1, B.B.D. Bag (South), Kolkata- 700001</p>
+            <p>Ph. No. - 91 - 33 - 2248 - 0626</p>
+          </div>
+        </WbContentWrapper>
+      </WbPageWrapper>
+    </>
   );
 };
 export default WbDeptAddress;

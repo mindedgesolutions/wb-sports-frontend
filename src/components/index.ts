@@ -4,12 +4,15 @@ export { default as WbHeaderBottom } from '@/components/website/wb-services/WbHe
 export { default as WbFooter } from '@/components/website/wb-services/WbFooter';
 export { default as WbMenu } from '@/components/website/wb-services/WbMenu';
 export { default as WbHomeTopBanner } from '@/components/website/wb-services/WbHomeTopBanner';
-export { default as WbContentWrapper } from '@/components/app-wrappers/WbContentWrapper';
+export { default as WbPageWrapper } from '@/components/wrappers/WbPageWrapper';
 export { default as WbPageLoader } from '@/components/website/wb-services/WbPageLoader';
 export { default as WbPageTopBanner } from '@/components/website/wb-services/WbPageTopBanner';
 export { default as WbHomepageCard } from '@/components/website/wb-services/WbHomepageCard';
 export { default as WbHomepageCard2 } from '@/components/website/wb-services/WbHomepageCard2';
 export { default as WbFooterLogo } from '@/components/website/wb-services/WbFooterLogo';
+export { default as WbPageSidebar } from '@/components/website/wb-services/WbPageSidebar';
+export { default as WbContentWrapper } from '@/components/wrappers/WbContentWrapper';
+export { default as WbDistrictOfficeTable } from '@/components/website/wb-services/about/WbDistrictOfficeTable';
 // Services Website Components end ----------------------------
 
 // Services App Components start ----------------------------
@@ -31,12 +34,15 @@ export { default as WbcDeleteModal } from '@/components/cms-services/delete-moda
 export { default as WbcFairProgrammePopover } from '@/components/cms-services/pop-overs/WbcFairProgrammePopover';
 export { default as WbcFairProgrammeCoverPopover } from '@/components/cms-services/pop-overs/WbcFairProgrammeCoverPopover';
 export { default as WbcImageGallery } from '@/components/cms-services/WbcImageGallery';
+export { default as WbcAddEditDistrictBlockOffice } from '@/components/cms-services/modal-forms/WbcAddEditDistrictBlockOffice';
+export { default as WbcDistrictBlockOfficePopover } from '@/components/cms-services/pop-overs/WbcDistrictBlockOfficePopover';
+export { default as WbcDistrictOfficeFilter } from '@/components/cms-services/filters/WbcDistrictOfficeFilter';
 // Services App Components end ----------------------------
 
 // Common Components start ----------------------------
-export { default as AppMainWrapper } from '@/components/app-wrappers/AppMainWrapper';
-export { default as AppTitleWrapper } from '@/components/app-wrappers/AppTitleWrapper';
-export { default as AppContentWrapper } from '@/components/app-wrappers/AppContentWrapper';
+export { default as AppMainWrapper } from '@/components/wrappers/AppMainWrapper';
+export { default as AppTitleWrapper } from '@/components/wrappers/AppTitleWrapper';
+export { default as AppContentWrapper } from '@/components/wrappers/AppContentWrapper';
 export { default as AppTooltip } from '@/components/AppTooltip';
-export { default as AppCountWrapper } from '@/components/app-wrappers/AppCountWrapper';
+export { default as AppCountWrapper } from '@/components/wrappers/AppCountWrapper';
 // Common Components end ----------------------------

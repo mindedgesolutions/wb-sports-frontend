@@ -156,7 +156,7 @@ const WbCmsBanners = () => {
                         </TableCell>
                         <TableCell>
                           <Switch
-                            className="data-[state=checked]:bg-muted-foreground group-hover:data-[state=checked]:bg-sky cursor-pointer"
+                            className="data-[state=checked]:bg-sky cursor-pointer"
                             checked={banner.is_active}
                             onCheckedChange={handleActive(banner.id)}
                           />
@@ -164,10 +164,10 @@ const WbCmsBanners = () => {
                         <TableCell>
                           <div className="flex flex-row justify-center items-center gap-2">
                             <Link to={titles.websiteBaseUrl + banner.page_url}>
-                              <EyeIcon className="h-4 group-hover:text-blue-500 duration-200 cursor-pointer" />
+                              <EyeIcon className="h-4 text-blue-500 duration-200 cursor-pointer" />
                             </Link>
                             <Pencil
-                              className="h-4 group-hover:text-yellow-500 duration-200 cursor-pointer"
+                              className="h-4 text-yellow-500 duration-200 cursor-pointer"
                               onClick={() => setEditId(banner.id)}
                             />
                             <WbcDeleteModal
