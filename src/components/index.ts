@@ -34,7 +34,8 @@ export { default as WbcAddEditGbMembers } from '@/components/cms-services/half-f
 export { default as WbcDeleteModal } from '@/components/cms-services/delete-modals/WbcDeleteModal';
 export { default as WbcFairProgrammePopover } from '@/components/cms-services/pop-overs/WbcFairProgrammePopover';
 export { default as WbcFairProgrammeCoverPopover } from '@/components/cms-services/pop-overs/WbcFairProgrammeCoverPopover';
-export { default as WbcImageGallery } from '@/components/cms-services/WbcImageGallery';
+export { default as WbcMultiImageUpload } from '@/components/cms-services/WbcMultiImageUpload';
+export { default as WbcGalleryListing } from '@/components/cms-services/WbcGalleryListing';
 export { default as WbcAddEditDistrictBlockOffice } from '@/components/cms-services/modal-forms/WbcAddEditDistrictBlockOffice';
 export { default as WbcDistrictBlockOfficePopover } from '@/components/cms-services/pop-overs/WbcDistrictBlockOfficePopover';
 export { default as WbcDistrictOfficeFilter } from '@/components/cms-services/filters/WbcDistrictOfficeFilter';
