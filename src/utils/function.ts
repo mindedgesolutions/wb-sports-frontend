@@ -80,12 +80,14 @@ export const handleDownload = ({
 }) => {
   if (filePath) {
     const fileUrl = titles.baseUrl + filePath;
+    const url = window.URL.createObjectURL(new Blob([fileUrl]));
     const link = document.createElement('a');
-    link.href = fileUrl;
-    link.download = fileName || 'downloaded-file.pdf';
+    link.href = url;
+    link.setAttribute('download', fileName);
     document.body.appendChild(link);
     link.click();
-    document.body.removeChild(link);
+    link.remove();
+    window.URL.revokeObjectURL(url);
   } else {
     console.error('File path is missing!');
   }

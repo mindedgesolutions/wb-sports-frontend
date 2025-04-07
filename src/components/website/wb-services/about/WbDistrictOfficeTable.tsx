@@ -17,7 +17,7 @@ const WbDistrictOfficeTable = ({
   return (
     <Table className="text-xs uppercase">
       <TableHeader>
-        <TableRow className="bg-sky/20 hover:bg-sky/20">
+        <TableRow className="bg-sky/30 hover:bg-sky/30">
           <TableHead className="w-[50px]">#</TableHead>
           <TableHead>Name of the Office and Address</TableHead>
           <TableHead>Landline No.</TableHead>
@@ -35,7 +35,10 @@ const WbDistrictOfficeTable = ({
         ) : (
           data?.map((office: DistrictBlockOfficeProps, index: number) => {
             return (
-              <TableRow key={nanoid()} className="text-sky-foreground group">
+              <TableRow
+                key={nanoid()}
+                className="text-sky-foreground group odd:bg-sky/5 even:bg-sky/10 duration-200"
+              >
                 <TableCell className="font-medium">{index + 1}.</TableCell>
                 <TableCell>
                   <div className="max-w-[250px] text-left text-wrap flex flex-col gap-3">

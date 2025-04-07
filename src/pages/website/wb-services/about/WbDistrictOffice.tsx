@@ -5,15 +5,17 @@ import {
   WbContentWrapper,
   WbDistrictOfficeTable,
 } from '@/components';
+import { Button } from '@/components/ui/button';
 import { titles } from '@/constants';
 import { DistrictWithOfficeProps } from '@/types/contents';
 import customFetch from '@/utils/customFetch';
+import { X } from 'lucide-react';
 import { useState } from 'react';
 import { LoaderFunction, useLoaderData } from 'react-router-dom';
 
 const WbDistrictOffice = () => {
   document.title = `District / Block Offices | ${titles.services}`;
-  const [districtId, setDistrictId] = useState<number>(0);
+  const [districtId, setDistrictId] = useState<number | undefined>(undefined);
   const { dbdist } = useLoaderData();
   const districts = dbdist as DistrictWithOfficeProps[];
   const districtOffices = districts.find(
@@ -26,10 +28,10 @@ const WbDistrictOffice = () => {
       <WbPageWrapper>
         <WbPageSidebar parentMenu="About Us" />
         <WbContentWrapper title="District / Block Offices">
-          <div className="grid grid-cols-3 grid-flow-row gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 grid-flow-row gap-0 md:gap-4">
             <div className="">
               <select
-                className="flex h-10 w-full items-center justify-between rounded-xs border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground/70 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1"
+                className="flex h-9 w-full items-center justify-between rounded-xs border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground/70 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1"
                 name="district"
                 id="district"
                 value={districtId ?? ''}
@@ -37,13 +39,26 @@ const WbDistrictOffice = () => {
                   setDistrictId(e.target.value ? Number(e.target.value) : 0);
                 }}
               >
-                <option value={0}>All</option>
+                <option value={''}>All</option>
                 {districts?.map((district) => (
                   <option key={district.id} value={district.id}>
                     {district.name}
                   </option>
                 ))}
               </select>
+            </div>
+            <div className="">
+              {districtId && (
+                <Button
+                  variant={'ghost'}
+                  size="icon"
+                  onClick={() => setDistrictId(undefined)}
+                  title="Clear filter"
+                  aria-label="Clear filter"
+                >
+                  <X className="text-red-500" />
+                </Button>
+              )}
             </div>
           </div>
           {!districtId && (

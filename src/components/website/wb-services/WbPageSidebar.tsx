@@ -11,7 +11,7 @@ const WbPageSidebar = ({ parentMenu }: { parentMenu: string }) => {
     .subMenus as WebsiteSubMenuProps[];
 
   return (
-    <div className="col-span-3 w-80 p-3 bg-sky/5">
+    <div className="col-span-1 md:col-span-3 w-full md:w-80 p-3 bg-sky/5">
       <h1 className="text-sky-foreground capitalize tracking-wider text-lg font-medium">
         {parentMenu}
       </h1>

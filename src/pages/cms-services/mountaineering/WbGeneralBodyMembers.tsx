@@ -84,7 +84,7 @@ const WbGeneralBodyMembers = () => {
       <AppContentWrapper>
         <div className="flex md:flex-row flex-col-reverse justify-start items-start gap-4">
           <div className="basis-full w-full md:basis-2/3">
-            <Table className="text-xs md:text-sm">
+            <Table className="text-xs md:text-xs">
               <TableHeader>
                 <TableRow>
                   <TableHead className="w-[50px]">#</TableHead>

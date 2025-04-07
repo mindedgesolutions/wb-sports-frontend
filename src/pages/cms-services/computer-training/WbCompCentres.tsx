@@ -5,6 +5,7 @@ import {
   AppTooltip,
   WbcAddEditCompCentre,
   WbcCompCentrePopover,
+  WbcCompCentresFilter,
   WbcDeleteModal,
   WbcPaginationContainer,
   WbcSkeletonRows,
@@ -46,6 +47,9 @@ const WbCompCentres = () => {
   const { search } = useLocation();
   const queryString = new URLSearchParams(search);
   const page = queryString.get('page') || 1;
+  const dist = queryString.get('dist');
+  const cat = queryString.get('cat');
+  const s = queryString.get('s');
   const dispatch = useAppDispatch();
 
   // ----------------------
@@ -54,7 +58,7 @@ const WbCompCentres = () => {
     setIsLoading(true);
     try {
       const response = await customFetch.get(`/comp-centres`, {
-        params: { page },
+        params: { page, dist, cat, s },
       });
 
       if (response.status === 200) {
@@ -97,7 +101,7 @@ const WbCompCentres = () => {
 
   useEffect(() => {
     fetchData();
-  }, [srCounter, page]);
+  }, [srCounter, page, dist, cat, s]);
 
   return (
     <AppMainWrapper>
@@ -106,9 +110,10 @@ const WbCompCentres = () => {
         <WbcAddEditCompCentre />
       </div>
       <AppCountWrapper total={meta.total || 0} />
+      <WbcCompCentresFilter />
       <AppContentWrapper>
         <div className="flex md:flex-row flex-col-reverse justify-start items-start gap-4">
-          <Table className="text-xs md:text-sm">
+          <Table className="text-xs md:text-xs">
             <TableHeader>
               <TableRow>
                 <TableHead className="w-[50px]">#</TableHead>
