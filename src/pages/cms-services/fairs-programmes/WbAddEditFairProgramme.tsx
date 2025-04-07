@@ -4,7 +4,8 @@ import {
   AppTitleWrapper,
   WbcFairProgrammeCoverPopover,
   WbcFairProgrammePopover,
-  WbcImageGallery,
+  WbcGalleryListing,
+  WbcMultiImageUpload,
   WbcSubmitBtn,
   WbPageLoader,
 } from '@/components';
@@ -154,6 +155,8 @@ const WbAddEditFairProgramme = () => {
     }
   };
 
+  // ---------------------------------------
+
   useEffect(() => {
     fetchData();
   }, [uuid, srCounter]);
@@ -223,6 +226,7 @@ const WbAddEditFairProgramme = () => {
       {isLoading && <WbPageLoader />}
       <AppTitleWrapper>Add new fair / programme</AppTitleWrapper>
       <AppContentWrapper>
+        {/* Fair / Programme details add / edit starts here ------------------ */}
         <div className="p-2 border border-muted-foreground/10 flex flex-col justify-start items-start">
           <form className="w-full" onSubmit={handleSubmit}>
             <div className="w-full grid grid-cols-3 grid-flow-row gap-6">
@@ -367,9 +371,27 @@ const WbAddEditFairProgramme = () => {
             </div>
           </form>
         </div>
+        {/* Fair / Programme details add / edit ends here ------------------ */}
+
+        {/* Previous gallery images start ----------------- */}
+        {editData && (
+          <div className="mt-4 p-2 border border-muted-foreground/10 flex flex-col justify-start items-start">
+            <div className="w-full p-2 bg-sky/10 text-sm font-medium tracking-widest uppercase text-sky-500 flex justify-between items-center">
+              <p>previously uploaded</p>
+            </div>
+            <WbcGalleryListing galleries={editData.gallery} />
+          </div>
+        )}
+        {/* Previous gallery images end ----------------- */}
+
+        {/* New image upload section starts here ----------------- */}
         <div className="mt-4 p-2 border border-muted-foreground/10 flex flex-col justify-start items-start">
-          <WbcImageGallery />
+          <div className="w-full p-2 bg-sky/10 text-sm font-medium tracking-widest uppercase text-sky-500 flex justify-between items-center">
+            <p>upload new photos</p>
+          </div>
+          <WbcMultiImageUpload />
         </div>
+        {/* New image upload section ends here ----------------- */}
       </AppContentWrapper>
     </AppMainWrapper>
   );

@@ -12,15 +12,15 @@ import customFetch from '@/utils/customFetch';
 import showSuccess from '@/utils/showSuccess';
 
 type FormProps = {
-  title: string | undefined;
+  galleryTitle: string | undefined;
   programmeDate: string | undefined;
 };
 
-const WbcImageGallery = () => {
+const WbcMultiImageUpload = () => {
   const { slug, uuid } = useParams();
   const [isLoading, setIsLoading] = useState(false);
   const [form, setForm] = useState<FormProps>({
-    title: '',
+    galleryTitle: '',
     programmeDate: '',
   });
   const [errors, setErrors] = useState<{ [key: string]: string[] } | null>(
@@ -50,7 +50,7 @@ const WbcImageGallery = () => {
   // ----------------------------------
 
   const resetForm = () => {
-    setForm({ ...form, title: '', programmeDate: '' });
+    setForm({ ...form, galleryTitle: '', programmeDate: '' });
     setDescription('');
     setImages([]);
     setValidImages([]);
@@ -105,8 +105,8 @@ const WbcImageGallery = () => {
     let errorBag = {};
     let errorCount = 0;
 
-    if (!form.title) {
-      errorBag = { ...errorBag, title: ['Gallery title is required'] };
+    if (!form.galleryTitle) {
+      errorBag = { ...errorBag, galleryTitle: ['Gallery title is required'] };
       errorCount++;
     }
     if (!form.programmeDate) {
@@ -125,7 +125,7 @@ const WbcImageGallery = () => {
 
     const data = new FormData();
     data.append('uuid', uuid);
-    data.append('title', form.title ?? '');
+    data.append('title', form.galleryTitle ?? '');
     data.append('programmeDate', form.programmeDate ?? '');
     data.append('description', description ?? '');
 
@@ -162,28 +162,28 @@ const WbcImageGallery = () => {
 
   return (
     <>
-      <div className="w-full p-2 bg-sky/10 text-sm font-medium tracking-widest uppercase text-sky-500">
-        gallery photos
-      </div>
       <div className="mt-4 w-full">
         <form onSubmit={handleSubmit}>
           <div className="flex flex-col gap-6">
             <div className="grid grid-cols-3 grid-flow-row gap-6">
               <div className="col-span-2 flex flex-row justify-start items-start gap-4">
                 <div className="w-full flex flex-col gap-2">
-                  <Label htmlFor="title" className="text-muted-foreground">
+                  <Label
+                    htmlFor="galleryTitle"
+                    className="text-muted-foreground"
+                  >
                     Gallery title <span className="text-red-500">*</span>
                   </Label>
                   <Input
                     type="text"
-                    name="title"
-                    id="title"
+                    name="galleryTitle"
+                    id="galleryTitle"
                     placeholder="Gallery title"
-                    value={form.title}
+                    value={form.galleryTitle}
                     onChange={handleChange}
                   />
                   <span className="text-red-500 text-xs">
-                    {errors?.title?.[0]}
+                    {errors?.galleryTitle?.[0]}
                   </span>
                 </div>
                 <div className="w-full flex flex-col gap-2">
@@ -283,4 +283,4 @@ const WbcImageGallery = () => {
     </>
   );
 };
-export default WbcImageGallery;
+export default WbcMultiImageUpload;
