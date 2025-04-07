@@ -48,6 +48,8 @@ const WbAppDistrictBlockOffice = () => {
   const { search } = useLocation();
   const queryString = new URLSearchParams(search);
   const page = queryString.get('page');
+  const dist = queryString.get('dist');
+  const s = queryString.get('s');
 
   // ---------------------------------
 
@@ -55,7 +57,7 @@ const WbAppDistrictBlockOffice = () => {
     setIsLoading(true);
     try {
       const response = await customFetch.get('district-block-offices', {
-        params: { page },
+        params: { page, dist, s },
       });
 
       if (response.status === 200) {
@@ -78,7 +80,7 @@ const WbAppDistrictBlockOffice = () => {
 
   useEffect(() => {
     fetchData();
-  }, [page, srCounter]);
+  }, [page, srCounter, dist, s]);
 
   // ---------------------------------
 
@@ -107,7 +109,7 @@ const WbAppDistrictBlockOffice = () => {
       <WbcDistrictOfficeFilter />
       <AppContentWrapper>
         <div className="flex md:flex-row flex-col-reverse justify-start items-start gap-4">
-          <Table className="text-xs md:text-sm">
+          <Table className="text-xs md:text-xs">
             <TableHeader>
               <TableRow>
                 <TableHead className="w-[50px]">#</TableHead>

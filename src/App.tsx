@@ -6,6 +6,7 @@ import { store } from './store';
 import { loader as wbLayoutLoader } from '@/pages/cms-services/WbCmsLayout';
 import { loader as srWebsiteLayoutLoader } from '@/pages/website/wb-services/WbLayout';
 import { loader as srWebDistrictOfficeLoader } from '@/pages/website/wb-services/about/WbDistrictOffice';
+import { loader as srWebCompTrainingLoader } from '@/pages/website/wb-services/training/WbCompTraining';
 
 const router = createBrowserRouter([
   { path: '/', element: <sy.WbLanding /> },
@@ -34,7 +35,11 @@ const router = createBrowserRouter([
       {
         path: '',
         children: [
-          { path: 'computer-training', element: <sy.WbCompTraining /> },
+          {
+            path: 'computer-training',
+            element: <sy.WbCompTraining />,
+            loader: srWebCompTrainingLoader,
+          },
           { path: 'vocational-training', element: <sy.WbVocationalTraining /> },
         ],
       },

@@ -1,13 +1,27 @@
 import {
+  WbCompCourseTable,
   WbContentWrapper,
   WbPageSidebar,
   WbPageTopBanner,
   WbPageWrapper,
 } from '@/components';
-import { titles } from '@/constants';
+import { images, titles } from '@/constants';
+import { CompSyllabusProps, ComputerCourseProps } from '@/types/contents';
+import customFetch from '@/utils/customFetch';
+import { handleDownload } from '@/utils/function';
+import { LoaderFunction, useLoaderData } from 'react-router-dom';
 
 const WbCompTraining = () => {
   document.title = `Youth Computer Training Centre | ${titles.services}`;
+  const { dbcourses, dbsyllabi } = useLoaderData();
+  const courses = dbcourses as ComputerCourseProps[];
+  const syllabi = dbsyllabi as CompSyllabusProps[];
+
+  const certificates = courses?.filter((c) => c.course_type === 'certificate');
+  const diplomas = courses?.filter((c) => c.course_type === 'diploma');
+  const advancedDiplomas = courses?.filter(
+    (c) => c.course_type === 'advanced diploma'
+  );
 
   return (
     <div>
@@ -97,6 +111,45 @@ const WbCompTraining = () => {
               departmental orders are to be followed.
             </li>
           </ol>
+
+          <p className="text-sky-foreground font-medium tracking-wider capitalize">
+            course details
+          </p>
+          <WbCompCourseTable courseInfo={certificates} title={'certificate'} />
+          <WbCompCourseTable courseInfo={diplomas} title={'diploma'} />
+          <WbCompCourseTable
+            courseInfo={advancedDiplomas}
+            title={'advanced diploma'}
+          />
+          <p className="text-sky-foreground font-medium tracking-wider capitalize">
+            course syllabus
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {syllabi?.map((course) => (
+              // <a
+              //   key={course.name}
+              //   href={`${titles.baseUrl + course.file_path}`}
+              //   download
+              // >
+              <div
+                className="flex justify-start items-center gap-4 p-3 cursor-pointer bg-sky/10 hover:bg-sky/20 duration-200 group"
+                onClick={() =>
+                  handleDownload({
+                    filePath: course.file_path,
+                    fileName: course.name,
+                  })
+                }
+              >
+                <img
+                  src={images.pdfIcon}
+                  alt={course.name}
+                  className="size-8"
+                />
+                <p className="text-sm text-sky-foreground">{course.name}</p>
+              </div>
+              // </a>
+            ))}
+          </div>
           {/* </div> */}
         </WbContentWrapper>
       </WbPageWrapper>
@@ -104,3 +157,18 @@ const WbCompTraining = () => {
   );
 };
 export default WbCompTraining;
+
+// ---------------------------
+
+export const loader: LoaderFunction = async () => {
+  try {
+    const response = await customFetch.get(`/services/computer-courses-all`);
+    return {
+      dbcourses: response.data.courses,
+      dbsyllabi: response.data.syllabi,
+    };
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};

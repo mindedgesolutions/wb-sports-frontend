@@ -13,6 +13,7 @@ export { default as WbFooterLogo } from '@/components/website/wb-services/WbFoot
 export { default as WbPageSidebar } from '@/components/website/wb-services/WbPageSidebar';
 export { default as WbContentWrapper } from '@/components/wrappers/WbContentWrapper';
 export { default as WbDistrictOfficeTable } from '@/components/website/wb-services/about/WbDistrictOfficeTable';
+export { default as WbCompCourseTable } from '@/components/website/wb-services/training/WbCompCourseTable';
 // Services Website Components end ----------------------------
 
 // Services App Components start ----------------------------
@@ -37,6 +38,8 @@ export { default as WbcImageGallery } from '@/components/cms-services/WbcImageGa
 export { default as WbcAddEditDistrictBlockOffice } from '@/components/cms-services/modal-forms/WbcAddEditDistrictBlockOffice';
 export { default as WbcDistrictBlockOfficePopover } from '@/components/cms-services/pop-overs/WbcDistrictBlockOfficePopover';
 export { default as WbcDistrictOfficeFilter } from '@/components/cms-services/filters/WbcDistrictOfficeFilter';
+export { default as WbcCompCourseFilter } from '@/components/cms-services/filters/WbcCompCourseFilter';
+export { default as WbcCompCentresFilter } from '@/components/cms-services/filters/WbcCompCentresFilter';
 // Services App Components end ----------------------------
 
 // Common Components start ----------------------------

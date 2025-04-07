@@ -1,24 +1,23 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { titles } from '@/constants';
+import { compCourseTypes, titles } from '@/constants';
 import { useAppSelector } from '@/hooks';
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-const WbcDistrictOfficeFilter = () => {
-  const { districts } = useAppSelector((state) => state.common);
+const WbcCompCourseFilter = () => {
   const { search } = useLocation();
   const searchParams = new URLSearchParams(search);
   const selectedDist = searchParams.get('dist');
   const enteredS = searchParams.get('s');
   const [form, setForm] = useState({
-    dist: selectedDist || '',
+    type: selectedDist || '',
     s: enteredS || '',
   });
   const navigate = useNavigate();
   const { currentUser } = useAppSelector((state) => state.currentUser);
   const slug = currentUser!.user_details.slug;
-  const url = `/${titles.servicesUrl}/${slug}/district-block-offices`;
+  const url = `/${titles.servicesUrl}/${slug}/computer-training/course-details`;
 
   // ---------------------------------
 
@@ -32,11 +31,11 @@ const WbcDistrictOfficeFilter = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (form.dist || form.s) {
+    if (form.type || form.s) {
       searchParams.delete('page');
-      form.dist
-        ? searchParams.set('dist', form.dist)
-        : searchParams.delete('dist');
+      form.type
+        ? searchParams.set('type', form.type)
+        : searchParams.delete('type');
       form.s ? searchParams.set('s', form.s) : searchParams.delete('s');
     }
     navigate(`${url}?${searchParams.toString()}`);
@@ -45,7 +44,7 @@ const WbcDistrictOfficeFilter = () => {
   // ---------------------------------
 
   const resetForm = () => {
-    setForm({ ...form, dist: '', s: '' });
+    setForm({ ...form, type: '', s: '' });
     navigate(url);
   };
 
@@ -53,16 +52,16 @@ const WbcDistrictOfficeFilter = () => {
     <form onSubmit={handleSubmit} autoComplete="off">
       <div className="mt-2 p-2 md:px-0 text-sky-foreground text-xs tracking-widest grid grid-cols-5 gap-4">
         <select
-          className="flex h-9 w-full items-center justify-between rounded-xs border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground/70 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1"
-          name="dist"
-          id="dist"
-          value={form.dist}
+          className="flex h-9 w-full items-center justify-between rounded-xs border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-sky-foreground/50 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1"
+          name="type"
+          id="type"
+          value={form.type}
           onChange={handleChange}
         >
-          <option value="">- Search by District -</option>
-          {districts?.map((district) => (
-            <option key={district.id} value={district.id}>
-              {district.name}
+          <option value="">- Search by Course Type -</option>
+          {compCourseTypes.map((course) => (
+            <option key={course.value} value={course.value}>
+              {course.label}
             </option>
           ))}
         </select>
@@ -86,4 +85,4 @@ const WbcDistrictOfficeFilter = () => {
     </form>
   );
 };
-export default WbcDistrictOfficeFilter;
+export default WbcCompCourseFilter;
