@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
 import Editor from 'react-simple-wysiwyg';
@@ -10,13 +10,24 @@ import { titles } from '@/constants';
 import showError from '@/utils/showError';
 import customFetch from '@/utils/customFetch';
 import showSuccess from '@/utils/showSuccess';
+import { FairGalleryProps, GalleryImageProps } from '@/types/contents';
+import { useAppDispatch } from '@/hooks';
+import { updateSrCounter } from '@/features/commonSlice';
 
 type FormProps = {
   galleryTitle: string | undefined;
   programmeDate: string | undefined;
 };
 
-const WbcMultiImageUpload = () => {
+const WbcMultiImageUpload = ({
+  editRef,
+  editGallery,
+  setEditGallery,
+}: {
+  editRef: React.RefObject<HTMLInputElement | null>;
+  editGallery?: FairGalleryProps | null;
+  setEditGallery: React.Dispatch<React.SetStateAction<FairGalleryProps | null>>;
+}) => {
   const { slug, uuid } = useParams();
   const [isLoading, setIsLoading] = useState(false);
   const [form, setForm] = useState<FormProps>({
@@ -34,6 +45,21 @@ const WbcMultiImageUpload = () => {
       preview: string;
     }[]
   >([]);
+  const [dbImages, setDbImages] = useState<GalleryImageProps[] | null>(null);
+  const dispatch = useAppDispatch();
+
+  // ----------------------------------
+
+  useEffect(() => {
+    if (editGallery) {
+      setForm({
+        galleryTitle: editGallery?.title || '',
+        programmeDate: editGallery?.programme_date?.toString() || '',
+      });
+      setDescription(editGallery?.description || '');
+      setDbImages(editGallery?.images || []);
+    }
+  }, [editGallery]);
 
   // ----------------------------------
 
@@ -55,6 +81,8 @@ const WbcMultiImageUpload = () => {
     setImages([]);
     setValidImages([]);
     setErrors(null);
+    setEditGallery(null);
+    setDbImages(null);
   };
 
   // ----------------------------------
@@ -93,6 +121,32 @@ const WbcMultiImageUpload = () => {
 
   // ----------------------------------
 
+  const removeDbImage = async (id: number) => {
+    setIsLoading(true);
+    try {
+      const response = await customFetch.delete(
+        `/fair-programme/gallery/delete-image/${id}`
+      );
+
+      if (response.status === 200) {
+        setDbImages(
+          (prevImages) => prevImages?.filter((img) => img.id !== id) || null
+        );
+        showSuccess('Image deleted successfully');
+        dispatch(updateSrCounter());
+      }
+    } catch (error) {
+      if ((error as any)?.response?.status === 404) {
+        return showError('Image not found!');
+      }
+      return showError(`Something went wrong!`);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // ----------------------------------
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -113,7 +167,7 @@ const WbcMultiImageUpload = () => {
       errorBag = { ...errorBag, programmeDate: ['Programme date is required'] };
       errorCount++;
     }
-    if (images.length === 0) {
+    if (!editGallery && images.length === 0) {
       errorBag = { ...errorBag, images: ['At least one image is required'] };
       errorCount++;
     }
@@ -136,17 +190,23 @@ const WbcMultiImageUpload = () => {
         }
       }
     }
+    const apiUrl = editGallery
+      ? `/fair-programme/gallery/update/${editGallery?.id}`
+      : `/fair-programme/gallery/store`;
+    const msg = editGallery
+      ? 'Gallery images updated successfully'
+      : 'Gallery images uploaded successfully';
+
     setIsLoading(true);
     try {
-      const response = await customFetch.post(
-        `/fair-programme/gallery/store`,
-        data,
-        { headers: { 'Content-Type': 'multipart/form-data' } }
-      );
+      const response = await customFetch.post(apiUrl, data, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
 
       if (response.status === 201 || response.status === 200) {
         resetForm();
-        showSuccess('Gallery images uploaded successfully');
+        showSuccess(msg);
+        dispatch(updateSrCounter());
       }
     } catch (error) {
       if ((error as any)?.response?.status === 422) {
@@ -163,7 +223,7 @@ const WbcMultiImageUpload = () => {
   return (
     <>
       <div className="mt-4 w-full">
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} autoComplete="off">
           <div className="flex flex-col gap-6">
             <div className="grid grid-cols-3 grid-flow-row gap-6">
               <div className="col-span-2 flex flex-row justify-start items-start gap-4">
@@ -235,6 +295,7 @@ const WbcMultiImageUpload = () => {
                     id="images"
                     multiple
                     onChange={handleImageChange}
+                    ref={editRef}
                   />
                   <span className="text-red-500 text-xs">
                     {errors?.images?.[0]}
@@ -243,24 +304,46 @@ const WbcMultiImageUpload = () => {
               </div>
             </div>
             <div className="flex flex-row justify-start items-start flex-wrap gap-4">
-              {validImages.map((img, index) => {
-                return (
-                  <div key={index} className="relative w-32">
-                    <img
-                      src={img.preview}
-                      alt="Uploaded"
-                      className="w-full h-24 object-cover rounded"
-                    />
-                    <button
-                      type="button"
-                      className="absolute top-1 right-1 bg-red-500 text-white text-xs p-0.5 rounded cursor-pointer"
-                      onClick={() => removeImage(index)}
-                    >
-                      <X size={14} />
-                    </button>
-                  </div>
-                );
-              })}
+              {validImages
+                ? validImages.map((img, index) => {
+                    return (
+                      <div key={index} className="relative w-32">
+                        <img
+                          src={img.preview}
+                          alt="Uploaded"
+                          className="w-full h-24 object-cover rounded"
+                        />
+                        <button
+                          type="button"
+                          className="absolute top-1 right-1 bg-red-500 text-white text-xs p-0.5 rounded cursor-pointer"
+                          onClick={() => removeImage(index)}
+                        >
+                          <X size={14} />
+                        </button>
+                      </div>
+                    );
+                  })
+                : null}
+              {dbImages
+                ? dbImages?.map((img, index) => {
+                    return (
+                      <div key={index} className="relative w-32">
+                        <img
+                          src={`${titles.baseUrl}${img.image_path}`}
+                          alt="Uploaded"
+                          className="w-full h-24 object-cover rounded"
+                        />
+                        <button
+                          type="button"
+                          className="absolute top-1 right-1 bg-red-500 text-white text-xs p-0.5 rounded cursor-pointer"
+                          onClick={() => removeDbImage(img.id)}
+                        >
+                          <X size={14} />
+                        </button>
+                      </div>
+                    );
+                  })
+                : null}
             </div>
             <div className="col-span-3 flex justify-end items-center gap-4">
               <WbcSubmitBtn

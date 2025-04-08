@@ -15,6 +15,7 @@ import footerBg from '@/assets/images/services/footer_top_bg.gif';
 import pdfIcon from '@/assets/images/pdf.png';
 import srOrganisationChart from '@/assets/images/services/organisation_chart_box.jpg';
 import honbleMos from '@/assets/images/services/honerablemos_pic2.jpg';
+import noImg from '@/assets/images/no-image.jpg';
 
 export const images = {
   youth,
@@ -34,6 +35,7 @@ export const images = {
   pdfIcon,
   srOrganisationChart,
   honbleMos,
+  noImg,
 };
 
 export const titles = {

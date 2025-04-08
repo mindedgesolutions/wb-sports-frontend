@@ -127,6 +127,7 @@ export type FairGalleryProps = {
   organisation: string;
   program_id: number;
   programme_date: string | Date;
+  show_in_gallery: boolean;
   slug: string;
   title: string;
   updated_at: Date;
