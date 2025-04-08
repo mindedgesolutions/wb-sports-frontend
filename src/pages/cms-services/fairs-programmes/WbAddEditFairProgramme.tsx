@@ -15,7 +15,7 @@ import { Label } from '@/components/ui/label';
 import { fairTypes, titles } from '@/constants';
 import { updateSrCounter } from '@/features/commonSlice';
 import { useAppDispatch, useAppSelector } from '@/hooks';
-import { FairProgrammeProps } from '@/types/contents';
+import { FairGalleryProps, FairProgrammeProps } from '@/types/contents';
 import customFetch from '@/utils/customFetch';
 import showError from '@/utils/showError';
 import showSuccess from '@/utils/showSuccess';
@@ -50,6 +50,8 @@ const WbAddEditFairProgramme = () => {
   const [dbCover, setDbCover] = useState<string | null>(null);
   const { srCounter } = useAppSelector((state) => state.common);
   const dispatch = useAppDispatch();
+  const editRef = useRef<HTMLInputElement>(null);
+  const [editGallery, setEditGallery] = useState<FairGalleryProps | null>(null);
 
   // ---------------------------------------
 
@@ -221,6 +223,16 @@ const WbAddEditFairProgramme = () => {
     }
   };
 
+  // ---------------------------------------
+
+  const handleEditRef = (id: number) => {
+    if (editRef.current) {
+      editRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+    const data = editData?.gallery?.filter((item) => item.id === id);
+    setEditGallery(data ? data[0] : null);
+  };
+
   return (
     <AppMainWrapper>
       {isLoading && <WbPageLoader />}
@@ -228,7 +240,7 @@ const WbAddEditFairProgramme = () => {
       <AppContentWrapper>
         {/* Fair / Programme details add / edit starts here ------------------ */}
         <div className="p-2 border border-muted-foreground/10 flex flex-col justify-start items-start">
-          <form className="w-full" onSubmit={handleSubmit}>
+          <form className="w-full" onSubmit={handleSubmit} autoComplete="off">
             <div className="w-full grid grid-cols-3 grid-flow-row gap-6">
               <div className="col-span-2">
                 <div className="w-full p-2 bg-sky/10 text-sm font-medium tracking-widest uppercase text-sky-500 mb-4">
@@ -379,7 +391,11 @@ const WbAddEditFairProgramme = () => {
             <div className="w-full p-2 bg-sky/10 text-sm font-medium tracking-widest uppercase text-sky-500 flex justify-between items-center">
               <p>previously uploaded</p>
             </div>
-            <WbcGalleryListing galleries={editData.gallery} />
+            <WbcGalleryListing
+              galleries={editData.gallery}
+              setIsLoading={setIsLoading}
+              handleEditRef={handleEditRef}
+            />
           </div>
         )}
         {/* Previous gallery images end ----------------- */}
@@ -389,7 +405,11 @@ const WbAddEditFairProgramme = () => {
           <div className="w-full p-2 bg-sky/10 text-sm font-medium tracking-widest uppercase text-sky-500 flex justify-between items-center">
             <p>upload new photos</p>
           </div>
-          <WbcMultiImageUpload />
+          <WbcMultiImageUpload
+            editRef={editRef}
+            editGallery={editGallery}
+            setEditGallery={setEditGallery}
+          />
         </div>
         {/* New image upload section ends here ----------------- */}
       </AppContentWrapper>
