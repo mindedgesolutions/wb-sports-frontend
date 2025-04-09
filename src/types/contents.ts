@@ -124,6 +124,7 @@ export type FairGalleryProps = {
   description: string | null;
   id: number;
   images: GalleryImageProps[];
+  cover?: GalleryImageProps | null;
   organisation: string;
   program_id: number;
   programme_date: string | Date;

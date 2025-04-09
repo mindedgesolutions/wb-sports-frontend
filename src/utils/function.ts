@@ -92,3 +92,27 @@ export const handleDownload = ({
     console.error('File path is missing!');
   }
 };
+
+export function smoothScrollTo(x: number, y: number, duration: number) {
+  const startX = window.scrollX || window.pageXOffset;
+  const startY = window.scrollY || window.pageYOffset;
+  const startTime = performance.now();
+
+  const easeInOutQuad = (t: number) =>
+    t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+
+  function scroll() {
+    const currentTime = performance.now();
+    const time = Math.min(1, (currentTime - startTime) / duration);
+    const easedTime = easeInOutQuad(time);
+
+    window.scrollTo(
+      startX + (x - startX) * easedTime,
+      startY + (y - startY) * easedTime
+    );
+
+    if (time < 1) requestAnimationFrame(scroll);
+  }
+
+  scroll();
+}

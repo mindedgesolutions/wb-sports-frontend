@@ -5,6 +5,7 @@ export { default as WbFooter } from '@/components/website/wb-services/WbFooter';
 export { default as WbMenu } from '@/components/website/wb-services/WbMenu';
 export { default as WbHomeTopBanner } from '@/components/website/wb-services/WbHomeTopBanner';
 export { default as WbPageWrapper } from '@/components/wrappers/WbPageWrapper';
+export { default as WbGalleryContentWrapper } from '@/components/wrappers/WbGalleryContentWrapper';
 export { default as WbPageLoader } from '@/components/website/wb-services/WbPageLoader';
 export { default as WbPageTopBanner } from '@/components/website/wb-services/WbPageTopBanner';
 export { default as WbHomepageCard } from '@/components/website/wb-services/WbHomepageCard';
@@ -14,6 +15,7 @@ export { default as WbPageSidebar } from '@/components/website/wb-services/WbPag
 export { default as WbContentWrapper } from '@/components/wrappers/WbContentWrapper';
 export { default as WbDistrictOfficeTable } from '@/components/website/wb-services/about/WbDistrictOfficeTable';
 export { default as WbCompCourseTable } from '@/components/website/wb-services/training/WbCompCourseTable';
+export { default as WbGallerySingleBanner } from '@/components/website/wb-services/WbGallerySingleBanner';
 // Services Website Components end ----------------------------
 
 // Services App Components start ----------------------------
