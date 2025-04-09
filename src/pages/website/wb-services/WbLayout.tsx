@@ -12,6 +12,7 @@ import { createContext, useContext, useEffect, useState } from 'react';
 import { Store } from '@reduxjs/toolkit';
 import { RootState } from '@/store';
 import { setDistricts } from '@/features/commonSlice';
+import { smoothScrollTo } from '@/utils/function';
 
 const WebsiteContext = createContext<PageBannerProps>({});
 
@@ -38,6 +39,9 @@ const WbLayout = () => {
 
   useEffect(() => {
     fetchBanner();
+    setTimeout(() => {
+      smoothScrollTo(0, 0, 500);
+    }, 0);
   }, [pathname]);
 
   return (

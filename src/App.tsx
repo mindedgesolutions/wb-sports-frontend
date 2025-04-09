@@ -7,6 +7,9 @@ import { loader as wbLayoutLoader } from '@/pages/cms-services/WbCmsLayout';
 import { loader as srWebsiteLayoutLoader } from '@/pages/website/wb-services/WbLayout';
 import { loader as srWebDistrictOfficeLoader } from '@/pages/website/wb-services/about/WbDistrictOffice';
 import { loader as srWebCompTrainingLoader } from '@/pages/website/wb-services/training/WbCompTraining';
+import { loader as srWebPhotoGalleryLoader } from '@/pages/website/wb-services/gallery/WbPhotoGallery';
+import { loader as srWebGallerySingleLoader } from '@/pages/website/wb-services/gallery/WbGallerySingle';
+import { loader as srWebFpLoader } from '@/pages/website/wb-services/fairs-programs/WbFairsProgrammesWeb';
 
 const router = createBrowserRouter([
   { path: '/', element: <sy.WbLanding /> },
@@ -51,16 +54,14 @@ const router = createBrowserRouter([
         ],
       },
       {
-        path: '',
+        path: 'fairs-programmes',
         children: [
-          { path: 'wbsme', element: <sy.WbSme /> },
-          { path: 'wbssyf', element: <sy.WbSyf /> },
-          { path: 'wbsysf', element: <sy.WbSysf /> },
-          { path: 'bangla-yuva-kendra', element: <sy.WbBanglaYuvaKendra /> },
-          { path: 'coaching-for-job', element: <sy.WbCoachingForJob /> },
-          { path: 'vivek-chetna-utsab', element: <sy.WbVivekChetna /> },
-          { path: 'rakhibandhan-utsab', element: <sy.WbRakhiBandhan /> },
-          { path: 'subhas-utsab', element: <sy.WbSubhas /> },
+          {
+            index: true,
+            element: <sy.WbFairsProgrammesWeb />,
+            loader: srWebFpLoader,
+          },
+          { path: ':slug', element: <sy.WbFairsProgrammesSingleWeb /> },
         ],
       },
       { path: 'news-events', element: <sy.WbNewsEvents /> },
@@ -71,7 +72,21 @@ const router = createBrowserRouter([
           { path: 'how-to-book', element: <sy.WbHowBookHostel /> },
         ],
       },
-      { path: 'photo-gallery', element: <sy.WbPhotoGallery /> },
+      {
+        path: 'photo-gallery',
+        children: [
+          {
+            index: true,
+            element: <sy.WbPhotoGallery />,
+            loader: srWebPhotoGalleryLoader,
+          },
+          {
+            path: ':slug',
+            element: <sy.WbGallerySingle />,
+            loader: srWebGallerySingleLoader,
+          },
+        ],
+      },
     ],
   },
   // Services Website routes end -----------------------------------
