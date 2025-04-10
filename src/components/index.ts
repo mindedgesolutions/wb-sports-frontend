@@ -43,6 +43,7 @@ export { default as WbcDistrictBlockOfficePopover } from '@/components/cms-servi
 export { default as WbcDistrictOfficeFilter } from '@/components/cms-services/filters/WbcDistrictOfficeFilter';
 export { default as WbcCompCourseFilter } from '@/components/cms-services/filters/WbcCompCourseFilter';
 export { default as WbcCompCentresFilter } from '@/components/cms-services/filters/WbcCompCentresFilter';
+export { default as WbcSortMountainGbMembers } from '@/components/cms-services/modal-forms/WbcSortMountainGbMembers';
 // Services App Components end ----------------------------
 
 // Common Components start ----------------------------

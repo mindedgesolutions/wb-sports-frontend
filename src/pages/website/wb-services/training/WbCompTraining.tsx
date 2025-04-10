@@ -132,6 +132,7 @@ const WbCompTraining = () => {
               //   download
               // >
               <div
+                key={course.name}
                 className="flex justify-start items-center gap-4 p-3 cursor-pointer bg-sky/10 hover:bg-sky/20 duration-200 group"
                 onClick={() =>
                   handleDownload({

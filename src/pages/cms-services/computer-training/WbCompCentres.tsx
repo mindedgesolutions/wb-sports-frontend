@@ -29,7 +29,7 @@ import { serialNo } from '@/utils/function';
 import showError from '@/utils/showError';
 import showSuccess from '@/utils/showSuccess';
 import { nanoid } from '@reduxjs/toolkit';
-import { EyeIcon, Mail, Phone } from 'lucide-react';
+import { EyeIcon, Mail, Phone, User } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
@@ -152,7 +152,10 @@ const WbCompCentres = () => {
                   ${centre.pincode ? centre.pincode : ''}`;
 
                   return (
-                    <TableRow key={nanoid()} className="group text-primary">
+                    <TableRow
+                      key={nanoid()}
+                      className="text-muted-foreground group"
+                    >
                       <TableCell className="font-medium">
                         {serialNo(Number(meta.currentPage), 10) + index}.
                       </TableCell>
@@ -188,9 +191,14 @@ const WbCompCentres = () => {
                       </TableCell>
                       <TableCell>
                         <div className="flex flex-col justify-start items-start">
-                          <AppTooltip
-                            content={centre.center_incharge_name || `NA`}
-                          />
+                          <span className="flex justify-start items-center text-xs uppercase mt-1.5 font-normal text-muted-foreground">
+                            {centre.center_incharge_name && (
+                              <User className="h-3.5" />
+                            )}
+                            <AppTooltip
+                              content={centre.center_incharge_name || `NA`}
+                            />
+                          </span>
                           {centre.center_incharge_mobile && (
                             <span className="flex justify-start items-center text-xs uppercase mt-1.5 font-normal text-muted-foreground">
                               <Phone className="h-3" />{' '}
@@ -207,9 +215,14 @@ const WbCompCentres = () => {
                       </TableCell>
                       <TableCell>
                         <div className="flex flex-col justify-start items-start">
-                          <AppTooltip
-                            content={centre.center_owner_name || `NA`}
-                          />
+                          <span className="flex justify-start items-center text-xs uppercase mt-1.5 font-normal text-muted-foreground">
+                            {centre.center_owner_name && (
+                              <User className="h-3.5" />
+                            )}
+                            <AppTooltip
+                              content={centre.center_owner_name || `NA`}
+                            />
+                          </span>
                           {centre.center_owner_mobile && (
                             <span className="flex justify-start items-center text-xs uppercase mt-1.5 font-normal text-muted-foreground">
                               <Phone className="h-3" />{' '}

@@ -6,7 +6,7 @@ import {
   WbPageLoader,
 } from '@/components';
 import { LoaderFunction, Outlet, useLocation } from 'react-router-dom';
-import { PageBannerProps } from '@/types/contents';
+import { DistrictProps, PageBannerProps } from '@/types/contents';
 import customFetch from '@/utils/customFetch';
 import { createContext, useContext, useEffect, useState } from 'react';
 import { Store } from '@reduxjs/toolkit';
@@ -76,10 +76,11 @@ export const useWebsiteContext = () => {
 export const loader =
   (store: Store<RootState>): LoaderFunction =>
   async () => {
-    const { districts } = store.getState().common;
+    const { districts }: { districts: DistrictProps[] } =
+      store.getState().common;
 
     try {
-      if (!!districts) {
+      if (!districts.length) {
         const response = await customFetch.get(`/services/districts`);
         const districts = response.data.data;
         store.dispatch(setDistricts(districts));
