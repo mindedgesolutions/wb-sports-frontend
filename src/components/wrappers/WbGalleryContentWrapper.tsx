@@ -1,6 +1,6 @@
 import { Separator } from '../ui/separator';
 
-const WbContentWrapper = ({
+const WbGalleryContentWrapper = ({
   title,
   children,
 }: {
@@ -8,7 +8,7 @@ const WbContentWrapper = ({
   children: React.ReactNode;
 }) => {
   return (
-    <div className="col-span-1 w-full md:col-span-9 p-3">
+    <div className="col-span-1 w-full md:col-span-12 p-3">
       <div className="">
         <h1 className="text-sky-foreground tracking-wider text-lg font-medium">
           {title}
@@ -21,4 +21,4 @@ const WbContentWrapper = ({
     </div>
   );
 };
-export default WbContentWrapper;
+export default WbGalleryContentWrapper;

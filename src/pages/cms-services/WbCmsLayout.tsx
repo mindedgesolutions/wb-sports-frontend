@@ -35,7 +35,7 @@ export const loader = (store: Store<RootState>) => async () => {
       const user = response.data.data;
       store.dispatch(setCurrentUser(user));
     }
-    if (!!districts) {
+    if (!districts.length) {
       const response = await customFetch.get(`/services/districts`);
       const districts = response.data.data;
       store.dispatch(setDistricts(districts));

@@ -80,13 +80,39 @@ export const handleDownload = ({
 }) => {
   if (filePath) {
     const fileUrl = titles.baseUrl + filePath;
+    const url = window.URL.createObjectURL(new Blob([fileUrl]));
     const link = document.createElement('a');
-    link.href = fileUrl;
-    link.download = fileName || 'downloaded-file.pdf';
+    link.href = url;
+    link.setAttribute('download', fileName);
     document.body.appendChild(link);
     link.click();
-    document.body.removeChild(link);
+    link.remove();
+    window.URL.revokeObjectURL(url);
   } else {
     console.error('File path is missing!');
   }
 };
+
+export function smoothScrollTo(x: number, y: number, duration: number) {
+  const startX = window.scrollX || window.pageXOffset;
+  const startY = window.scrollY || window.pageYOffset;
+  const startTime = performance.now();
+
+  const easeInOutQuad = (t: number) =>
+    t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+
+  function scroll() {
+    const currentTime = performance.now();
+    const time = Math.min(1, (currentTime - startTime) / duration);
+    const easedTime = easeInOutQuad(time);
+
+    window.scrollTo(
+      startX + (x - startX) * easedTime,
+      startY + (y - startY) * easedTime
+    );
+
+    if (time < 1) requestAnimationFrame(scroll);
+  }
+
+  scroll();
+}

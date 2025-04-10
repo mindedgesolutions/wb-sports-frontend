@@ -1,24 +1,26 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { titles } from '@/constants';
+import { compCentreCategory, titles } from '@/constants';
 import { useAppSelector } from '@/hooks';
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-const WbcDistrictOfficeFilter = () => {
+const WbcCompCentresFilter = () => {
   const { districts } = useAppSelector((state) => state.common);
   const { search } = useLocation();
   const searchParams = new URLSearchParams(search);
   const selectedDist = searchParams.get('dist');
+  const selectedCat = searchParams.get('cat');
   const enteredS = searchParams.get('s');
   const [form, setForm] = useState({
     dist: selectedDist || '',
+    cat: selectedCat || '',
     s: enteredS || '',
   });
   const navigate = useNavigate();
   const { currentUser } = useAppSelector((state) => state.currentUser);
   const slug = currentUser!.user_details.slug;
-  const url = `/${titles.servicesUrl}/${slug}/district-block-offices`;
+  const url = `/${titles.servicesUrl}/${slug}/computer-training/training-centres`;
 
   // ---------------------------------
 
@@ -32,11 +34,12 @@ const WbcDistrictOfficeFilter = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (form.dist || form.s) {
+    if (form.dist || form.cat || form.s) {
       searchParams.delete('page');
       form.dist
         ? searchParams.set('dist', form.dist)
         : searchParams.delete('dist');
+      form.cat ? searchParams.set('cat', form.cat) : searchParams.delete('cat');
       form.s ? searchParams.set('s', form.s) : searchParams.delete('s');
     }
     navigate(`${url}?${searchParams.toString()}`);
@@ -45,7 +48,7 @@ const WbcDistrictOfficeFilter = () => {
   // ---------------------------------
 
   const resetForm = () => {
-    setForm({ ...form, dist: '', s: '' });
+    setForm({ ...form, dist: '', cat: '', s: '' });
     navigate(url);
   };
 
@@ -63,6 +66,20 @@ const WbcDistrictOfficeFilter = () => {
           {districts?.map((district) => (
             <option key={district.id} value={district.id}>
               {district.name}
+            </option>
+          ))}
+        </select>
+        <select
+          className="flex h-9 w-full items-center justify-between rounded-xs border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground/70 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1"
+          name="cat"
+          id="cat"
+          value={form.cat}
+          onChange={handleChange}
+        >
+          <option value="">- Search by Category -</option>
+          {compCentreCategory.map((category) => (
+            <option key={category.value} value={category.value}>
+              {category.label}
             </option>
           ))}
         </select>
@@ -86,4 +103,4 @@ const WbcDistrictOfficeFilter = () => {
     </form>
   );
 };
-export default WbcDistrictOfficeFilter;
+export default WbcCompCentresFilter;

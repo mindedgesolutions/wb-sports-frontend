@@ -2,12 +2,12 @@ import {
   AppContentWrapper,
   AppCountWrapper,
   AppMainWrapper,
-  AppTitleWrapper,
   AppTooltip,
   WbcAddEditGbMembers,
   WbcDeleteModal,
   WbcPaginationContainer,
   WbcSkeletonRows,
+  WbcSortMountainGbMembers,
 } from '@/components';
 import {
   Table,
@@ -79,12 +79,15 @@ const WbGeneralBodyMembers = () => {
 
   return (
     <AppMainWrapper>
-      <AppTitleWrapper>Mountaineering: General Body Members</AppTitleWrapper>
+      <div className="bg-muted-foreground/10 p-2 md:pl-4 text-muted-foreground font-medium capitalize text-base md:text-xl tracking-normal md:tracking-wider flex justify-between items-center">
+        <p>Mountaineering: General Body Members</p>
+        <WbcSortMountainGbMembers />
+      </div>
       <AppCountWrapper total={meta.total || 0} />
       <AppContentWrapper>
         <div className="flex md:flex-row flex-col-reverse justify-start items-start gap-4">
           <div className="basis-full w-full md:basis-2/3">
-            <Table className="text-xs md:text-sm">
+            <Table className="text-xs md:text-xs">
               <TableHeader>
                 <TableRow>
                   <TableHead className="w-[50px]">#</TableHead>

@@ -1,7 +1,5 @@
 import { WebsiteMenuProps } from '@/types/menu';
 import {
-  Atom,
-  BookOpenCheck,
   Building,
   CircleHelp,
   ContactRound,
@@ -9,7 +7,6 @@ import {
   House,
   Images,
   LaptopMinimalCheck,
-  ListChecks,
   MapPinned,
   MapPlus,
   MountainSnow,
@@ -17,8 +14,6 @@ import {
   PanelsTopLeft,
   Rss,
   Settings,
-  SmilePlus,
-  Users,
 } from 'lucide-react';
 import { titles } from '.';
 
@@ -94,56 +89,8 @@ export const menus: WebsiteMenuProps[] = [
   },
   {
     name: 'Fairs & Programmes',
-    subMenus: [
-      {
-        name: 'West Bengal State Mission for Employment',
-        desc: 'NA',
-        icon: ListChecks,
-        link: `/${titles.serviceUrlWeb}/wbsme`,
-      },
-      {
-        name: 'West Bengal State Student-Youth Festival, 2017-2018',
-        desc: 'NA',
-        icon: Users,
-        link: `/${titles.serviceUrlWeb}/wbssyf`,
-      },
-      {
-        name: 'West Bengal State Student-Youth Science Fair, 2018-2019',
-        desc: 'NA',
-        icon: Atom,
-        link: `/${titles.serviceUrlWeb}/wbsysf`,
-      },
-      {
-        name: 'Bengal Yuva Kendra',
-        desc: 'NA',
-        icon: SmilePlus,
-        link: `/${titles.serviceUrlWeb}/bangla-yuva-kendra`,
-      },
-      {
-        name: 'Coaching for Job Oriented Examinations',
-        desc: 'NA',
-        icon: BookOpenCheck,
-        link: `/${titles.serviceUrlWeb}/coaching-for-job`,
-      },
-      {
-        name: 'Vivek Chetna Utsab',
-        desc: 'NA',
-        icon: Users,
-        link: `/${titles.serviceUrlWeb}/vivek-chetna-utsab`,
-      },
-      {
-        name: 'Rakhibandhan Utsab',
-        desc: 'NA',
-        icon: Users,
-        link: `/${titles.serviceUrlWeb}/rakhibandhan-utsab`,
-      },
-      {
-        name: 'Subhas Utsab',
-        desc: 'NA',
-        icon: Users,
-        link: `/${titles.serviceUrlWeb}/subhas-utsab`,
-      },
-    ],
+    link: `/${titles.serviceUrlWeb}/fairs-programmes`,
+    icon: ContactRound,
     gridCols: 2,
   },
   {

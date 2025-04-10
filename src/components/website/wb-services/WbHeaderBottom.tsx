@@ -19,7 +19,7 @@ const WbHeaderBottom = () => {
 
       {/* For desktop view */}
       <div className="md:max-w-screen-xl md:mx-auto flex flex-row justify-center md:justify-between items-center">
-        <div className="h-20 w-20 rounded-full bg-white/20 hidden md:flex justify-center items-center">
+        <div className="h-20 w-20 rounded-full bg-white/30 hidden md:flex justify-center items-center">
           <img
             src={images.nationalEmblem}
             alt="Govt. of India"

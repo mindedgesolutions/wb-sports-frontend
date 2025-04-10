@@ -83,7 +83,7 @@ const WbFairsProgrammes = () => {
       <AppCountWrapper total={meta.total || 0} />
       <AppContentWrapper>
         <div className="flex md:flex-row flex-col-reverse justify-start items-start gap-4">
-          <Table>
+          <Table className="text-xs md:text-xs">
             <TableHeader>
               <TableRow>
                 <TableHead className="w-[50px]">#</TableHead>
@@ -122,10 +122,10 @@ const WbFairsProgrammes = () => {
                       <TableCell className="font-medium">
                         {serialNo(Number(meta.currentPage), 10) + index}.
                       </TableCell>
-                      <TableCell>
+                      <TableCell className="uppercase">
                         <AppTooltip content={fairprogram.title} />
                       </TableCell>
-                      <TableCell className="capitalize">
+                      <TableCell className="uppercase">
                         {fairprogram.occurance}
                       </TableCell>
                       <TableCell>0</TableCell>

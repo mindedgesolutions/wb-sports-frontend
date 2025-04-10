@@ -109,10 +109,39 @@ export type DeleteProps = {
   successMsg: string;
 };
 
+export type GalleryImageProps = {
+  created_at: Date;
+  gallery_id: number;
+  id: number;
+  image_path: string;
+  updated_at: Date;
+};
+
+export type FairGalleryProps = {
+  added_by: number;
+  cover_image: string | null;
+  created_at: Date;
+  description: string | null;
+  id: number;
+  images: GalleryImageProps[];
+  cover?: GalleryImageProps | null;
+  organisation: string;
+  program_id: number;
+  programme_date: string | Date;
+  show_in_gallery: boolean;
+  slug: string;
+  title: string;
+  updated_at: Date;
+  updated_by: number | null;
+};
+
 export type FairProgrammeProps = {
   added_by: number;
   created_at: Date;
+  cover_image: string | null;
   description: string | null;
+  gallery: FairGalleryProps[] | null;
+  gallery_images: GalleryImageProps[] | null;
   id: number;
   occurance: string;
   title: string;
@@ -121,7 +150,6 @@ export type FairProgrammeProps = {
   updated_at: Date;
   updated_by: number | null;
   uuid: string;
-  cover_image: string | null;
 };
 
 export type DistrictBlockOfficeProps = {

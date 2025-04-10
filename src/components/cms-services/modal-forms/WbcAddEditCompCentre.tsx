@@ -254,7 +254,7 @@ const WbcAddEditCompCentre = ({ editId }: { editId?: number }) => {
           <form onSubmit={handleSubmit} autoComplete="off">
             <div className="mt-2.5 flex flex-col justify-start items-start gap-2">
               <div className="w-full grid grid-cols-2 gap-4">
-                <div className="col-span-1 flex flex-col justify-start items-start gap-2">
+                <div className="col-span-full md:col-span-1 flex flex-col justify-start items-start gap-2">
                   <Label htmlFor="district" className="text-muted-foreground">
                     District <span className="text-red-500">*</span>
                   </Label>
@@ -277,7 +277,6 @@ const WbcAddEditCompCentre = ({ editId }: { editId?: number }) => {
                     {!form.district && errors?.district?.[0]}
                   </span>
                 </div>
-                <div className="col-span-1"></div>
               </div>
             </div>
             <div className="mt-2.5 flex flex-col justify-start items-start gap-2">
@@ -298,7 +297,7 @@ const WbcAddEditCompCentre = ({ editId }: { editId?: number }) => {
             </div>
             <div className="mt-2.5 flex flex-col justify-start items-start">
               <div className="w-full grid grid-cols-2 gap-4">
-                <div className="col-span-1 flex flex-col justify-start items-start gap-2">
+                <div className="col-span-full md:col-span-1 flex flex-col justify-start items-start gap-2">
                   <Label htmlFor="yctcCode" className="text-muted-foreground">
                     YCTC code
                   </Label>
@@ -314,7 +313,7 @@ const WbcAddEditCompCentre = ({ editId }: { editId?: number }) => {
                     {errors?.yctcCode?.[0]}
                   </span>
                 </div>
-                <div className="col-span-1 flex flex-col justify-start items-start gap-2">
+                <div className="col-span-full md:col-span-1 flex flex-col justify-start items-start gap-2">
                   <Label
                     htmlFor="centreCategory"
                     className="text-muted-foreground"
@@ -391,7 +390,7 @@ const WbcAddEditCompCentre = ({ editId }: { editId?: number }) => {
             </div>
             <div className="mt-2.5 flex flex-col justify-start items-start">
               <div className="w-full grid grid-cols-2 gap-4">
-                <div className="col-span-1 flex flex-col justify-start items-start gap-2">
+                <div className="col-span-full md:col-span-1 flex flex-col justify-start items-start gap-2">
                   <Label htmlFor="city" className="text-muted-foreground">
                     City
                   </Label>
@@ -407,7 +406,7 @@ const WbcAddEditCompCentre = ({ editId }: { editId?: number }) => {
                     {errors?.city?.[0]}
                   </span>
                 </div>
-                <div className="col-span-1 flex flex-col justify-start items-start gap-2">
+                <div className="col-span-full md:col-span-1 flex flex-col justify-start items-start gap-2">
                   <Label htmlFor="pincode" className="text-muted-foreground">
                     PIN code
                   </Label>
@@ -427,7 +426,7 @@ const WbcAddEditCompCentre = ({ editId }: { editId?: number }) => {
             </div>
             <div className="mt-2.5 flex flex-col justify-start items-start">
               <div className="w-full grid grid-cols-2 gap-4">
-                <div className="col-span-1 flex flex-col justify-start items-start gap-2">
+                <div className="col-span-full md:col-span-1 flex flex-col justify-start items-start gap-2">
                   <Label
                     htmlFor="inchargeName"
                     className="text-muted-foreground"
@@ -446,7 +445,7 @@ const WbcAddEditCompCentre = ({ editId }: { editId?: number }) => {
                     {errors?.inchargeName?.[0]}
                   </span>
                 </div>
-                <div className="col-span-1 flex flex-col justify-start items-start gap-2">
+                <div className="col-span-full md:col-span-1 flex flex-col justify-start items-start gap-2">
                   <Label
                     htmlFor="inchargeMobile"
                     className="text-muted-foreground"
@@ -469,7 +468,7 @@ const WbcAddEditCompCentre = ({ editId }: { editId?: number }) => {
             </div>
             <div className="mt-2.5 flex flex-col justify-start items-start">
               <div className="w-full grid grid-cols-2 gap-4">
-                <div className="col-span-1 flex flex-col justify-start items-start gap-2">
+                <div className="col-span-full md:col-span-1 flex flex-col justify-start items-start gap-2">
                   <Label
                     htmlFor="inchargeEmail"
                     className="text-muted-foreground"
@@ -488,12 +487,11 @@ const WbcAddEditCompCentre = ({ editId }: { editId?: number }) => {
                     {errors?.inchargeEmail?.[0]}
                   </span>
                 </div>
-                <div className="col-span-1 flex flex-col justify-start items-start gap-2"></div>
               </div>
             </div>
             <div className="mt-2.5 flex flex-col justify-start items-start">
               <div className="w-full grid grid-cols-2 gap-4">
-                <div className="col-span-1 flex flex-col justify-start items-start gap-2">
+                <div className="col-span-full md:col-span-1 flex flex-col justify-start items-start gap-2">
                   <Label htmlFor="ownerName" className="text-muted-foreground">
                     Centre owner name
                   </Label>
@@ -509,7 +507,7 @@ const WbcAddEditCompCentre = ({ editId }: { editId?: number }) => {
                     {errors?.ownerName?.[0]}
                   </span>
                 </div>
-                <div className="col-span-1 flex flex-col justify-start items-start gap-2">
+                <div className="col-span-full md:col-span-1 flex flex-col justify-start items-start gap-2">
                   <Label
                     htmlFor="ownerMobile"
                     className="text-muted-foreground"

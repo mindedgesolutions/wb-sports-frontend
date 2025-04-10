@@ -5,6 +5,7 @@ import {
   AppTooltip,
   WbcAddEditCompCentre,
   WbcCompCentrePopover,
+  WbcCompCentresFilter,
   WbcDeleteModal,
   WbcPaginationContainer,
   WbcSkeletonRows,
@@ -28,7 +29,7 @@ import { serialNo } from '@/utils/function';
 import showError from '@/utils/showError';
 import showSuccess from '@/utils/showSuccess';
 import { nanoid } from '@reduxjs/toolkit';
-import { EyeIcon, Mail, Phone } from 'lucide-react';
+import { EyeIcon, Mail, Phone, User } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
@@ -46,6 +47,9 @@ const WbCompCentres = () => {
   const { search } = useLocation();
   const queryString = new URLSearchParams(search);
   const page = queryString.get('page') || 1;
+  const dist = queryString.get('dist');
+  const cat = queryString.get('cat');
+  const s = queryString.get('s');
   const dispatch = useAppDispatch();
 
   // ----------------------
@@ -54,7 +58,7 @@ const WbCompCentres = () => {
     setIsLoading(true);
     try {
       const response = await customFetch.get(`/comp-centres`, {
-        params: { page },
+        params: { page, dist, cat, s },
       });
 
       if (response.status === 200) {
@@ -97,7 +101,7 @@ const WbCompCentres = () => {
 
   useEffect(() => {
     fetchData();
-  }, [srCounter, page]);
+  }, [srCounter, page, dist, cat, s]);
 
   return (
     <AppMainWrapper>
@@ -106,9 +110,10 @@ const WbCompCentres = () => {
         <WbcAddEditCompCentre />
       </div>
       <AppCountWrapper total={meta.total || 0} />
+      <WbcCompCentresFilter />
       <AppContentWrapper>
         <div className="flex md:flex-row flex-col-reverse justify-start items-start gap-4">
-          <Table className="text-xs md:text-sm">
+          <Table className="text-xs md:text-xs">
             <TableHeader>
               <TableRow>
                 <TableHead className="w-[50px]">#</TableHead>
@@ -147,7 +152,10 @@ const WbCompCentres = () => {
                   ${centre.pincode ? centre.pincode : ''}`;
 
                   return (
-                    <TableRow key={nanoid()} className="group text-primary">
+                    <TableRow
+                      key={nanoid()}
+                      className="text-muted-foreground group"
+                    >
                       <TableCell className="font-medium">
                         {serialNo(Number(meta.currentPage), 10) + index}.
                       </TableCell>
@@ -183,9 +191,14 @@ const WbCompCentres = () => {
                       </TableCell>
                       <TableCell>
                         <div className="flex flex-col justify-start items-start">
-                          <AppTooltip
-                            content={centre.center_incharge_name || `NA`}
-                          />
+                          <span className="flex justify-start items-center text-xs uppercase mt-1.5 font-normal text-muted-foreground">
+                            {centre.center_incharge_name && (
+                              <User className="h-3.5" />
+                            )}
+                            <AppTooltip
+                              content={centre.center_incharge_name || `NA`}
+                            />
+                          </span>
                           {centre.center_incharge_mobile && (
                             <span className="flex justify-start items-center text-xs uppercase mt-1.5 font-normal text-muted-foreground">
                               <Phone className="h-3" />{' '}
@@ -202,9 +215,14 @@ const WbCompCentres = () => {
                       </TableCell>
                       <TableCell>
                         <div className="flex flex-col justify-start items-start">
-                          <AppTooltip
-                            content={centre.center_owner_name || `NA`}
-                          />
+                          <span className="flex justify-start items-center text-xs uppercase mt-1.5 font-normal text-muted-foreground">
+                            {centre.center_owner_name && (
+                              <User className="h-3.5" />
+                            )}
+                            <AppTooltip
+                              content={centre.center_owner_name || `NA`}
+                            />
+                          </span>
                           {centre.center_owner_mobile && (
                             <span className="flex justify-start items-center text-xs uppercase mt-1.5 font-normal text-muted-foreground">
                               <Phone className="h-3" />{' '}

@@ -4,6 +4,7 @@ import {
   AppMainWrapper,
   AppTooltip,
   WbcAddEditCourseDetails,
+  WbcCompCourseFilter,
   WbcDeleteModal,
   WbcPaginationContainer,
   WbcSkeletonRows,
@@ -44,6 +45,8 @@ const WbCompCourseDetails = () => {
   const { search } = useLocation();
   const queryString = new URLSearchParams(search);
   const page = queryString.get('page') || 1;
+  const type = queryString.get('type');
+  const s = queryString.get('s');
   const dispatch = useAppDispatch();
   const { srCounter } = useAppSelector((state) => state.common);
 
@@ -53,7 +56,7 @@ const WbCompCourseDetails = () => {
     setIsLoading(true);
     try {
       const response = await customFetch.get('com-training-courses', {
-        params: { page },
+        params: { page, type, s },
       });
 
       if (response.status === 200) {
@@ -76,7 +79,7 @@ const WbCompCourseDetails = () => {
 
   useEffect(() => {
     fetchData();
-  }, [page, srCounter]);
+  }, [page, srCounter, type, s]);
 
   // ----------------------------------------
 
@@ -103,9 +106,10 @@ const WbCompCourseDetails = () => {
         <WbcAddEditCourseDetails />
       </div>
       <AppCountWrapper total={meta.total || 0} />
+      <WbcCompCourseFilter />
       <AppContentWrapper>
         <div className="flex md:flex-row flex-col-reverse justify-start items-start gap-4">
-          <Table className="text-xs md:text-sm">
+          <Table className="text-xs md:text-xs">
             <TableHeader>
               <TableRow>
                 <TableHead className="w-[50px]">#</TableHead>
