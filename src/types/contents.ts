@@ -152,6 +152,21 @@ export type FairProgrammeProps = {
   uuid: string;
 };
 
+export type FairGalleryOverviewProps = {
+  added_by: number;
+  created_at: Date;
+  cover_image: string | null;
+  description: string | null;
+  id: number;
+  occurance: string;
+  title: string;
+  slug: string;
+  organisation: string;
+  updated_at: Date;
+  updated_by: number | null;
+  uuid: string;
+};
+
 export type DistrictBlockOfficeProps = {
   added_by: number;
   address: string | null;
