@@ -10,6 +10,7 @@ import { loader as srWebCompTrainingLoader } from '@/pages/website/wb-services/t
 import { loader as srWebPhotoGalleryLoader } from '@/pages/website/wb-services/gallery/WbPhotoGallery';
 import { loader as srWebGallerySingleLoader } from '@/pages/website/wb-services/gallery/WbGallerySingle';
 import { loader as srWebFpLoader } from '@/pages/website/wb-services/fairs-programs/WbFairsProgrammesWeb';
+import { loader as srWebMountaineeringLoader } from '@/pages/website/wb-services/mountaineering/WbMountaineering';
 
 const router = createBrowserRouter([
   { path: '/', element: <sy.WbLanding /> },
@@ -49,7 +50,11 @@ const router = createBrowserRouter([
       {
         path: 'mountaineering',
         children: [
-          { index: true, element: <sy.WbMountaineering /> },
+          {
+            index: true,
+            element: <sy.WbMountaineering />,
+            loader: srWebMountaineeringLoader(store),
+          },
           { path: 'news-events', element: <sy.WbMountainNewsEvents /> },
         ],
       },
@@ -59,7 +64,7 @@ const router = createBrowserRouter([
           {
             index: true,
             element: <sy.WbFairsProgrammesWeb />,
-            loader: srWebFpLoader,
+            loader: srWebFpLoader(store),
           },
           { path: ':slug', element: <sy.WbFairsProgrammesSingleWeb /> },
         ],
