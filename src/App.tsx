@@ -11,6 +11,8 @@ import { loader as srWebPhotoGalleryLoader } from '@/pages/website/wb-services/g
 import { loader as srWebGallerySingleLoader } from '@/pages/website/wb-services/gallery/WbGallerySingle';
 import { loader as srWebFpLoader } from '@/pages/website/wb-services/fairs-programs/WbFairsProgrammesWeb';
 import { loader as srWebMountaineeringLoader } from '@/pages/website/wb-services/mountaineering/WbMountaineering';
+import { loader as wbHostelLoader } from '@/pages/cms-services/youth-hostel/WbAppHostelInfo';
+import { loader as srWebHostelListLoader } from '@/pages/website/wb-services/youth-hostel/WbHostelList';
 
 const router = createBrowserRouter([
   { path: '/', element: <sy.WbLanding /> },
@@ -73,7 +75,11 @@ const router = createBrowserRouter([
       {
         path: '',
         children: [
-          { path: 'hostel-list', element: <sy.WbHostelList /> },
+          {
+            path: 'hostel-list',
+            element: <sy.WbHostelList />,
+            loader: srWebHostelListLoader(store),
+          },
           { path: 'how-to-book', element: <sy.WbHowBookHostel /> },
         ],
       },
@@ -153,13 +159,17 @@ const router = createBrowserRouter([
       },
       { path: 'news-events', element: <sy.WbAppNewsEvents /> },
       {
-        path: 'youth-hostel',
+        path: 'youth-hostels',
         children: [
           {
-            path: 'hostel-list',
+            index: true,
             element: <sy.WbAppHostelList />,
           },
-          { path: 'hostel-info', element: <sy.WbAppHostelInfo /> },
+          {
+            path: 'update/:uuid?',
+            element: <sy.WbAppHostelInfo />,
+            loader: wbHostelLoader,
+          },
         ],
       },
       { path: 'photo-gallery', element: <sy.WbAppPhotoGallery /> },

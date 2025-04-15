@@ -198,3 +198,28 @@ export type DistrictWithOfficeProps = {
   name: string;
   updated_at: Date;
 };
+
+export type YouthHostelProps = {
+  accommodation: string | null;
+  added_by: number;
+  address: string;
+  airport: string | null;
+  bus_stop: string | null;
+  created_at: Date;
+  district_id: number;
+  email: string | null;
+  hostel_img: string | null;
+  how_to_reach: string | null;
+  id: number;
+  is_active: boolean;
+  name: string;
+  phone_1: string | null;
+  phone_2: string | null;
+  railway_station: string | null;
+  remarks: string | null;
+  road_network: string | null;
+  slug: string;
+  updated_at: Date;
+  updated_by: number | null;
+  uuid: string;
+};

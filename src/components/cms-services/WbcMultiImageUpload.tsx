@@ -159,7 +159,7 @@ const WbcMultiImageUpload = ({
     let errorBag = {};
     let errorCount = 0;
 
-    if (!form.galleryTitle) {
+    if (form.galleryTitle?.trim() === '') {
       errorBag = { ...errorBag, galleryTitle: ['Gallery title is required'] };
       errorCount++;
     }

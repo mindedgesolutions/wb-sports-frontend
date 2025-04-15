@@ -130,7 +130,11 @@ const WbGeneralBodyMembers = () => {
                           <AppTooltip content={gbMember.name} />
                         </TableCell>
                         <TableCell>
-                          <AppTooltip content={gbMember.designation || 'NA'} />
+                          {gbMember.designation ? (
+                            <AppTooltip content={gbMember.designation} />
+                          ) : (
+                            <p className="na">NA</p>
+                          )}
                         </TableCell>
                         <TableCell>
                           <AppTooltip content={gbMember.description} />

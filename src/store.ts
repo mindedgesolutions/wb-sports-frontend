@@ -6,6 +6,7 @@ import compCourseReducer from '@/features/compCourseSlice';
 import mountainReducer from '@/features/mountainSlice';
 import districtBlockOfficeReducer from '@/features/districtBlockOfficeSlice';
 import fairProgrammeReducer from '@/features/fairProgrammeSlice';
+import hostelReducer from '@/features/hostelSlice';
 
 export const store = configureStore({
   reducer: {
@@ -16,6 +17,7 @@ export const store = configureStore({
     mountains: mountainReducer,
     districtBlockOffices: districtBlockOfficeReducer,
     fairProgrammes: fairProgrammeReducer,
+    hostels: hostelReducer,
   },
 });
 

@@ -17,6 +17,7 @@ export { default as WbDistrictOfficeTable } from '@/components/website/wb-servic
 export { default as WbCompCourseTable } from '@/components/website/wb-services/training/WbCompCourseTable';
 export { default as WbGallerySingleBanner } from '@/components/website/wb-services/WbGallerySingleBanner';
 export { default as WbGbMembersTable } from '@/components/website/wb-services/mountaineering/WbGbMembersTable';
+export { default as WbYouthHostelCard } from '@/components/website/wb-services/youth-hostel/WbYouthHostelCard';
 // Services Website Components end ----------------------------
 
 // Services App Components start ----------------------------

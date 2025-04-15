@@ -25,7 +25,7 @@ const WbFairsProgrammesWeb = () => {
       <WbPageTopBanner />
       <WbPageWrapper>
         <WbGalleryContentWrapper title="Fairs & Programmes">
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-4 md:gap-8">
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-4 md:gap-4">
             {fairs?.length === 0 ? (
               <div className="col-span-full text-center">No album found</div>
             ) : (

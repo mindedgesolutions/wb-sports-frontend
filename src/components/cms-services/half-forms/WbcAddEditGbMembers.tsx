@@ -71,11 +71,11 @@ const WbcAddEditGbMembers = ({
     let errorBag = {};
     let errorCount = 0;
 
-    if (!form.name) {
+    if (!form.name.trim()) {
       errorBag = { ...errorBag, name: ['Name is required'] };
       errorCount++;
     }
-    if (!form.desc) {
+    if (!form.desc.trim()) {
       errorBag = { ...errorBag, desc: ['Description is required'] };
       errorCount++;
     }
@@ -113,7 +113,7 @@ const WbcAddEditGbMembers = ({
   return (
     <div className="border p-2">
       <div className="bg-muted-foreground/10 text-muted-foreground p-2 text-base font-medium tracking-wider">
-        Add member details
+        {editId ? `Update details` : `Add member details`}
       </div>
       <form onSubmit={handleSubmit} autoComplete="off">
         <div className="mt-6">
@@ -180,7 +180,7 @@ const WbcAddEditGbMembers = ({
             </Button>
             <WbcSubmitBtn
               isLoading={isLoading}
-              text="Upload"
+              text={editId ? `Update Details` : `Add Member`}
               customClass="cs-btn-primary"
             />
           </div>

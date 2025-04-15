@@ -37,7 +37,7 @@ const WbcCompCentrePopover = ({
         <SlQuestion className="text-sm ml-1.5" />
       </PopoverTrigger>
       <PopoverContent align="end" className="p-3 rounded-xs">
-        <div className="flex flex-col justify-start items-start text-xs leading-relaxed">
+        <div className="flex flex-col justify-start items-start text-xs leading-relaxed text-sky-foreground">
           {address1 && <span>{address1},</span>}
           {address2 && <span>{address2},</span>}
           {address3 && <span>{address3}</span>}
