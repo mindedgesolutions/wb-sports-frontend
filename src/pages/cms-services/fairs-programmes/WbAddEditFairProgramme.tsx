@@ -25,8 +25,8 @@ import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import Editor from 'react-simple-wysiwyg';
 
 type FormProps = {
-  title: string | undefined;
-  occurance: string | undefined;
+  title: string;
+  occurance: string;
 };
 
 const WbAddEditFairProgramme = () => {
@@ -119,8 +119,8 @@ const WbAddEditFairProgramme = () => {
       setDescription('');
     } else {
       setForm({
-        title: editData?.title,
-        occurance: editData?.occurance,
+        title: editData?.title ?? '',
+        occurance: editData?.occurance ?? '',
       });
       setErrors(null);
       setDescription(editData?.description || '');
@@ -171,11 +171,11 @@ const WbAddEditFairProgramme = () => {
     let errorBag = {};
     let errorCount = 0;
 
-    if (!form.title) {
+    if (!form.title.trim()) {
       errorBag = { ...errorBag, title: ['Title is required'] };
       errorCount++;
     }
-    if (!form.occurance) {
+    if (!form.occurance.trim()) {
       errorBag = { ...errorBag, occurance: ['Occurance is required'] };
       errorCount++;
     }

@@ -1,14 +1,25 @@
 import {
+  AppScrollToTop,
   WbContentWrapper,
+  WbGbMembersTable,
   WbPageSidebar,
   WbPageTopBanner,
   WbPageWrapper,
 } from '@/components';
 import { Separator } from '@/components/ui/separator';
+import { titles } from '@/constants';
+import { setWebGbMembers } from '@/features/mountainSlice';
+import { RootState } from '@/store';
+import customFetch from '@/utils/customFetch';
+import showError from '@/utils/showError';
+import { Store } from '@reduxjs/toolkit';
 
 const WbMountaineering = () => {
+  document.title = `Mountaineering | ${titles.services}`;
+
   return (
     <div>
+      <AppScrollToTop />
       <WbPageTopBanner />
       <WbPageWrapper>
         <WbPageSidebar parentMenu="Mountaineering" />
@@ -38,6 +49,10 @@ const WbMountaineering = () => {
             Yuba Bharati Krirangan, Saltlake, Kolkata.
           </p>
           <p>For more details, visit the website</p>
+          <Separator className="bg-sky/10" />
+          <p className="text-sky-foreground font-medium tracking-wider">
+            Main Objects
+          </p>
           <p>
             The aims and objectives of this Foundation is to help and encourage
             the Youth of this State in 'Adventure Sports', Expedition and
@@ -51,6 +66,9 @@ const WbMountaineering = () => {
             under the seas, cycling, motor cycling, touring, aero sports etc.
             for the youth and give financial assistance to individual family
             members of mountaineers or explorers etc. involved in an accident.
+          </p>
+          <p className="text-sky-foreground font-medium tracking-wider">
+            Others
           </p>
           <ol
             content="a"
@@ -79,9 +97,31 @@ const WbMountaineering = () => {
             </li>
           </ol>
           <Separator className="bg-sky/10" />
+          <p className="text-sky-foreground font-medium tracking-wider">
+            Name, Address & Description of the Members of the General Body
+          </p>
+          <WbGbMembersTable />
         </WbContentWrapper>
       </WbPageWrapper>
     </div>
   );
 };
 export default WbMountaineering;
+
+// ---------------------------
+
+export const loader = (store: Store<RootState>) => async () => {
+  const { webGbMembers } = store.getState().mountains;
+  try {
+    if (!webGbMembers.length) {
+      const response = await customFetch.get(`/services/gb-members`);
+      const gbMembers = response.data.members;
+      store.dispatch(setWebGbMembers(gbMembers));
+    }
+    return null;
+  } catch (error) {
+    console.log(error);
+    showError(`Something went wrong`);
+    return error;
+  }
+};

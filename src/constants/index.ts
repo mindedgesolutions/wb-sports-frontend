@@ -16,6 +16,8 @@ import pdfIcon from '@/assets/images/pdf.png';
 import srOrganisationChart from '@/assets/images/services/organisation_chart_box.jpg';
 import honbleMos from '@/assets/images/services/honerablemos_pic2.jpg';
 import noImg from '@/assets/images/no-image.jpg';
+import fairDefault from '@/assets/images/services/fair-default.jpg';
+import hostelDefault from '@/assets/images/services/hostel-default.jpg';
 
 export const images = {
   youth,
@@ -36,6 +38,8 @@ export const images = {
   srOrganisationChart,
   honbleMos,
   noImg,
+  fairDefault,
+  hostelDefault,
 };
 
 export const titles = {

@@ -27,7 +27,7 @@ type WbcAddEditCompCentreProps = {
   yctcName: string;
   yctcCode: string | null;
   centreCategory: string | null;
-  address1: string | null;
+  address1: string;
   address2: string | null;
   address3: string | null;
   city: string | null;
@@ -77,7 +77,7 @@ const WbcAddEditCompCentre = ({ editId }: { editId?: number }) => {
         yctcName: editData.yctc_name,
         yctcCode: editData?.yctc_code,
         centreCategory: editData?.center_category,
-        address1: editData?.address_line_1,
+        address1: editData?.address_line_1 ?? '',
         address2: editData?.address_line_2,
         address3: editData?.address_line_3,
         city: editData?.city,
@@ -162,11 +162,11 @@ const WbcAddEditCompCentre = ({ editId }: { editId?: number }) => {
       errorBag = { ...errorBag, district: ['District is required'] };
       errorCount++;
     }
-    if (!form.yctcName) {
+    if (!form.yctcName.trim()) {
       errorBag = { ...errorBag, yctcName: ['YCTC name is required'] };
       errorCount++;
     }
-    if (!form.address1) {
+    if (!form.address1.trim()) {
       errorBag = { ...errorBag, address1: ['Address line 1 is required'] };
       errorCount++;
     }

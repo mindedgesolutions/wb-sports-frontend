@@ -152,6 +152,21 @@ export type FairProgrammeProps = {
   uuid: string;
 };
 
+export type FairGalleryOverviewProps = {
+  added_by: number;
+  created_at: Date;
+  cover_image: string | null;
+  description: string | null;
+  id: number;
+  occurance: string;
+  title: string;
+  slug: string;
+  organisation: string;
+  updated_at: Date;
+  updated_by: number | null;
+  uuid: string;
+};
+
 export type DistrictBlockOfficeProps = {
   added_by: number;
   address: string | null;
@@ -182,4 +197,29 @@ export type DistrictWithOfficeProps = {
   is_active: boolean;
   name: string;
   updated_at: Date;
+};
+
+export type YouthHostelProps = {
+  accommodation: string | null;
+  added_by: number;
+  address: string;
+  airport: string | null;
+  bus_stop: string | null;
+  created_at: Date;
+  district_id: number;
+  email: string | null;
+  hostel_img: string | null;
+  how_to_reach: string | null;
+  id: number;
+  is_active: boolean;
+  name: string;
+  phone_1: string | null;
+  phone_2: string | null;
+  railway_station: string | null;
+  remarks: string | null;
+  road_network: string | null;
+  slug: string;
+  updated_at: Date;
+  updated_by: number | null;
+  uuid: string;
 };

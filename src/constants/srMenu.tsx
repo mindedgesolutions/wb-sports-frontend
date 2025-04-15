@@ -94,18 +94,8 @@ export const adminMenus: CmsMenuProps[] = [
   },
   {
     title: 'Youth Hostels',
-    url: '#',
+    url: `/${titles.servicesUrl}/${slug}/youth-hostels`,
     icon: Building,
-    children: [
-      {
-        title: 'Hostel List',
-        url: `/${titles.servicesUrl}/${slug}/youth-hostel/hostel-list`,
-      },
-      {
-        title: 'Hostel Info',
-        url: `/${titles.servicesUrl}/${slug}/youth-hostel/hostel-info`,
-      },
-    ],
   },
   {
     title: 'Photo Gallery',

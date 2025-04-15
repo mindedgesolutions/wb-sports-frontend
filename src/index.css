@@ -178,6 +178,10 @@ body {
   @apply tracking-widest text-xs font-normal;
 }
 
+.na {
+  @apply text-xs text-muted-foreground/60 italic;
+}
+
 /* For website menu starts */
 .sub-menu {
   @apply absolute top-11 p-2 rounded-sm origin-[50%_-70px] backdrop-blur bg-sky/50;

@@ -24,13 +24,13 @@ import showSuccess from '@/utils/showSuccess';
 type WbcAddEditCompCentreProps = {
   district: string | number | null;
   name: string;
-  address: string | undefined;
+  address: string;
   landline: string | number | undefined;
   email: string | undefined;
   mobile_1: string | number | undefined;
   mobile_2: string | number | undefined;
   officerName: string | undefined;
-  officerDesignation: string | undefined;
+  officerDesignation: string;
   officerMobile: string | number | undefined;
 };
 
@@ -150,15 +150,15 @@ const WbcAddEditDistrictBlockOffice = ({ editId }: { editId?: number }) => {
       errorBag = { ...errorBag, district: ['District is required'] };
       errorCount++;
     }
-    if (!form.name) {
+    if (!form.name.trim()) {
       errorBag = { ...errorBag, name: ['Name of the office is required'] };
       errorCount++;
     }
-    if (!form.address) {
+    if (!form.address.trim()) {
       errorBag = { ...errorBag, address: ['Address is required'] };
       errorCount++;
     }
-    if (!form.officerDesignation) {
+    if (!form.officerDesignation.trim()) {
       errorBag = {
         ...errorBag,
         officerDesignation: ['Officer designation is required'],

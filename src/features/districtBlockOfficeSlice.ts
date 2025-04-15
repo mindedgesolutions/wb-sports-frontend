@@ -1,8 +1,12 @@
-import { DistrictBlockOfficeProps } from '@/types/contents';
+import {
+  DistrictBlockOfficeProps,
+  DistrictWithOfficeProps,
+} from '@/types/contents';
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   offices: [] as DistrictBlockOfficeProps[],
+  webOffices: [] as DistrictWithOfficeProps[],
 };
 
 const districtBlockOfficeSlice = createSlice({
@@ -12,7 +16,11 @@ const districtBlockOfficeSlice = createSlice({
     setDistrictBlockOffices: (state, action) => {
       state.offices = action.payload;
     },
+    setWebDistrictBlockOffices: (state, action) => {
+      state.webOffices = action.payload;
+    },
   },
 });
-export const { setDistrictBlockOffices } = districtBlockOfficeSlice.actions;
+export const { setDistrictBlockOffices, setWebDistrictBlockOffices } =
+  districtBlockOfficeSlice.actions;
 export default districtBlockOfficeSlice.reducer;

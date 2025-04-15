@@ -1,4 +1,5 @@
 import {
+  AppScrollToTop,
   WbFooter,
   WbHeaderBottom,
   WbHeaderTop,
@@ -47,6 +48,7 @@ const WbLayout = () => {
   return (
     <>
       {isLoading && <WbPageLoader />}
+      <AppScrollToTop />
       <WebsiteContext.Provider value={{ ...pageBanner }}>
         <WbHeaderTop />
         <WbHeaderBottom />

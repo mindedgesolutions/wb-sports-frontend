@@ -166,12 +166,13 @@ const WbCompCentres = () => {
                         <div className="flex flex-col justify-start items-start">
                           <AppTooltip content={centre.yctc_name} />
                           <span className="text-xs uppercase mt-1.5 font-normal text-muted-foreground">
-                            code: {centre.yctc_code || `NA`}
+                            code:{' '}
+                            {centre.yctc_code || <span className="na">NA</span>}
                           </span>
                         </div>
                       </TableCell>
                       <TableCell className="capitalize">
-                        {centre.center_category || `NA`}
+                        {centre.center_category || <p className="na">NA</p>}
                       </TableCell>
                       <TableCell className="flex justify-between items-center max-w-[240px]">
                         <AppTooltip content={addressLabel} />
@@ -191,44 +192,53 @@ const WbCompCentres = () => {
                       </TableCell>
                       <TableCell>
                         <div className="flex flex-col justify-start items-start">
-                          <span className="flex justify-start items-center text-xs uppercase mt-1.5 font-normal text-muted-foreground">
-                            {centre.center_incharge_name && (
+                          {centre.center_incharge_name && (
+                            <span className="flex justify-start items-center text-xs uppercase mt-1 font-normal text-muted-foreground">
                               <User className="h-3.5" />
-                            )}
-                            <AppTooltip
-                              content={centre.center_incharge_name || `NA`}
-                            />
-                          </span>
+                              <AppTooltip
+                                content={centre.center_incharge_name || `NA`}
+                              />
+                            </span>
+                          )}
                           {centre.center_incharge_mobile && (
-                            <span className="flex justify-start items-center text-xs uppercase mt-1.5 font-normal text-muted-foreground">
+                            <span className="flex justify-start items-center text-xs uppercase mt-1 font-normal text-muted-foreground">
                               <Phone className="h-3" />{' '}
                               {centre.center_incharge_mobile}
                             </span>
                           )}
                           {centre.center_incharge_email && (
-                            <span className="flex justify-start items-center text-xs lowercase mt-1.5 font-normal text-muted-foreground">
+                            <span className="flex justify-start items-center text-xs lowercase mt-1 font-normal text-muted-foreground">
                               <Mail className="h-3" />{' '}
                               {centre.center_incharge_email}
                             </span>
                           )}
+                          {!centre.center_incharge_name &&
+                            !centre.center_incharge_mobile &&
+                            !centre.center_incharge_email && (
+                              <p className="na">NA</p>
+                            )}
                         </div>
                       </TableCell>
                       <TableCell>
                         <div className="flex flex-col justify-start items-start">
-                          <span className="flex justify-start items-center text-xs uppercase mt-1.5 font-normal text-muted-foreground">
-                            {centre.center_owner_name && (
+                          {centre.center_owner_name && (
+                            <span className="flex justify-start items-center text-xs uppercase mt-1 font-normal text-muted-foreground">
                               <User className="h-3.5" />
-                            )}
-                            <AppTooltip
-                              content={centre.center_owner_name || `NA`}
-                            />
-                          </span>
+                              <AppTooltip
+                                content={centre.center_owner_name || `NA`}
+                              />
+                            </span>
+                          )}
                           {centre.center_owner_mobile && (
-                            <span className="flex justify-start items-center text-xs uppercase mt-1.5 font-normal text-muted-foreground">
+                            <span className="flex justify-start items-center text-xs uppercase mt-1 font-normal text-muted-foreground">
                               <Phone className="h-3" />{' '}
                               {centre.center_owner_mobile}
                             </span>
                           )}
+                          {!centre.center_owner_name &&
+                            !centre.center_owner_mobile && (
+                              <p className="na">NA</p>
+                            )}
                         </div>
                       </TableCell>
                       <TableCell>

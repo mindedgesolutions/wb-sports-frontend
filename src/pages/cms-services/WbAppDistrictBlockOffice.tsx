@@ -102,7 +102,9 @@ const WbAppDistrictBlockOffice = () => {
   return (
     <AppMainWrapper>
       <div className="bg-muted-foreground/10 p-2 md:pl-4 text-muted-foreground font-medium capitalize text-base md:text-xl tracking-normal md:tracking-wider flex justify-between items-center">
-        <p>list of district / block offices</p>
+        <p>
+          list <span className="lowercase">of</span> district / block offices
+        </p>
         <WbcAddEditDistrictBlockOffice />
       </div>
       <AppCountWrapper total={meta.total || 0} />
@@ -171,15 +173,22 @@ const WbAppDistrictBlockOffice = () => {
                         <AppTooltip content={office.address ?? 'NA'} />
                       </TableCell>
                       <TableCell>
-                        <div className="flex flex-col justify-start items-start gap-4">
-                          <div className="flex flex-row justify-start items-center gap-2">
-                            <Phone className="size-3.5" />
-                            <p>{office.landline_no ?? 'NA'}</p>
-                          </div>
-                          <div className="flex flex-row justify-start items-center gap-2">
-                            <Mail className="size-3.5" />
-                            <AppTooltip content={office.email ?? 'NA'} />
-                          </div>
+                        <div className="flex flex-col justify-start items-start gap-1">
+                          {office.landline_no && (
+                            <div className="flex flex-row justify-start items-center gap-2">
+                              <Phone className="size-3.5" />
+                              <p>{office.landline_no ?? 'NA'}</p>
+                            </div>
+                          )}
+                          {office.email && (
+                            <div className="flex flex-row justify-start items-center gap-2">
+                              <Mail className="size-3.5" />
+                              <AppTooltip content={office.email ?? 'NA'} />
+                            </div>
+                          )}
+                          {!office.landline_no && !office.email && (
+                            <p className="na">NA</p>
+                          )}
                         </div>
                       </TableCell>
                       <TableCell>

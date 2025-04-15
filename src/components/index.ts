@@ -16,6 +16,8 @@ export { default as WbContentWrapper } from '@/components/wrappers/WbContentWrap
 export { default as WbDistrictOfficeTable } from '@/components/website/wb-services/about/WbDistrictOfficeTable';
 export { default as WbCompCourseTable } from '@/components/website/wb-services/training/WbCompCourseTable';
 export { default as WbGallerySingleBanner } from '@/components/website/wb-services/WbGallerySingleBanner';
+export { default as WbGbMembersTable } from '@/components/website/wb-services/mountaineering/WbGbMembersTable';
+export { default as WbYouthHostelCard } from '@/components/website/wb-services/youth-hostel/WbYouthHostelCard';
 // Services Website Components end ----------------------------
 
 // Services App Components start ----------------------------
@@ -52,4 +54,5 @@ export { default as AppTitleWrapper } from '@/components/wrappers/AppTitleWrappe
 export { default as AppContentWrapper } from '@/components/wrappers/AppContentWrapper';
 export { default as AppTooltip } from '@/components/AppTooltip';
 export { default as AppCountWrapper } from '@/components/wrappers/AppCountWrapper';
+export { default as AppScrollToTop } from '@/components/AppScrollToTop';
 // Common Components end ----------------------------

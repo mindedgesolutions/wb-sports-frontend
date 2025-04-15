@@ -1,6 +1,12 @@
 import { images } from '@/constants';
 
-const WbGallerySingleBanner = ({ title }: { title: string }) => {
+const WbGallerySingleBanner = ({
+  title,
+  subTitle,
+}: {
+  title: string;
+  subTitle?: string;
+}) => {
   return (
     <div className="flex-1 relative">
       <img
@@ -14,7 +20,7 @@ const WbGallerySingleBanner = ({ title }: { title: string }) => {
           {title}
         </p>
         <p className="text-base md:text-lg text-white/70 font-light tracking-widest mt-1 text-center">
-          Photo Gallery
+          {subTitle || `Photo Gallery`}
         </p>
       </div>
     </div>
