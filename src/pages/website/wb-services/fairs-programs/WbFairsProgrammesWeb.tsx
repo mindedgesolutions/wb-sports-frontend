@@ -35,7 +35,7 @@ const WbFairsProgrammesWeb = () => {
                   to={`/${titles.serviceUrlWeb}/fairs-programmes/${fair.slug}`}
                 >
                   <div className="col-span-1 border p-0 md:p-1 rounded-none flex flex-col gap-3 cursor-pointer hover:shadow-lg duration-300 group">
-                    <div className="w-full h-52 bg-gray-200 rounded-none overflow-hidden mb-2">
+                    <div className="w-full h-32 md:h-52 bg-gray-200 rounded-none overflow-hidden mb-2">
                       <img
                         src={
                           fair.cover_image

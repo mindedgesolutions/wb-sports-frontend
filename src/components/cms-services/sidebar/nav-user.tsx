@@ -16,12 +16,31 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from '@/components/ui/sidebar';
-import { images } from '@/constants';
+import { images, titles } from '@/constants';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '@/hooks';
+import customFetch from '@/utils/customFetch';
+import showSuccess from '@/utils/showSuccess';
+import { unsetCurrentUser } from '@/features/currentUserSlice';
 
 export function NavUser() {
-  // const { currentUser } = useSelector((store) => store.currentUser);
-  const currentUser = { name: 'Souvik Nag', email: 's.nag26@gmail.com' };
+  const { currentUser } = useAppSelector((state) => state.currentUser);
   const { isMobile } = useSidebar();
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
+  const logout = async () => {
+    try {
+      await customFetch.post(`/auth/logout`);
+
+      showSuccess('Logged out successfully');
+      localStorage.removeItem(titles.serviceToken);
+      dispatch(unsetCurrentUser());
+      navigate(`/${titles.servicesUrl}/sign-in`);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <SidebarMenu>
@@ -33,7 +52,14 @@ export function NavUser() {
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
               <Avatar className="h-8 w-8 rounded-lg">
-                <AvatarImage src={images.profileImg} alt={currentUser?.name} />
+                <AvatarImage
+                  src={
+                    currentUser?.user_details.profile_img
+                      ? `${titles.baseUrl}${currentUser?.user_details.profile_img}`
+                      : images.profileImg
+                  }
+                  alt={currentUser?.name}
+                />
                 <AvatarFallback className="rounded-lg">CN</AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
@@ -70,20 +96,28 @@ export function NavUser() {
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <User />
-                Profile
-              </DropdownMenuItem>
+              <Link
+                to={`/${titles.servicesUrl}/${currentUser?.user_details?.slug}/settings`}
+              >
+                <DropdownMenuItem>
+                  <User />
+                  Profile
+                </DropdownMenuItem>
+              </Link>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <Lock />
-                Change Password
-              </DropdownMenuItem>
+              <Link
+                to={`/${titles.servicesUrl}/${currentUser?.user_details?.slug}/change-password`}
+              >
+                <DropdownMenuItem>
+                  <Lock />
+                  Change Password
+                </DropdownMenuItem>
+              </Link>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={logout}>
               <LogOut />
               Log out
             </DropdownMenuItem>

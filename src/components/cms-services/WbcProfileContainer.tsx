@@ -41,7 +41,11 @@ const WbcProfileContainer = () => {
       <DropdownMenuTrigger asChild className="ml-0 -mt-3 hidden md:block">
         <Button type="button" variant="ghost" className="focus:outline-none">
           <img
-            src={images.profileImg}
+            src={
+              currentUser?.user_details.profile_img
+                ? `${titles.baseUrl}${currentUser?.user_details.profile_img}`
+                : images.profileImg
+            }
             alt="user"
             className="w-8 h-8 rounded-full"
           />
@@ -51,13 +55,17 @@ const WbcProfileContainer = () => {
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <Link to={`/${user?.user_details?.slug}/settings`}>
+          <Link
+            to={`/${titles.servicesUrl}/${user?.user_details?.slug}/settings`}
+          >
             <DropdownMenuItem className="cursor-pointer">
               <User className="mr-2 h-4 w-4" />
               <span>Profile</span>
             </DropdownMenuItem>
           </Link>
-          <Link to={`/${user?.user_details?.slug}/change-password`}>
+          <Link
+            to={`/${titles.servicesUrl}/${user?.user_details?.slug}/change-password`}
+          >
             <DropdownMenuItem className="cursor-pointer">
               <Lock className="mr-2 h-4 w-4" />
               <span>Change password</span>

@@ -1,14 +1,55 @@
 import { WbcFooter, WbcTopnav } from '@/components';
 import { AppSidebar } from '@/components/cms-services/sidebar/app-sidebar';
 import { SidebarProvider } from '@/components/ui/sidebar';
+import { titles } from '@/constants';
 import { setDistricts } from '@/features/commonSlice';
-import { setCurrentUser } from '@/features/currentUserSlice';
+import { setCurrentUser, unsetCurrentUser } from '@/features/currentUserSlice';
+import { useAppDispatch, useAppSelector } from '@/hooks';
 import { RootState } from '@/store';
 import customFetch from '@/utils/customFetch';
+import showError from '@/utils/showError';
 import { Store } from '@reduxjs/toolkit';
-import { Outlet } from 'react-router-dom';
+import { useEffect } from 'react';
+import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
 
 const WbCmsLayout = () => {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const { slug } = useParams();
+  const { currentUser } = useAppSelector((state) => state.currentUser);
+  const { pathname } = useLocation();
+
+  const unauthenticated = () => {
+    showError(`You are not authenticated! Please sign in.`);
+    dispatch(unsetCurrentUser());
+    localStorage.removeItem(import.meta.env.VITE_SERVICE_TOKEN_NAME);
+    navigate(`/${titles.servicesUrl}/sign-in`);
+  };
+
+  const unauthorized = () => {
+    showError(`You are not authorized to access this page.`);
+    navigate(`/forbidden`);
+  };
+
+  const invalidurl = () => {
+    if (
+      currentUser?.user_details.slug &&
+      slug !== currentUser?.user_details.slug
+    ) {
+      showError(`Invalid URL! Please sign again.`);
+      dispatch(unsetCurrentUser());
+      localStorage.removeItem(import.meta.env.VITE_TOKEN_NAME);
+      navigate(`/${titles.servicesUrl}/sign-in`);
+    }
+    return true;
+  };
+
+  useEffect(() => {
+    window.addEventListener('unauthenticated', unauthenticated);
+    window.addEventListener('unauthorized', unauthorized);
+    invalidurl();
+  }, [pathname]);
+
   return (
     <>
       <SidebarProvider>

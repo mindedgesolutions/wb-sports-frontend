@@ -2,30 +2,39 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { images, titles } from '@/constants';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { IoReload } from 'react-icons/io5';
 import customFetch from '@/utils/customFetch';
 import showError from '@/utils/showError';
 import showSuccess from '@/utils/showSuccess';
 import { useAppDispatch } from '@/hooks';
 import { setCurrentUser } from '@/features/currentUserSlice';
 import { WbcSubmitBtn } from '@/components';
+import { generateCaptcha } from '@/utils/function';
+import { RefreshCcw } from 'lucide-react';
 
 const WbSignIn = () => {
   document.title = `Admin Sign In | ${titles.services}`;
 
+  const captcha = generateCaptcha();
+  const [captchaText, setCaptchaText] = useState(captcha);
   const [isLoading, setIsLoading] = useState(false);
   const [form, setForm] = useState({
-    username: 'souvik@test.com',
-    password: 'password',
-    captchaEnter: '1234',
+    username: '',
+    password: '',
+    captchaEnter: '',
   });
   const [errors, setErrors] = useState<{ [key: string]: string[] } | null>(
     null
   );
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const captchaRef = useRef<HTMLInputElement>(null);
+
+  const resetCaptcha = () => {
+    const newCaptcha = generateCaptcha();
+    setCaptchaText(newCaptcha);
+  };
 
   // ------------------------------
 
@@ -48,7 +57,8 @@ const WbSignIn = () => {
     let errorCount = 0;
 
     const formData = new FormData(e.currentTarget);
-    const data = Object.fromEntries(formData);
+    let data = Object.fromEntries(formData);
+    data = { ...data, captchaText: captchaText };
 
     if (!data.username) {
       errorBag = { ...errorBag, username: ['Username is required'] };
@@ -62,6 +72,16 @@ const WbSignIn = () => {
       errorBag = { ...errorBag, captchaEnter: ['Captcha is required'] };
       errorCount++;
     }
+    if (data.captchaEnter !== captchaText) {
+      errorBag = { ...errorBag, captchaEnter: ['Captcha is invalid'] };
+      if (captchaRef.current) {
+        captchaRef.current.value = '';
+        captchaRef.current.focus();
+      }
+      resetCaptcha();
+      errorCount++;
+    }
+
     if (errorCount > 0) {
       setErrors(errorBag);
       return;
@@ -84,7 +104,7 @@ const WbSignIn = () => {
       if ((error as any).status === 422) {
         return setErrors((error as any)?.response?.data?.errors);
       }
-      showError((error as any)?.response?.data?.message[0]);
+      return showError((error as any)?.response?.data?.errors[0]);
     }
   };
 
@@ -162,13 +182,29 @@ const WbSignIn = () => {
                   </span>
                 </div>
                 <div className="mt-3 flex flex-row justify-start items-center">
-                  <div className="w-72 h-16 bg-gray-200"></div>
-                  <Button variant={'ghost'} className="hover:bg-transparent">
-                    <IoReload className="text-muted-foreground h-4 font-bold" />
-                  </Button>
+                  <div className="flex flex-row justify-center items-center mb-2 md:mb-0">
+                    <div
+                      className={`relative p-2 md:p-4 min-w-40 max-w-40 bg-muted-foreground/20 rounded-xs select-none flex items-center justify-center font-medium tracking-widest text-xl md:text-3xl italic text-primary/80`}
+                      onDoubleClick={(e) => e.preventDefault()}
+                      onMouseDown={(e) => e.preventDefault()}
+                      onCopy={(e) => e.preventDefault()}
+                    >
+                      {captchaText}
+                    </div>
+                    <Button
+                      type="button"
+                      variant={'ghost'}
+                      size={'sm'}
+                      className="cursor-pointer font-bold hover:bg-transparent rounded-none"
+                      onClick={resetCaptcha}
+                    >
+                      <RefreshCcw />
+                    </Button>
+                  </div>
                   <div className="w-full flex flex-col justify-start items-start space-y-2">
                     <Input
                       type="text"
+                      ref={captchaRef}
                       name="captchaEnter"
                       placeholder="Enter captcha"
                       value={form.captchaEnter}
