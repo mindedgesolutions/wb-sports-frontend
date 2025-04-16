@@ -46,6 +46,8 @@ export { default as WbAppPhotoGallery } from '@/pages/cms-services/WbAppPhotoGal
 export { default as WbAppVocationalSchemes } from '@/pages/cms-services/vocational-training/WbAppVocationalSchemes';
 export { default as WbAppVocationalCentres } from '@/pages/cms-services/vocational-training/WbAppVocationalCentres';
 export { default as WbAppDistrictBlockOffice } from '@/pages/cms-services/WbAppDistrictBlockOffice';
+export { default as WbProfile } from '@/pages/cms-services/profile/WbProfile';
+export { default as WbChangePassword } from '@/pages/cms-services/profile/WbChangePassword';
 
 // Service Admin / CMS exports end --------------------------------
 

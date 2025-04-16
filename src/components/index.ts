@@ -46,6 +46,9 @@ export { default as WbcDistrictOfficeFilter } from '@/components/cms-services/fi
 export { default as WbcCompCourseFilter } from '@/components/cms-services/filters/WbcCompCourseFilter';
 export { default as WbcCompCentresFilter } from '@/components/cms-services/filters/WbcCompCentresFilter';
 export { default as WbcSortMountainGbMembers } from '@/components/cms-services/modal-forms/WbcSortMountainGbMembers';
+export { default as AppProfile } from '@/components/AppProfile';
+export { default as AppChangePassword } from '@/components/AppChangePassword';
+export { default as AppProfileImgPopover } from '@/components/AppProfileImgPopover';
 // Services App Components end ----------------------------
 
 // Common Components start ----------------------------

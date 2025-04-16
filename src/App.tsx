@@ -120,6 +120,8 @@ const router = createBrowserRouter([
     element: <sy.WbCmsLayout />,
     loader: wbLayoutLoader(store),
     children: [
+      { path: 'settings', element: <sy.WbProfile /> },
+      { path: 'change-password', element: <sy.WbChangePassword /> },
       { path: 'dashboard', element: <sy.WbCmsDashboard /> },
       { path: 'banners', element: <sy.WbCmsBanners /> },
       {
