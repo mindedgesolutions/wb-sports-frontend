@@ -55,3 +55,17 @@ export { default as WbChangePassword } from '@/pages/cms-services/profile/WbChan
 
 export { default as SpLayout } from '@/pages/website/wb-sports/SpLayout';
 export { default as SpHomePage } from '@/pages/website/wb-sports/SpHomePage';
+
+// Sports Website exports end --------------------------------
+
+// Sports Admin / CMS exports start --------------------------------
+
+export { default as SpSignIn } from '@/pages/cms-sports/auth/SpSignIn';
+export { default as SpForgotPassword } from '@/pages/cms-sports/auth/SpForgotPassword';
+export { default as SpResetPassword } from '@/pages/cms-sports/auth/SpResetPassword';
+export { default as SpCmsLayout } from '@/pages/cms-sports/SpCmsLayout';
+export { default as SpCmsDashboard } from '@/pages/cms-sports/SpCmsDashboard';
+export { default as SpProfile } from '@/pages/cms-sports/profile/SpProfile';
+export { default as SpChangePassword } from '@/pages/cms-sports/profile/SpChangePassword';
+
+// Sports Admin / CMS exports end --------------------------------

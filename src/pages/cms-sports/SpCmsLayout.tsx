@@ -1,9 +1,12 @@
-import { WbcFooter, WbcTopnav } from '@/components';
-import { AppSidebar } from '@/components/cms-services/sidebar/app-sidebar';
+import { SpFooter, SpTopnav } from '@/components';
+import { AppSidebar } from '@/components/cms-sports/sidebar/app-sidebar';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import { titles } from '@/constants';
 import { setDistricts } from '@/features/commonSlice';
-import { setCurrentUser, unsetCurrentUser } from '@/features/currentUserSlice';
+import {
+  setCurrentUserSp,
+  unsetCurrentUserSp,
+} from '@/features/currentUserSlice';
 import { useAppDispatch, useAppSelector } from '@/hooks';
 import { RootState } from '@/store';
 import customFetch from '@/utils/customFetch';
@@ -12,18 +15,18 @@ import { Store } from '@reduxjs/toolkit';
 import { useEffect } from 'react';
 import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
 
-const WbCmsLayout = () => {
+const SpCmsLayout = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { slug } = useParams();
-  const { currentUser } = useAppSelector((state) => state.currentUser);
+  const { currentUserSp } = useAppSelector((state) => state.currentUser);
   const { pathname } = useLocation();
 
   const unauthenticated = () => {
     showError(`You are not authenticated! Please sign in.`);
-    dispatch(unsetCurrentUser());
-    localStorage.removeItem(titles.serviceToken);
-    navigate(`/${titles.servicesUrl}/sign-in`);
+    dispatch(unsetCurrentUserSp());
+    localStorage.removeItem(import.meta.env.VITE_SERVICE_TOKEN_NAME);
+    navigate(`/${titles.sportsUrl}/sign-in`);
   };
 
   const unauthorized = () => {
@@ -33,13 +36,13 @@ const WbCmsLayout = () => {
 
   const invalidurl = () => {
     if (
-      currentUser?.user_details.slug &&
-      slug !== currentUser?.user_details.slug
+      currentUserSp?.user_details.slug &&
+      slug !== currentUserSp?.user_details.slug
     ) {
       showError(`Invalid URL! Please sign again.`);
-      dispatch(unsetCurrentUser());
-      localStorage.removeItem(titles.serviceToken);
-      navigate(`/${titles.servicesUrl}/sign-in`);
+      dispatch(unsetCurrentUserSp());
+      localStorage.removeItem(import.meta.env.VITE_TOKEN_NAME);
+      navigate(`/${titles.sportsUrl}/sign-in`);
     }
     return true;
   };
@@ -55,26 +58,26 @@ const WbCmsLayout = () => {
       <SidebarProvider>
         <AppSidebar />
         <main className="w-full">
-          <WbcTopnav />
+          <SpTopnav />
           <Outlet />
-          <WbcFooter />
+          <SpFooter />
         </main>
       </SidebarProvider>
     </>
   );
 };
-export default WbCmsLayout;
+export default SpCmsLayout;
 
 // --------------------------------------------
 export const loader = (store: Store<RootState>) => async () => {
-  const { currentUser } = store.getState().currentUser;
+  const { currentUserSp } = store.getState().currentUser;
   const { districts } = store.getState().common;
 
   try {
-    if (!currentUser?.name) {
+    if (!currentUserSp) {
       const response = await customFetch.get(`/auth/me`);
       const user = response.data.data;
-      store.dispatch(setCurrentUser(user));
+      store.dispatch(setCurrentUserSp(user));
     }
     if (!districts.length) {
       const response = await customFetch.get(`/services/districts`);

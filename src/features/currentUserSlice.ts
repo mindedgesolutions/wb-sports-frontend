@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   currentUser: null as UserProps | null,
+  currentUserSp: null as UserProps | null,
 };
 
 const currentUserSlice = createSlice({
@@ -15,7 +16,18 @@ const currentUserSlice = createSlice({
     unsetCurrentUser: (state) => {
       state.currentUser = null;
     },
+    setCurrentUserSp: (state, action) => {
+      state.currentUserSp = action.payload;
+    },
+    unsetCurrentUserSp: (state) => {
+      state.currentUserSp = null;
+    },
   },
 });
-export const { setCurrentUser, unsetCurrentUser } = currentUserSlice.actions;
+export const {
+  setCurrentUser,
+  unsetCurrentUser,
+  setCurrentUserSp,
+  unsetCurrentUserSp,
+} = currentUserSlice.actions;
 export default currentUserSlice.reducer;

@@ -21,10 +21,10 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '@/hooks';
 import customFetch from '@/utils/customFetch';
 import showSuccess from '@/utils/showSuccess';
-import { unsetCurrentUser } from '@/features/currentUserSlice';
+import { unsetCurrentUserSp } from '@/features/currentUserSlice';
 
 export function NavUser() {
-  const { currentUser } = useAppSelector((state) => state.currentUser);
+  const { currentUserSp } = useAppSelector((state) => state.currentUser);
   const { isMobile } = useSidebar();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -34,9 +34,9 @@ export function NavUser() {
       await customFetch.post(`/auth/logout`);
 
       showSuccess('Logged out successfully');
-      localStorage.removeItem(titles.serviceToken);
-      dispatch(unsetCurrentUser());
-      navigate(`/${titles.servicesUrl}/sign-in`);
+      localStorage.removeItem(titles.sportsToken);
+      dispatch(unsetCurrentUserSp());
+      navigate(`/${titles.sportsUrl}/sign-in`);
     } catch (error) {
       console.log(error);
     }
@@ -54,19 +54,19 @@ export function NavUser() {
               <Avatar className="h-8 w-8 rounded-lg">
                 <AvatarImage
                   src={
-                    currentUser?.user_details.profile_img
-                      ? `${titles.baseUrl}${currentUser?.user_details.profile_img}`
+                    currentUserSp?.user_details.profile_img
+                      ? `${titles.baseUrl}${currentUserSp?.user_details.profile_img}`
                       : images.profileImg
                   }
-                  alt={currentUser?.name}
+                  alt={currentUserSp?.name}
                 />
                 <AvatarFallback className="rounded-lg">CN</AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-semibold">
-                  {currentUser?.name}
+                  {currentUserSp?.name}
                 </span>
-                <span className="truncate text-xs">{currentUser?.email}</span>
+                <span className="truncate text-xs">{currentUserSp?.email}</span>
               </div>
               <ChevronsUpDown className="ml-auto size-4" />
             </SidebarMenuButton>
@@ -82,26 +82,28 @@ export function NavUser() {
                 <Avatar className="h-8 w-8 rounded-lg">
                   <AvatarImage
                     src={
-                      currentUser?.user_details.profile_img
-                        ? `${titles.baseUrl}${currentUser?.user_details.profile_img}`
+                      currentUserSp?.user_details.profile_img
+                        ? `${titles.baseUrl}${currentUserSp?.user_details.profile_img}`
                         : images.profileImg
                     }
-                    alt={currentUser?.name}
+                    alt={currentUserSp?.name}
                   />
                   <AvatarFallback className="rounded-lg">CN</AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-semibold">
-                    {currentUser?.name}
+                    {currentUserSp?.name}
                   </span>
-                  <span className="truncate text-xs">{currentUser?.email}</span>
+                  <span className="truncate text-xs">
+                    {currentUserSp?.email}
+                  </span>
                 </div>
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <Link
-                to={`/${titles.servicesUrl}/${currentUser?.user_details?.slug}/settings`}
+                to={`/${titles.sportsUrl}/${currentUserSp?.user_details?.slug}/settings`}
               >
                 <DropdownMenuItem>
                   <User />
@@ -112,7 +114,7 @@ export function NavUser() {
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <Link
-                to={`/${titles.servicesUrl}/${currentUser?.user_details?.slug}/change-password`}
+                to={`/${titles.sportsUrl}/${currentUserSp?.user_details?.slug}/change-password`}
               >
                 <DropdownMenuItem>
                   <Lock />

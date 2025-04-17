@@ -18,6 +18,9 @@ import honbleMos from '@/assets/images/services/honerablemos_pic2.jpg';
 import noImg from '@/assets/images/no-image.jpg';
 import fairDefault from '@/assets/images/services/fair-default.jpg';
 import hostelDefault from '@/assets/images/services/hostel-default.jpg';
+// Sports images start -------------------
+import spSigninBg from '@/assets/images/sports/signin-bg.jpg';
+import spSigninFormBg from '@/assets/images/sports/signin-form-bg.jpg';
 
 export const images = {
   youth,
@@ -40,6 +43,8 @@ export const images = {
   noImg,
   fairDefault,
   hostelDefault,
+  spSigninBg,
+  spSigninFormBg,
 };
 
 export const titles = {
