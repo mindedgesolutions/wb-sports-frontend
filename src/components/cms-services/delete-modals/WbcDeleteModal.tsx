@@ -9,12 +9,13 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
-import { updateSrCounter } from '@/features/commonSlice';
+import { updateSpCounter, updateSrCounter } from '@/features/commonSlice';
 import { useAppDispatch } from '@/hooks';
 import { DeleteProps } from '@/types/contents';
 import customFetch from '@/utils/customFetch';
 import showSuccess from '@/utils/showSuccess';
 import { Trash2 } from 'lucide-react';
+import { useLocation } from 'react-router-dom';
 
 const WbcDeleteModal = ({
   setIsLoading,
@@ -24,12 +25,16 @@ const WbcDeleteModal = ({
   successMsg,
 }: DeleteProps) => {
   const dispatch = useAppDispatch();
+  const { pathname } = useLocation();
 
   const deletedata = async () => {
     setIsLoading(true);
     try {
       await customFetch.delete(apiUrl);
-      dispatch(updateSrCounter());
+      const callback = pathname.includes('wbsportsandyouth')
+        ? updateSpCounter()
+        : updateSrCounter();
+      dispatch(callback);
       showSuccess(successMsg);
     } catch (error) {
       console.log(error);

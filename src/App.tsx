@@ -209,6 +209,22 @@ const router = createBrowserRouter([
       { path: 'settings', element: <sy.SpProfile /> },
       { path: 'change-password', element: <sy.SpChangePassword /> },
       { path: 'dashboard', element: <sy.SpCmsDashboard /> },
+      { path: 'homepage-slider', element: <sy.SpHomepageSlider /> },
+      { path: 'key-personnel', element: <sy.SpKeyPersonnel /> },
+      { path: 'sports-personnel', element: <sy.SpSportsPersonnel /> },
+      {
+        path: 'gallery',
+        children: [
+          { path: 'photo-gallery', element: <sy.SpPhotoGallery /> },
+          {
+            path: 'photo-gallery/update/:uuid?',
+            element: <sy.SpPhotoGalleryAddEdit />,
+          },
+          { path: 'video-gallery', element: <sy.SpVideoGallery /> },
+        ],
+      },
+      { path: 'downloadables', element: <sy.SpDownloadables /> },
+      { path: 'organisation', element: <sy.SpOrganisation /> },
     ],
   },
 
