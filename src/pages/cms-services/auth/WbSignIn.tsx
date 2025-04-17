@@ -20,8 +20,8 @@ const WbSignIn = () => {
   const [captchaText, setCaptchaText] = useState(captcha);
   const [isLoading, setIsLoading] = useState(false);
   const [form, setForm] = useState({
-    username: '',
-    password: '',
+    username: 'souvik@test.com',
+    password: 'password',
     captchaEnter: '',
   });
   const [errors, setErrors] = useState<{ [key: string]: string[] } | null>(
@@ -58,7 +58,7 @@ const WbSignIn = () => {
 
     const formData = new FormData(e.currentTarget);
     let data = Object.fromEntries(formData);
-    data = { ...data, captchaText: captchaText };
+    data = { ...data, captchaText: captchaText, organisation: `services` };
 
     if (!data.username) {
       errorBag = { ...errorBag, username: ['Username is required'] };
@@ -165,6 +165,7 @@ const WbSignIn = () => {
                     <Link
                       to={`/${titles.servicesUrl}/forgot-password`}
                       className="text-sm font-medium text-muted-foreground hover:text-sky"
+                      tabIndex={-1}
                     >
                       Forgot password?
                     </Link>
@@ -197,6 +198,7 @@ const WbSignIn = () => {
                       size={'sm'}
                       className="cursor-pointer font-bold hover:bg-transparent rounded-none"
                       onClick={resetCaptcha}
+                      tabIndex={-1}
                     >
                       <RefreshCcw />
                     </Button>

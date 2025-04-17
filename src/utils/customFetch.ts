@@ -11,7 +11,11 @@ const customFetch = axios.create({
 
 customFetch.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem(import.meta.env.VITE_SERVICE_TOKEN);
+    const condition = window.location.pathname.split('/')[1];
+    const token =
+      condition === 'wbsportsandyouth'
+        ? localStorage.getItem(import.meta.env.VITE_SPORTS_TOKEN)
+        : localStorage.getItem(import.meta.env.VITE_SERVICE_TOKEN);
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }

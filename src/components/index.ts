@@ -59,3 +59,8 @@ export { default as AppTooltip } from '@/components/AppTooltip';
 export { default as AppCountWrapper } from '@/components/wrappers/AppCountWrapper';
 export { default as AppScrollToTop } from '@/components/AppScrollToTop';
 // Common Components end ----------------------------
+
+// Sports App Components start ----------------------------
+export { default as SpTopnav } from '@/components/cms-sports/SpTopnav';
+export { default as SpFooter } from '@/components/cms-sports/SpFooter';
+// Sports App Components end ----------------------------
