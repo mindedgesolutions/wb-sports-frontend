@@ -172,7 +172,7 @@ body {
 }
 
 .cs-btn-success {
-  @apply bg-success hover:bg-success/90 duration-200 tracking-widest text-base font-normal;
+  @apply bg-success-foreground hover:bg-success-foreground/90 duration-200 tracking-widest text-xs md:text-xs font-normal;
 }
 
 .cs-btn-primary {

@@ -67,5 +67,13 @@ export { default as SpCmsLayout } from '@/pages/cms-sports/SpCmsLayout';
 export { default as SpCmsDashboard } from '@/pages/cms-sports/SpCmsDashboard';
 export { default as SpProfile } from '@/pages/cms-sports/profile/SpProfile';
 export { default as SpChangePassword } from '@/pages/cms-sports/profile/SpChangePassword';
+export { default as SpHomepageSlider } from '@/pages/cms-sports/SpHomepageSlider';
+export { default as SpKeyPersonnel } from '@/pages/cms-sports/SpKeyPersonnel';
+export { default as SpSportsPersonnel } from '@/pages/cms-sports/sports/SpSportsPersonnel';
+export { default as SpPhotoGalleryAddEdit } from '@/pages/cms-sports/gallery/SpPhotoGalleryAddEdit';
+export { default as SpPhotoGallery } from '@/pages/cms-sports/gallery/SpPhotoGallery';
+export { default as SpVideoGallery } from '@/pages/cms-sports/gallery/SpVideoGallery';
+export { default as SpDownloadables } from '@/pages/cms-sports/SpDownloadables';
+export { default as SpOrganisation } from '@/pages/cms-sports/SpOrganisation';
 
 // Sports Admin / CMS exports end --------------------------------

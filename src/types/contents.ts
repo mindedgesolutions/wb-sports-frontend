@@ -223,3 +223,28 @@ export type YouthHostelProps = {
   updated_by: number | null;
   uuid: string;
 };
+
+// Sports API wrappers start ------------------------------
+
+export type SliderProps = {
+  id: number;
+  image_path: string;
+  is_active: boolean;
+  created_at: Date;
+  updated_at: Date;
+};
+
+export type KeyPersonnelProps = {
+  id: number;
+  name: string;
+  designation: string | null;
+  image_path: string | null;
+  created_at: Date;
+  updated_at: Date;
+  rank: string | null;
+  department: string | null;
+  govt: string | null;
+  is_active: boolean;
+  added_by: number;
+  updated_by: number | null;
+};
