@@ -6,6 +6,16 @@ export const serialNo = (page: number, limit: number = 10): number => {
   return srno;
 };
 
+export function generateCaptcha(): string {
+  const characters =
+    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  let result = '';
+  for (let i = 0; i < 6; i++) {
+    result += characters.charAt(Math.floor(Math.random() * characters.length));
+  }
+  return result;
+}
+
 export const getPageTitle = (url: string): string => {
   let menuTitle = '';
 

@@ -18,6 +18,9 @@ import honbleMos from '@/assets/images/services/honerablemos_pic2.jpg';
 import noImg from '@/assets/images/no-image.jpg';
 import fairDefault from '@/assets/images/services/fair-default.jpg';
 import hostelDefault from '@/assets/images/services/hostel-default.jpg';
+// Sports images start -------------------
+import spSigninBg from '@/assets/images/sports/signin-bg.jpg';
+import spSigninFormBg from '@/assets/images/sports/signin-form-bg.jpg';
 
 export const images = {
   youth,
@@ -40,6 +43,8 @@ export const images = {
   noImg,
   fairDefault,
   hostelDefault,
+  spSigninBg,
+  spSigninFormBg,
 };
 
 export const titles = {
@@ -78,4 +83,19 @@ export const compCentreCategory = [
 export const fairTypes = [
   { label: 'One-time', value: 'one-time' },
   { label: 'Recurring', value: 'recurring' },
+];
+
+export const sportsList = [
+  { label: 'Football', value: 'football' },
+  { label: 'Cricket', value: 'cricket' },
+  { label: 'Hockey', value: 'hockey' },
+  { label: 'Lawn Tennis', value: 'lawn-tennis' },
+  { label: 'Swimming', value: 'swimming' },
+  { label: 'Table Tennis', value: 'table-tennis' },
+  { label: 'Archery', value: 'archery' },
+  { label: 'Body Building', value: 'body-building' },
+  { label: 'Chess', value: 'chess' },
+  { label: 'Boxing', value: 'boxing' },
+  { label: 'Athletics', value: 'athletics' },
+  { label: 'Gymnastic', value: 'gymnastic' },
 ];

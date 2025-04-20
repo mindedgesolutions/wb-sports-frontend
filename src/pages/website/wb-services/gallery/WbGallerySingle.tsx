@@ -50,13 +50,13 @@ const WbGallerySingle = () => {
             <h1 className="text-sky-foreground tracking-wider text-lg font-medium">
               <Breadcrumb>
                 <BreadcrumbList>
-                  <BreadcrumbItem className="text-sky-foreground/70 tracking-wider text-lg font-medium hover:text-sky-foreground/50">
+                  <BreadcrumbItem className="text-sky-foreground/70 tracking-wider text-base md:text-lg font-medium hover:text-sky-foreground/50">
                     <Link to={`/${titles.serviceUrlWeb}/photo-gallery`}>
                       Photo Gallery
                     </Link>
                   </BreadcrumbItem>
                   <BreadcrumbSeparator />
-                  <BreadcrumbItem className="text-sky-foreground tracking-wider text-lg font-medium">
+                  <BreadcrumbItem className="text-sky-foreground tracking-wider text-base md:text-lg font-medium">
                     {gallery.title}
                   </BreadcrumbItem>
                 </BreadcrumbList>
@@ -64,7 +64,7 @@ const WbGallerySingle = () => {
             </h1>
             <Separator className="my-4 bg-sky/20" />
             <div className="flex flex-col gap-8 justify-center items-center">
-              <div className="text-2xl text-sky-foreground font-medium tracking-wider">
+              <div className="text-lg md:text-2xl text-sky-foreground font-medium tracking-wider">
                 {gallery.title}
               </div>
               {gallery.description && (
@@ -93,13 +93,13 @@ const WbGallerySingle = () => {
                 close={() => setOpen(false)}
                 slides={originals}
               />
-              <div className="grid grid-cols-5 gap-8">
+              <div className="grid grid-cols-2 md:grid-cols-5 gap-2 md:gap-4">
                 {gallery?.images.map((image: GalleryImageProps) => (
                   <div key={image.id} className="cursor-pointer">
                     <img
                       src={`${titles.baseUrl}${image.image_path}`}
                       alt={gallery.title}
-                      className="w-full h-40 md:h-52 rounded-xs overflow-hidden object-cover"
+                      className="w-full h-36 md:h-52 rounded-xs overflow-hidden object-cover"
                       onClick={() => setOpen(true)}
                     />
                   </div>

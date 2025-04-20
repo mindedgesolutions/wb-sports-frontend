@@ -8,12 +8,14 @@ import {
   SidebarHeader,
   SidebarRail,
 } from '@/components/ui/sidebar';
-import { adminMenus } from '@/constants/srMenu';
+import adminMenus from '@/constants/srMenu';
+import { useAppSelector } from '@/hooks';
 import { CmsMenuProps } from '@/types/menu';
 
 export function AppSidebar({ ...props }) {
-  const slug = 'souvik-nag';
-  const menus = adminMenus as CmsMenuProps[];
+  const { currentUser } = useAppSelector((state) => state.currentUser);
+  const slug = currentUser?.user_details.slug;
+  const menus = adminMenus() as CmsMenuProps[];
 
   return (
     <Sidebar collapsible="icon" {...props}>

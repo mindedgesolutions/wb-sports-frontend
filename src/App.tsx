@@ -1,6 +1,7 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import * as sy from '@/pages';
 import { store } from './store';
+import { titles } from './constants';
 
 // --------------------------------------------
 import { loader as wbLayoutLoader } from '@/pages/cms-services/WbCmsLayout';
@@ -13,12 +14,14 @@ import { loader as srWebFpLoader } from '@/pages/website/wb-services/fairs-progr
 import { loader as srWebMountaineeringLoader } from '@/pages/website/wb-services/mountaineering/WbMountaineering';
 import { loader as wbHostelLoader } from '@/pages/cms-services/youth-hostel/WbAppHostelInfo';
 import { loader as srWebHostelListLoader } from '@/pages/website/wb-services/youth-hostel/WbHostelList';
+// Sports loaders start ------------------------
+import { loader as spLayoutLoader } from '@/pages/cms-sports/SpCmsLayout';
 
 const router = createBrowserRouter([
   { path: '/', element: <sy.WbLanding /> },
   // Services Website routes start -----------------------------------
   {
-    path: `/${import.meta.env.VITE_SERVICES}`,
+    path: `/${titles.serviceUrlWeb}`,
     element: <sy.WbLayout />,
     loader: srWebsiteLayoutLoader(store),
     children: [
@@ -104,22 +107,24 @@ const router = createBrowserRouter([
 
   // Services Admin / CMS routes start -----------------------------------
   {
-    path: `/${import.meta.env.VITE_SERVICES}/cms/sign-in`,
+    path: `/${titles.servicesUrl}/sign-in`,
     element: <sy.WbSignIn />,
   },
   {
-    path: `/${import.meta.env.VITE_SERVICES}/cms/forgot-password`,
+    path: `/${titles.servicesUrl}/forgot-password`,
     element: <sy.WbForgotPassword />,
   },
   {
-    path: `/${import.meta.env.VITE_SERVICES}/cms/reset-password`,
+    path: `/${titles.servicesUrl}/reset-password/:email`,
     element: <sy.WbResetPassword />,
   },
   {
-    path: `/${import.meta.env.VITE_SERVICES}/cms/:slug`,
+    path: `/${titles.servicesUrl}/:slug`,
     element: <sy.WbCmsLayout />,
     loader: wbLayoutLoader(store),
     children: [
+      { path: 'settings', element: <sy.WbProfile /> },
+      { path: 'change-password', element: <sy.WbChangePassword /> },
       { path: 'dashboard', element: <sy.WbCmsDashboard /> },
       { path: 'banners', element: <sy.WbCmsBanners /> },
       {
@@ -179,11 +184,51 @@ const router = createBrowserRouter([
 
   // Sports Website routes start -----------------------------------
   {
-    path: `/${import.meta.env.VITE_SPORTS}`,
+    path: `/${titles.sportsUrlWeb}`,
     element: <sy.SpLayout />,
     children: [{ path: 'home', element: <sy.SpHomePage /> }],
   },
   // Sports Website routes end -----------------------------------
+
+  // Sports Admin / CMS routes start -----------------------------------
+
+  { path: `/${titles.sportsUrl}/sign-in`, element: <sy.SpSignIn /> },
+  {
+    path: `/${titles.sportsUrl}/forgot-password`,
+    element: <sy.SpForgotPassword />,
+  },
+  {
+    path: `/${titles.sportsUrl}/reset-password`,
+    element: <sy.SpResetPassword />,
+  },
+  {
+    path: `/${titles.sportsUrl}/:slug`,
+    element: <sy.SpCmsLayout />,
+    loader: spLayoutLoader(store),
+    children: [
+      { path: 'settings', element: <sy.SpProfile /> },
+      { path: 'change-password', element: <sy.SpChangePassword /> },
+      { path: 'dashboard', element: <sy.SpCmsDashboard /> },
+      { path: 'homepage-slider', element: <sy.SpHomepageSlider /> },
+      { path: 'key-personnel', element: <sy.SpKeyPersonnel /> },
+      { path: 'sports-personnel', element: <sy.SpSportsPersonnel /> },
+      {
+        path: 'gallery',
+        children: [
+          { path: 'photo-gallery', element: <sy.SpPhotoGallery /> },
+          {
+            path: 'photo-gallery/update/:uuid?',
+            element: <sy.SpPhotoGalleryAddEdit />,
+          },
+          { path: 'video-gallery', element: <sy.SpVideoGallery /> },
+        ],
+      },
+      { path: 'downloadables', element: <sy.SpDownloadables /> },
+      { path: 'organisation', element: <sy.SpOrganisation /> },
+    ],
+  },
+
+  // Sports Admin / CMS routes end -----------------------------------
 ]);
 
 function App() {

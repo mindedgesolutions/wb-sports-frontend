@@ -3,6 +3,7 @@ export type UserDetailsProps = {
   user_id: number;
   slug: string;
   mobile: string | null;
+  profile_img: string | null;
   created_at: Date;
   updated_at: Date;
 };

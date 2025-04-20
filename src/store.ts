@@ -7,6 +7,10 @@ import mountainReducer from '@/features/mountainSlice';
 import districtBlockOfficeReducer from '@/features/districtBlockOfficeSlice';
 import fairProgrammeReducer from '@/features/fairProgrammeSlice';
 import hostelReducer from '@/features/hostelSlice';
+// Sports reducers start ------------------------------
+import spHomepageSliderReducer from '@/features/sports/spHomepageSliderSlice';
+import spKeyPersonnelReducer from '@/features/sports/spKeyPersonnelSlice';
+import spSportsPersonnelReducer from '@/features/sports/spSportsPersonnelSlice';
 
 export const store = configureStore({
   reducer: {
@@ -18,6 +22,10 @@ export const store = configureStore({
     districtBlockOffices: districtBlockOfficeReducer,
     fairProgrammes: fairProgrammeReducer,
     hostels: hostelReducer,
+    // Sports reducers start ------------------------------
+    spHomepageSliders: spHomepageSliderReducer,
+    spKeyPersonnel: spKeyPersonnelReducer,
+    spSportsPersonnel: spSportsPersonnelReducer,
   },
 });
 
