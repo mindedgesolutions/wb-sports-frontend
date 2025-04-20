@@ -2,8 +2,11 @@ import { WbcSubmitBtn } from '@/components';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { images, titles } from '@/constants';
+import customFetch from '@/utils/customFetch';
+import showError from '@/utils/showError';
+import showSuccess from '@/utils/showSuccess';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 
 const WbResetPassword = () => {
   document.title = `Reset Password | ${titles.services}`;
@@ -13,17 +16,69 @@ const WbResetPassword = () => {
     null
   );
   const [isLoading, setIsLoading] = useState(false);
+  const { email } = useParams();
+  const navigate = useNavigate();
+
+  // -----------------------------------
 
   const resetError = (e: React.KeyboardEvent<HTMLInputElement>) => {
     setErrors({ ...errors, [e.currentTarget.name]: [] });
   };
 
+  // -----------------------------------
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
+  // -----------------------------------
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    let errorBag = {};
+    let errorCount = 0;
+
+    if (!form.newPassword.trim()) {
+      errorBag = { ...errorBag, newPassword: ['New password is required'] };
+      errorCount++;
+    }
+    if (!form.confirmPassword.trim()) {
+      errorBag = {
+        ...errorBag,
+        confirmPassword: ['Confirm password is required'],
+      };
+      errorCount++;
+    }
+    if (form.newPassword !== form.confirmPassword) {
+      errorBag = { ...errorBag, confirmPassword: ['Passwords do not match'] };
+      errorCount++;
+    }
+    if (errorCount > 0) {
+      return setErrors(errorBag);
+    }
+
+    const formData = new FormData(e.currentTarget);
+    let data = Object.fromEntries(formData);
+    data = { ...data, email: email! };
+    setIsLoading(true);
+    try {
+      const response = await customFetch.post(`/auth/reset-password`, data);
+
+      if (response.status === 200) {
+        setErrors(null);
+        setForm({ newPassword: '', confirmPassword: '' });
+        showSuccess(`Password reset successfully`);
+        navigate(`/${titles.servicesUrl}/sign-in`);
+      }
+    } catch (error) {
+      if ((error as any)?.response?.status === 422) {
+        return setErrors((error as any).response.data.errors);
+      }
+      return showError(`Something went wrong. Please try again`);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -64,7 +119,7 @@ const WbResetPassword = () => {
                     New Password <span className="text-red-500">*</span>
                   </Label>
                   <Input
-                    type="text"
+                    type="password"
                     name="newPassword"
                     placeholder="Enter new password"
                     value={form.newPassword}
@@ -80,15 +135,15 @@ const WbResetPassword = () => {
                     Confirm Password <span className="text-red-500">*</span>
                   </Label>
                   <Input
-                    type="text"
-                    name="newPassword"
+                    type="password"
+                    name="confirmPassword"
                     placeholder="Confirm password"
-                    value={form.newPassword}
+                    value={form.confirmPassword}
                     onChange={handleChange}
                     onKeyUp={resetError}
                   />
                   <span className="text-red-500 text-xs">
-                    {errors?.newPassword?.[0]}
+                    {errors?.confirmPassword?.[0]}
                   </span>
                 </div>
                 <div className="mt-4">

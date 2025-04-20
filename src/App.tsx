@@ -115,7 +115,7 @@ const router = createBrowserRouter([
     element: <sy.WbForgotPassword />,
   },
   {
-    path: `/${titles.servicesUrl}/reset-password`,
+    path: `/${titles.servicesUrl}/reset-password/:email`,
     element: <sy.WbResetPassword />,
   },
   {

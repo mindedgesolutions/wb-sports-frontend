@@ -84,3 +84,18 @@ export const fairTypes = [
   { label: 'One-time', value: 'one-time' },
   { label: 'Recurring', value: 'recurring' },
 ];
+
+export const sportsList = [
+  { label: 'Football', value: 'football' },
+  { label: 'Cricket', value: 'cricket' },
+  { label: 'Hockey', value: 'hockey' },
+  { label: 'Lawn Tennis', value: 'lawn-tennis' },
+  { label: 'Swimming', value: 'swimming' },
+  { label: 'Table Tennis', value: 'table-tennis' },
+  { label: 'Archery', value: 'archery' },
+  { label: 'Body Building', value: 'body-building' },
+  { label: 'Chess', value: 'chess' },
+  { label: 'Boxing', value: 'boxing' },
+  { label: 'Athletics', value: 'athletics' },
+  { label: 'Gymnastic', value: 'gymnastic' },
+];

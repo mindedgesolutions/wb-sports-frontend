@@ -3,15 +3,17 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
+import { titles } from '@/constants';
 import { updateSpCounter } from '@/features/commonSlice';
 import { useAppDispatch, useAppSelector } from '@/hooks';
+import { KeyPersonnelProps } from '@/types/contents';
 import customFetch from '@/utils/customFetch';
 import showError from '@/utils/showError';
 import showSuccess from '@/utils/showSuccess';
 import { X } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 
-const SpAddEditKeyPersonnel = ({
+const SpcAddEditKeyPersonnel = ({
   editId,
   setEditId,
 }: {
@@ -27,13 +29,17 @@ const SpAddEditKeyPersonnel = ({
     govt: 'Govt. of West Bengal',
   });
   const [profileImg, setProfileImg] = useState<File | null>(null);
+  const [dbImg, setDbImg] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [errors, setErrors] = useState<{ [key: string]: string[] } | null>(
     null
   );
   const dispatch = useAppDispatch();
   const { keyPersonnel } = useAppSelector((state) => state.spKeyPersonnel);
-  const editData = editId && keyPersonnel.find((item) => item.id === editId);
+  const editData =
+    editId &&
+    (keyPersonnel.find((item) => item.id === editId) as KeyPersonnelProps);
+  const nameRef = useRef<HTMLInputElement>(null);
 
   // ---------------------------------------
 
@@ -47,6 +53,7 @@ const SpAddEditKeyPersonnel = ({
         department: editData.department || '',
         govt: editData.govt || '',
       });
+      setDbImg(editData.image_path || null);
     }
   }, [editData]);
 
@@ -105,8 +112,11 @@ const SpAddEditKeyPersonnel = ({
       name: '',
       rank: '',
       designation: '',
+      department: 'Department of Youth Services and Sports',
+      govt: 'Govt. of West Bengal',
     });
     setProfileImg(null);
+    setDbImg(null);
     setErrors(null);
     if (fileInputRef.current) fileInputRef.current.value = '';
     setEditId(null);
@@ -162,6 +172,7 @@ const SpAddEditKeyPersonnel = ({
         showSuccess(msg);
         resetForm();
         dispatch(updateSpCounter());
+        if (nameRef.current) nameRef.current.focus();
       }
     } catch (error) {
       if ((error as any)?.response?.status === 422) {
@@ -186,6 +197,7 @@ const SpAddEditKeyPersonnel = ({
             </Label>
             <Input
               type="text"
+              ref={nameRef}
               name="name"
               id="name"
               placeholder="Enter name"
@@ -287,6 +299,12 @@ const SpAddEditKeyPersonnel = ({
                     alt="slider"
                     className="w-full h-full object-cover"
                   />
+                ) : dbImg ? (
+                  <img
+                    src={`${titles.baseUrl}${dbImg}`}
+                    alt={`profile image`}
+                    className="w-full h-full object-cover"
+                  />
                 ) : (
                   <p className="text-sm text-center font-extralight tracking-widest">
                     preview
@@ -313,7 +331,7 @@ const SpAddEditKeyPersonnel = ({
             </Button>
             <WbcSubmitBtn
               isLoading={isLoading}
-              text={editId ? `Update Details` : `Add Person`}
+              text={editId ? `Update Details` : `Add Member`}
               customClass="cs-btn-success"
             />
           </div>
@@ -322,4 +340,4 @@ const SpAddEditKeyPersonnel = ({
     </div>
   );
 };
-export default SpAddEditKeyPersonnel;
+export default SpcAddEditKeyPersonnel;

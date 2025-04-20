@@ -2,7 +2,7 @@ import { images, titles } from '@/constants';
 import { useAppDispatch, useAppSelector } from '@/hooks';
 import { KeyPersonnelProps, MetaProps } from '@/types/contents';
 import { useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import {
   Table,
   TableBody,
@@ -14,10 +14,10 @@ import {
 import {
   AppContentWrapper,
   AppMainWrapper,
-  AppTitleWrapper,
   AppTooltip,
-  SpAddEditKeyPersonnel,
+  SpcAddEditKeyPersonnel,
   SpCountWrapper,
+  SpcSortKeyPersonnel,
   WbcDeleteModal,
   WbcPaginationContainer,
   WbcSkeletonRows,
@@ -28,9 +28,8 @@ import showSuccess from '@/utils/showSuccess';
 import { updateSpCounter } from '@/features/commonSlice';
 import { nanoid } from 'nanoid';
 import { serialNo } from '@/utils/function';
-import dayjs from 'dayjs';
 import { Switch } from '@/components/ui/switch';
-import { EyeIcon } from 'lucide-react';
+import { Pencil } from 'lucide-react';
 
 const SpKeyPersonnel = () => {
   document.title = `Key Personnel | ${titles.sports}`;
@@ -83,10 +82,10 @@ const SpKeyPersonnel = () => {
   const handleActive = (id: number) => async (checked: boolean) => {
     setIsLoading(true);
     try {
-      await customFetch.put(`/sports/homepage-sliders/activate/${id}`, {
+      await customFetch.put(`/sports/key-personnel/activate/${id}`, {
         is_active: checked,
       });
-      const msg = checked ? 'Slider activated' : 'Slider deactivated';
+      const msg = checked ? 'Member activated' : 'Member deactivated';
       showSuccess(msg);
       dispatch(updateSpCounter());
     } catch (error) {
@@ -98,9 +97,12 @@ const SpKeyPersonnel = () => {
 
   return (
     <AppMainWrapper>
-      <AppTitleWrapper>
-        list <span className="lowercase">of</span> key personnel
-      </AppTitleWrapper>
+      <div className="bg-muted-foreground/10 p-2 md:pl-4 text-muted-foreground font-medium capitalize text-base md:text-xl tracking-normal md:tracking-wider flex justify-between items-center">
+        <p>
+          list <span className="lowercase">of</span> key personnel
+        </p>
+        <SpcSortKeyPersonnel />
+      </div>
       <SpCountWrapper total={meta.total || 0} />
       <AppContentWrapper>
         <div className="flex md:flex-row flex-col-reverse justify-start items-start gap-4">
@@ -109,11 +111,10 @@ const SpKeyPersonnel = () => {
               <TableHeader>
                 <TableRow>
                   <TableHead className="w-[50px]">#</TableHead>
-                  <TableHead></TableHead>
+                  <TableHead className="min-w-[60px]"></TableHead>
                   <TableHead>Name</TableHead>
                   <TableHead>Designation</TableHead>
                   <TableHead>Department</TableHead>
-                  <TableHead>Last Updated</TableHead>
                   <TableHead>Active</TableHead>
                   <TableHead></TableHead>
                 </TableRow>
@@ -136,8 +137,7 @@ const SpKeyPersonnel = () => {
                   </TableRow>
                 ) : (
                   data?.map((member: KeyPersonnelProps, index: number) => {
-                    const deletemsg =
-                      'The key person will be permanently deleted.';
+                    const deletemsg = 'Member will be permanently deleted.';
 
                     return (
                       <TableRow
@@ -175,9 +175,6 @@ const SpKeyPersonnel = () => {
                           <AppTooltip content={member.department ?? 'NA'} />
                         </TableCell>
                         <TableCell>
-                          {dayjs(member.updated_at).format('DD/MM/YYYY h:mm A')}
-                        </TableCell>
-                        <TableCell>
                           <Switch
                             className="data-[state=checked]:bg-sky cursor-pointer"
                             checked={member.is_active}
@@ -186,15 +183,14 @@ const SpKeyPersonnel = () => {
                         </TableCell>
                         <TableCell>
                           <div className="flex flex-row justify-center items-center gap-2">
-                            <Link
-                              to={titles.websiteBaseUrl + member.image_path}
-                            >
-                              <EyeIcon className="h-4 text-blue-500 duration-200 cursor-pointer" />
-                            </Link>
+                            <Pencil
+                              className="h-4 text-yellow-500 duration-200 cursor-pointer"
+                              onClick={() => setEditId(member.id)}
+                            />
                             <WbcDeleteModal
-                              apiUrl={`/sports/homepage-sliders/${member.id}`}
+                              apiUrl={`/sports/key-personnel/${member.id}`}
                               description={deletemsg}
-                              successMsg="Slider deleted successfully"
+                              successMsg="Member deleted successfully"
                               setIsLoading={setIsLoading}
                               title="Are you absolutely sure?"
                             />
@@ -216,7 +212,7 @@ const SpKeyPersonnel = () => {
               : null}
           </div>
           <div className="basis-full w-full md:basis-1/3">
-            <SpAddEditKeyPersonnel editId={editId} setEditId={setEditId} />
+            <SpcAddEditKeyPersonnel editId={editId} setEditId={setEditId} />
           </div>
         </div>
       </AppContentWrapper>

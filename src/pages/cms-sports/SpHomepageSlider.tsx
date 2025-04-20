@@ -2,7 +2,7 @@ import {
   AppContentWrapper,
   AppMainWrapper,
   AppTitleWrapper,
-  SpAddEditSlider,
+  SpcAddEditSlider,
   SpCountWrapper,
   WbcDeleteModal,
   WbcPaginationContainer,
@@ -191,7 +191,7 @@ const SpHomepageSlider = () => {
               : null}
           </div>
           <div className="basis-full w-full md:basis-1/3">
-            <SpAddEditSlider />
+            <SpcAddEditSlider />
           </div>
         </div>
       </AppContentWrapper>

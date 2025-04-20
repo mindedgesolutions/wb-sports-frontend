@@ -2,6 +2,9 @@ import { WbcSubmitBtn } from '@/components';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { images, titles } from '@/constants';
+import customFetch from '@/utils/customFetch';
+import showError from '@/utils/showError';
+import showSuccess from '@/utils/showSuccess';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -32,9 +35,21 @@ const WbForgotPassword = () => {
 
     const formData = new FormData(e.currentTarget);
     let data = Object.fromEntries(formData);
+    data = { ...data, organisation: 'services' };
     setIsLoading(true);
     try {
+      const response = await customFetch.post(`/auth/forgot-password`, data);
+
+      if (response.status === 200) {
+        setErrors(null);
+        showSuccess(`A password reset link has been sent to ${email}`);
+        setEmail('');
+      }
     } catch (error) {
+      if ((error as any)?.response?.status === 422) {
+        return setErrors((error as any).response.data.errors);
+      }
+      return showError(`Something went wrong. Please try again`);
     } finally {
       setIsLoading(false);
     }

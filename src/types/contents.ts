@@ -248,3 +248,19 @@ export type KeyPersonnelProps = {
   added_by: number;
   updated_by: number | null;
 };
+
+export type SportsPersonnelProps = {
+  id: number;
+  sport: string;
+  name: string;
+  slug: string;
+  address: string | null;
+  dob: Date | null;
+  contact_1: string | null;
+  contact_2: string | null;
+  created_at: Date;
+  updated_at: Date;
+  is_active: boolean;
+  added_by: number;
+  updated_by: number | null;
+};

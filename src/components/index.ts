@@ -71,6 +71,8 @@ export { default as SpCountWrapper } from '@/components/wrappers/SpCountWrapper'
 
 export { default as SpTopnav } from '@/components/cms-sports/SpTopnav';
 export { default as SpFooter } from '@/components/cms-sports/SpFooter';
-export { default as SpAddEditSlider } from '@/components/cms-sports/half-forms/SpAddEditSlider';
-export { default as SpAddEditKeyPersonnel } from '@/components/cms-sports/half-forms/SpAddEditKeyPersonnel';
+export { default as SpcAddEditSlider } from '@/components/cms-sports/half-forms/SpcAddEditSlider';
+export { default as SpcAddEditKeyPersonnel } from '@/components/cms-sports/half-forms/SpcAddEditKeyPersonnel';
+export { default as SpcSortKeyPersonnel } from '@/components/cms-sports/modal-forms/SpcSortKeyPersonnel';
+export { default as SpcAddEditSportsPersonnel } from '@/components/cms-sports/half-forms/SpcAddEditSportsPersonnel';
 // Sports App Components end ----------------------------
