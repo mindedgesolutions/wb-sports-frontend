@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { images, titles } from '@/constants';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import customFetch from '@/utils/customFetch';
 import showError from '@/utils/showError';
@@ -12,84 +12,47 @@ import { setCurrentUser } from '@/features/currentUserSlice';
 import { WbcSubmitBtn } from '@/components';
 import { generateCaptcha } from '@/utils/function';
 import { RefreshCcw } from 'lucide-react';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { authSchema, AuthSchema } from '@/types/schema';
+import { zodResolver } from '@hookform/resolvers/zod';
+
+type ExtendedFormProps = AuthSchema & {
+  captchaText: string;
+  organisation: string;
+};
 
 const WbSignIn = () => {
   document.title = `Admin Sign In | ${titles.services}`;
 
   const captcha = generateCaptcha();
-  const [captchaText, setCaptchaText] = useState(captcha);
-  const [isLoading, setIsLoading] = useState(false);
-  const [form, setForm] = useState({
-    username: 'souvik@test.com',
-    password: 'password',
-    captchaEnter: '',
-  });
-  const [errors, setErrors] = useState<{ [key: string]: string[] } | null>(
-    null
-  );
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const captchaRef = useRef<HTMLInputElement>(null);
-
   const resetCaptcha = () => {
     const newCaptcha = generateCaptcha();
     setCaptchaText(newCaptcha);
   };
+  const [captchaText, setCaptchaText] = useState(captcha);
+
+  const {
+    register,
+    handleSubmit,
+    setError,
+    formState: { errors, isSubmitting },
+  } = useForm<AuthSchema>({
+    mode: 'all',
+    resolver: zodResolver(authSchema(captchaText)),
+  });
 
   // ------------------------------
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
-
-  // ------------------------------
-
-  const resetError = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    errors && setErrors({ ...errors, [e.currentTarget.name]: [] });
-  };
-
-  // ------------------------------
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    let errorBag = {};
-    let errorCount = 0;
-
-    const formData = new FormData(e.currentTarget);
-    let data = Object.fromEntries(formData);
-    data = { ...data, captchaText: captchaText, organisation: `services` };
-
-    if (!data.username) {
-      errorBag = { ...errorBag, username: ['Username is required'] };
-      errorCount++;
-    }
-    if (!data.password) {
-      errorBag = { ...errorBag, password: ['Password is required'] };
-      errorCount++;
-    }
-    if (!data.captchaEnter) {
-      errorBag = { ...errorBag, captchaEnter: ['Captcha is required'] };
-      errorCount++;
-    }
-    if (data.captchaEnter !== captchaText) {
-      errorBag = { ...errorBag, captchaEnter: ['Captcha is invalid'] };
-      if (captchaRef.current) {
-        captchaRef.current.value = '';
-        captchaRef.current.focus();
-      }
-      resetCaptcha();
-      errorCount++;
-    }
-
-    if (errorCount > 0) {
-      setErrors(errorBag);
-      return;
-    }
-
-    setIsLoading(true);
+  const onSubmit: SubmitHandler<AuthSchema> = async (data) => {
     try {
-      const response = await customFetch.post(`/auth/login`, data);
+      const finalData: ExtendedFormProps = {
+        ...data,
+        captchaText,
+        organisation: 'services',
+      };
+      const response = await customFetch.post(`/auth/login`, finalData);
       const name = response.data.data.name;
       const slug = response.data.data.user_details.slug;
       const token = response.data.token;
@@ -97,12 +60,17 @@ const WbSignIn = () => {
       localStorage.setItem(titles.serviceToken, token);
       dispatch(setCurrentUser(response.data.data));
       showSuccess(`Welcome back, ${name}`);
-      setIsLoading(false);
       navigate(`/${titles.servicesUrl}/${slug}/dashboard`);
     } catch (error) {
-      setIsLoading(false);
       if ((error as any).status === 422) {
-        return setErrors((error as any)?.response?.data?.errors);
+        Object.entries((error as any)?.response?.data?.errors).forEach(
+          ([field, message]) => {
+            setError(field as keyof AuthSchema, {
+              message: message as string,
+            });
+          }
+        );
+        return;
       }
       return showError((error as any)?.response?.data?.errors[0]);
     }
@@ -140,21 +108,18 @@ const WbSignIn = () => {
               Welcome back! Please enter your credentials
             </p>
             <div className="w-full">
-              <form onSubmit={handleSubmit}>
+              <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="flex flex-col space-y-2">
                   <Label className="text-muted-foreground">
                     Username <span className="text-red-500">*</span>
                   </Label>
                   <Input
                     type="text"
-                    name="username"
+                    {...register('username')}
                     placeholder="Enter your username"
-                    value={form.username}
-                    onChange={handleChange}
-                    onKeyUp={resetError}
                   />
                   <span className="text-red-500 text-xs">
-                    {errors?.username?.[0]}
+                    {errors.username?.message}
                   </span>
                 </div>
                 <div className="flex flex-col space-y-2 mt-3">
@@ -163,8 +128,8 @@ const WbSignIn = () => {
                       Password <span className="text-red-500">*</span>
                     </Label>
                     <Link
-                      to={`/${titles.servicesUrl}/forgot-password`}
-                      className="text-sm font-medium text-muted-foreground hover:text-sky"
+                      to={`/${titles.sportsUrl}/forgot-password`}
+                      className="text-sm font-medium text-muted-foreground hover:text-success"
                       tabIndex={-1}
                     >
                       Forgot password?
@@ -172,14 +137,11 @@ const WbSignIn = () => {
                   </span>
                   <Input
                     type="password"
-                    name="password"
+                    {...register('password')}
                     placeholder="Enter your password"
-                    value={form.password}
-                    onChange={handleChange}
-                    onKeyUp={resetError}
                   />
                   <span className="text-red-500 text-xs">
-                    {errors?.password?.[0]}
+                    {errors.password?.message}
                   </span>
                 </div>
                 <div className="mt-3 flex flex-row justify-start items-center">
@@ -206,23 +168,19 @@ const WbSignIn = () => {
                   <div className="w-full flex flex-col justify-start items-start space-y-2">
                     <Input
                       type="text"
-                      ref={captchaRef}
-                      name="captchaEnter"
+                      {...register('captchaEnter')}
                       placeholder="Enter captcha"
-                      value={form.captchaEnter}
-                      onChange={handleChange}
-                      onKeyUp={resetError}
                     />
                     <span className="text-red-500 text-xs">
-                      {errors?.captchaEnter?.[0]}
+                      {errors.captchaEnter?.message}
                     </span>
                   </div>
                 </div>
                 <div className="mt-4">
                   <WbcSubmitBtn
                     customClass="w-full cs-btn"
-                    isLoading={isLoading}
                     text="Sign In"
+                    isLoading={isSubmitting}
                   />
                 </div>
               </form>

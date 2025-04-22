@@ -3,7 +3,7 @@ import { LoaderCircle } from 'lucide-react';
 
 type WbcSubmitBtnProps = {
   customClass?: string;
-  isLoading: boolean;
+  isLoading?: boolean;
   text: string;
 };
 

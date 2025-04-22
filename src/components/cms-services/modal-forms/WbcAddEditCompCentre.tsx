@@ -10,7 +10,7 @@ import { Separator } from '@/components/ui/separator';
 import { cn } from '@/lib/utils';
 import { DialogDescription } from '@radix-ui/react-dialog';
 import { Pencil } from 'lucide-react';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import WbcSubmitBtn from '../WbcSubmitBtn';
 import { useAppDispatch, useAppSelector } from '@/hooks';
 import { Label } from '@/components/ui/label';
@@ -21,74 +21,50 @@ import showError from '@/utils/showError';
 import { updateSrCounter } from '@/features/commonSlice';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import showSuccess from '@/utils/showSuccess';
-
-type WbcAddEditCompCentreProps = {
-  district: string | number | null;
-  yctcName: string;
-  yctcCode: string | null;
-  centreCategory: string | null;
-  address1: string;
-  address2: string | null;
-  address3: string | null;
-  city: string | null;
-  pincode: string | number | null;
-  inchargeName: string | null;
-  inchargeMobile: string | number | null;
-  inchargeEmail: string | null;
-  ownerName: string | null;
-  ownerMobile: string | number | null;
-};
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import {
+  computerCentreSchema,
+  ComputerCentreSchema,
+} from '@/types/servicesSchema';
 
 const WbcAddEditCompCentre = ({ editId }: { editId?: number }) => {
   const [open, setOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [form, setForm] = useState<WbcAddEditCompCentreProps>({
-    district: '',
-    yctcName: '',
-    yctcCode: '',
-    centreCategory: '',
-    address1: '',
-    address2: '',
-    address3: '',
-    city: '',
-    pincode: '',
-    inchargeName: '',
-    inchargeMobile: '',
-    inchargeEmail: '',
-    ownerName: '',
-    ownerMobile: '',
-  });
-  const [errors, setErrors] = useState<{ [key: string]: string[] } | null>(
-    null
-  );
   const { districts } = useAppSelector((state) => state.common);
   const dispatch = useAppDispatch();
-  const targetRef = useRef<HTMLSelectElement>(null);
   const { compCentres } = useAppSelector((state) => state.compCourses);
   const editData = editId && compCentres?.find((item) => item.id === editId);
+
+  const {
+    register,
+    formState: { errors, isSubmitting },
+    reset,
+    setError,
+    handleSubmit,
+  } = useForm<ComputerCentreSchema>({
+    mode: 'all',
+    resolver: zodResolver(computerCentreSchema),
+  });
 
   // ------------------------------------
 
   useEffect(() => {
     editData &&
-      setForm({
-        ...form,
-        district: editData.district_id,
+      reset({
+        ...editData,
+        district: editData.district_id.toString(),
         yctcName: editData.yctc_name,
-        yctcCode: editData?.yctc_code,
-        centreCategory: editData?.center_category,
-        address1: editData?.address_line_1 ?? '',
-        address2: editData?.address_line_2,
-        address3: editData?.address_line_3,
-        city: editData?.city,
-        pincode: editData?.pincode,
-        inchargeName: editData?.center_incharge_name,
-        inchargeMobile: editData?.center_incharge_mobile,
-        inchargeEmail: editData?.center_incharge_email,
-        ownerName: editData?.center_owner_name,
-        ownerMobile: editData?.center_owner_mobile,
+        yctcCode: editData.yctc_code,
+        centreCategory: editData.center_category,
+        address1: editData.address_line_1!,
+        address2: editData.address_line_2,
+        address3: editData.address_line_3,
+        inchargeName: editData.center_incharge_name,
+        inchargeMobile: editData.center_incharge_mobile,
+        inchargeEmail: editData.center_incharge_email ?? '',
+        ownerName: editData.center_owner_name,
+        ownerMobile: editData.center_owner_mobile,
       });
-    setErrors(null);
   }, [editId, open]);
 
   // ------------------------------------
@@ -99,132 +75,32 @@ const WbcAddEditCompCentre = ({ editId }: { editId?: number }) => {
 
   // ------------------------------------
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-
-    if (e.target.name === 'pincode' && e.target.value) {
-      const numberValue = e.target.value.replace(/[^0-9]/g, '');
-      setForm({ ...form, pincode: Number(numberValue) });
-    }
-    if (e.target.name === 'inchargeMobile' && e.target.value) {
-      const numberValue = e.target.value.replace(/[^0-9]/g, '');
-      setForm({ ...form, inchargeMobile: Number(numberValue) });
-    }
-    if (e.target.name === 'ownerMobile' && e.target.value) {
-      const numberValue = e.target.value.replace(/[^0-9]/g, '');
-      setForm({ ...form, ownerMobile: Number(numberValue) });
-    }
-  };
-
-  // ------------------------------------
-
-  const resetError = (
-    e: React.KeyboardEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
-    setErrors({ ...errors, [e.currentTarget.name]: [] });
-  };
-
-  // ------------------------------------
-
-  const resetForm = () => {
-    setForm({
-      ...form,
-      district: '',
-      yctcName: '',
-      yctcCode: '',
-      centreCategory: '',
-      address1: '',
-      address2: '',
-      address3: '',
-      city: '',
-      pincode: '',
-      inchargeName: '',
-      inchargeMobile: '',
-      inchargeEmail: '',
-      ownerName: '',
-      ownerMobile: '',
-    });
-    setErrors(null);
-  };
-
-  // ------------------------------------
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    let errorBag = {};
-    let errorCount = 0;
-    const regexEmail = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-
-    if (!form.district) {
-      errorBag = { ...errorBag, district: ['District is required'] };
-      errorCount++;
-    }
-    if (!form.yctcName.trim()) {
-      errorBag = { ...errorBag, yctcName: ['YCTC name is required'] };
-      errorCount++;
-    }
-    if (!form.address1.trim()) {
-      errorBag = { ...errorBag, address1: ['Address line 1 is required'] };
-      errorCount++;
-    }
-    if (form.pincode && form.pincode.toString().length !== 6) {
-      errorBag = { ...errorBag, pincode: ['PIN code must be 6 digits'] };
-      errorCount++;
-    }
-    if (form.inchargeMobile && form.inchargeMobile.toString().length !== 10) {
-      errorBag = {
-        ...errorBag,
-        inchargeMobile: ['Mobile number must be 10 digits'],
-      };
-      errorCount++;
-    }
-    if (form.inchargeEmail && !regexEmail.test(form.inchargeEmail.toString())) {
-      errorBag = { ...errorBag, inchargeEmail: ['Invalid email ID'] };
-      errorCount++;
-    }
-    if (form.ownerMobile && form.ownerMobile.toString().length !== 10) {
-      errorBag = {
-        ...errorBag,
-        ownerMobile: ['Mobile number must be 10 digits'],
-      };
-      errorCount++;
-    }
-
-    if (errorCount > 0) {
-      if (targetRef.current) {
-        targetRef.current.focus();
-      }
-      setErrors(errorBag);
-      return;
-    }
-
-    const formData = new FormData(e.currentTarget);
-    const data = Object.fromEntries(formData);
+  const onSubmit: SubmitHandler<ComputerCentreSchema> = async (data) => {
     const apiUrl = editId ? `/comp-centres/${editId}` : `/comp-centres`;
     const method = editId ? customFetch.put : customFetch.post;
     const msg = editId ? `Updated` : `Added`;
     const successMsg = `Centre ${msg} successfully!`;
 
-    setIsLoading(true);
     try {
       const response = await method(apiUrl, data);
 
       if (response.status === 201 || response.status === 200) {
-        resetForm();
+        reset();
         openModal();
         dispatch(updateSrCounter());
         showSuccess(successMsg);
       }
     } catch (error) {
       if ((error as any)?.response?.status === 422) {
-        return setErrors((error as any)?.response?.data?.errors);
+        Object.entries((error as any)?.response?.data?.errors).forEach(
+          ([field, message]) => {
+            setError(field as keyof ComputerCentreSchema, {
+              message: message as string,
+            });
+          }
+        );
       }
       return showError(`Something went wrong!`);
-    } finally {
-      setIsLoading(false);
     }
   };
 
@@ -251,21 +127,14 @@ const WbcAddEditCompCentre = ({ editId }: { editId?: number }) => {
             </DialogTitle>
             <DialogDescription></DialogDescription>
           </DialogHeader>
-          <form onSubmit={handleSubmit} autoComplete="off">
+          <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
             <div className="mt-2.5 flex flex-col justify-start items-start gap-2">
               <div className="w-full grid grid-cols-2 gap-4">
                 <div className="col-span-full md:col-span-1 flex flex-col justify-start items-start gap-2">
                   <Label htmlFor="district" className="text-muted-foreground">
                     District <span className="text-red-500">*</span>
                   </Label>
-                  <select
-                    className="flex h-10 w-full items-center justify-between rounded-xs border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground/70 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1"
-                    name="district"
-                    id="district"
-                    value={form.district as number}
-                    onChange={handleChange}
-                    ref={targetRef}
-                  >
+                  <select className="cs-select" {...register('district')}>
                     <option value="">- Select -</option>
                     {districts?.map((district) => (
                       <option key={district.id} value={district.id}>
@@ -274,7 +143,7 @@ const WbcAddEditCompCentre = ({ editId }: { editId?: number }) => {
                     ))}
                   </select>
                   <span className="text-red-500 text-xs -mt-1">
-                    {!form.district && errors?.district?.[0]}
+                    {errors.district?.message}
                   </span>
                 </div>
               </div>
@@ -283,16 +152,9 @@ const WbcAddEditCompCentre = ({ editId }: { editId?: number }) => {
               <Label htmlFor="yctcName" className="text-muted-foreground">
                 YCTC name <span className="text-red-500">*</span>
               </Label>
-              <Input
-                name="yctcName"
-                id="yctcName"
-                placeholder="Enter YCTC name"
-                value={form.yctcName}
-                onChange={handleChange}
-                onKeyUp={resetError}
-              />
+              <Input {...register('yctcName')} placeholder="Enter YCTC name" />
               <span className="text-red-500 text-xs -mt-1">
-                {errors?.yctcName?.[0]}
+                {errors.yctcName?.message}
               </span>
             </div>
             <div className="mt-2.5 flex flex-col justify-start items-start">
@@ -302,15 +164,11 @@ const WbcAddEditCompCentre = ({ editId }: { editId?: number }) => {
                     YCTC code
                   </Label>
                   <Input
-                    name="yctcCode"
-                    id="yctcCode"
+                    {...register('yctcCode')}
                     placeholder="Enter YCTC code"
-                    value={form.yctcCode || ''}
-                    onChange={handleChange}
-                    onKeyUp={resetError}
                   />
                   <span className="text-red-500 text-xs -mt-1">
-                    {errors?.yctcCode?.[0]}
+                    {errors.yctcCode?.message}
                   </span>
                 </div>
                 <div className="col-span-full md:col-span-1 flex flex-col justify-start items-start gap-2">
@@ -320,13 +178,7 @@ const WbcAddEditCompCentre = ({ editId }: { editId?: number }) => {
                   >
                     Centre category
                   </Label>
-                  <select
-                    className="flex h-10 w-full items-center justify-between rounded-xs border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground/70 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1"
-                    name="centreCategory"
-                    id="centreCategory"
-                    value={form.centreCategory || ''}
-                    onChange={handleChange}
-                  >
+                  <select className="cs-select" {...register('centreCategory')}>
                     <option value="">- Select -</option>
                     {compCentreCategory.map((category) => (
                       <option key={category.value} value={category.value}>
@@ -335,7 +187,7 @@ const WbcAddEditCompCentre = ({ editId }: { editId?: number }) => {
                     ))}
                   </select>
                   <span className="text-red-500 text-xs -mt-1">
-                    {!form.centreCategory && errors?.centreCategory?.[0]}
+                    {errors.centreCategory?.message}
                   </span>
                 </div>
               </div>
@@ -345,15 +197,11 @@ const WbcAddEditCompCentre = ({ editId }: { editId?: number }) => {
                 Address line 1 <span className="text-red-500">*</span>
               </Label>
               <Input
-                name="address1"
-                id="address1"
+                {...register('address1')}
                 placeholder="Enter address line 1 (mandatory)"
-                value={form.address1 || ''}
-                onChange={handleChange}
-                onKeyUp={resetError}
               />
               <span className="text-red-500 text-xs -mt-1">
-                {errors?.address1?.[0]}
+                {errors.address1?.message}
               </span>
             </div>
             <div className="mt-2.5 flex flex-col justify-start items-start gap-2">
@@ -361,15 +209,11 @@ const WbcAddEditCompCentre = ({ editId }: { editId?: number }) => {
                 Address line 2
               </Label>
               <Input
-                name="address2"
-                id="address2"
+                {...register('address2')}
                 placeholder="Enter address line 2 (if any)"
-                value={form.address2 || ''}
-                onChange={handleChange}
-                onKeyUp={resetError}
               />
               <span className="text-red-500 text-xs -mt-1">
-                {errors?.address2?.[0]}
+                {errors.address2?.message}
               </span>
             </div>
             <div className="mt-2.5 flex flex-col justify-start items-start gap-2">
@@ -377,15 +221,11 @@ const WbcAddEditCompCentre = ({ editId }: { editId?: number }) => {
                 Address line 3
               </Label>
               <Input
-                name="address3"
-                id="address3"
+                {...register('address3')}
                 placeholder="Enter address line 3 (if any)"
-                value={form.address3 || ''}
-                onChange={handleChange}
-                onKeyUp={resetError}
               />
               <span className="text-red-500 text-xs -mt-1">
-                {errors?.address3?.[0]}
+                {errors.address3?.message}
               </span>
             </div>
             <div className="mt-2.5 flex flex-col justify-start items-start">
@@ -394,16 +234,9 @@ const WbcAddEditCompCentre = ({ editId }: { editId?: number }) => {
                   <Label htmlFor="city" className="text-muted-foreground">
                     City
                   </Label>
-                  <Input
-                    name="city"
-                    id="city"
-                    placeholder="Enter city"
-                    value={form.city || ''}
-                    onChange={handleChange}
-                    onKeyUp={resetError}
-                  />
+                  <Input {...register('city')} placeholder="Enter city" />
                   <span className="text-red-500 text-xs -mt-1">
-                    {errors?.city?.[0]}
+                    {errors.city?.message}
                   </span>
                 </div>
                 <div className="col-span-full md:col-span-1 flex flex-col justify-start items-start gap-2">
@@ -411,15 +244,11 @@ const WbcAddEditCompCentre = ({ editId }: { editId?: number }) => {
                     PIN code
                   </Label>
                   <Input
-                    name="pincode"
-                    id="pincode"
+                    {...register('pincode')}
                     placeholder="Enter PIN code"
-                    value={form.pincode || ''}
-                    onChange={handleChange}
-                    onKeyUp={resetError}
                   />
                   <span className="text-red-500 text-xs -mt-1">
-                    {errors?.pincode?.[0]}
+                    {errors.pincode?.message}
                   </span>
                 </div>
               </div>
@@ -434,15 +263,11 @@ const WbcAddEditCompCentre = ({ editId }: { editId?: number }) => {
                     Centre inchage name
                   </Label>
                   <Input
-                    name="inchargeName"
-                    id="inchargeName"
+                    {...register('inchargeName')}
                     placeholder="Enter centre incharge name"
-                    value={form.inchargeName || ''}
-                    onChange={handleChange}
-                    onKeyUp={resetError}
                   />
                   <span className="text-red-500 text-xs -mt-1">
-                    {errors?.inchargeName?.[0]}
+                    {errors.inchargeName?.message}
                   </span>
                 </div>
                 <div className="col-span-full md:col-span-1 flex flex-col justify-start items-start gap-2">
@@ -453,15 +278,11 @@ const WbcAddEditCompCentre = ({ editId }: { editId?: number }) => {
                     Centre incharge contact no.
                   </Label>
                   <Input
-                    name="inchargeMobile"
-                    id="inchargeMobile"
+                    {...register('inchargeMobile')}
                     placeholder="Enter centre incharge mobile no."
-                    value={form.inchargeMobile || ''}
-                    onChange={handleChange}
-                    onKeyUp={resetError}
                   />
                   <span className="text-red-500 text-xs -mt-1">
-                    {errors?.inchargeMobile?.[0]}
+                    {errors.inchargeMobile?.message}
                   </span>
                 </div>
               </div>
@@ -476,15 +297,11 @@ const WbcAddEditCompCentre = ({ editId }: { editId?: number }) => {
                     Centre inchage email ID
                   </Label>
                   <Input
-                    name="inchargeEmail"
-                    id="inchargeEmail"
+                    {...register('inchargeEmail')}
                     placeholder="Enter centre incharge email ID"
-                    value={form.inchargeEmail || ''}
-                    onChange={handleChange}
-                    onKeyUp={resetError}
                   />
                   <span className="text-red-500 text-xs -mt-1">
-                    {errors?.inchargeEmail?.[0]}
+                    {errors.inchargeEmail?.message}
                   </span>
                 </div>
               </div>
@@ -496,15 +313,11 @@ const WbcAddEditCompCentre = ({ editId }: { editId?: number }) => {
                     Centre owner name
                   </Label>
                   <Input
-                    name="ownerName"
-                    id="ownerName"
+                    {...register('ownerName')}
                     placeholder="Enter centre owner name"
-                    value={form.ownerName || ''}
-                    onChange={handleChange}
-                    onKeyUp={resetError}
                   />
                   <span className="text-red-500 text-xs -mt-1">
-                    {errors?.ownerName?.[0]}
+                    {errors.ownerName?.message}
                   </span>
                 </div>
                 <div className="col-span-full md:col-span-1 flex flex-col justify-start items-start gap-2">
@@ -515,15 +328,11 @@ const WbcAddEditCompCentre = ({ editId }: { editId?: number }) => {
                     Centre owner contact no.
                   </Label>
                   <Input
-                    name="ownerMobile"
-                    id="ownerMobile"
+                    {...register('ownerMobile')}
                     placeholder="Enter centre owner mobile no."
-                    value={form.ownerMobile || ''}
-                    onChange={handleChange}
-                    onKeyUp={resetError}
                   />
                   <span className="text-red-500 text-xs -mt-1">
-                    {errors?.ownerMobile?.[0]}
+                    {errors.ownerMobile?.message}
                   </span>
                 </div>
               </div>
@@ -534,12 +343,12 @@ const WbcAddEditCompCentre = ({ editId }: { editId?: number }) => {
                 variant={'outline'}
                 type="button"
                 className="cs-btn-reset"
-                onClick={resetForm}
+                onClick={() => reset()}
               >
                 Reset
               </Button>
               <WbcSubmitBtn
-                isLoading={isLoading}
+                isLoading={isSubmitting}
                 text={editId ? `Update` : `Add Details`}
                 customClass="cs-btn-primary"
               />

@@ -183,6 +183,10 @@ body {
   @apply tracking-widest text-xs font-normal;
 }
 
+.cs-select {
+  @apply flex h-10 w-full items-center justify-between rounded-xs border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground/70 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1;
+}
+
 .na {
   @apply text-xs text-muted-foreground/60 italic;
 }

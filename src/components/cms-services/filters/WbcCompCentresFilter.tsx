@@ -19,7 +19,7 @@ const WbcCompCentresFilter = () => {
   });
   const navigate = useNavigate();
   const { currentUser } = useAppSelector((state) => state.currentUser);
-  const slug = currentUser!.user_details.slug;
+  const slug = currentUser?.user_details?.slug;
   const url = `/${titles.servicesUrl}/${slug}/computer-training/training-centres`;
 
   // ---------------------------------

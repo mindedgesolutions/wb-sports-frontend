@@ -10,16 +10,8 @@ import { generateCaptcha } from '@/utils/function';
 import showError from '@/utils/showError';
 import showSuccess from '@/utils/showSuccess';
 import { RefreshCcw } from 'lucide-react';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { authSchema, AuthSchema } from '@/types/schema';
-import { zodResolver } from '@hookform/resolvers/zod';
-
-type ExtendedFormProps = AuthSchema & {
-  captchaText: string;
-  organisation: string;
-};
 
 const SpSignIn = () => {
   document.title = `Admin Sign In | ${titles.sports}`;
@@ -27,32 +19,76 @@ const SpSignIn = () => {
   const captcha = generateCaptcha();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const captchaRef = useRef<HTMLInputElement>(null);
   const resetCaptcha = () => {
     const newCaptcha = generateCaptcha();
     setCaptchaText(newCaptcha);
   };
   const [captchaText, setCaptchaText] = useState(captcha);
 
-  const {
-    register,
-    handleSubmit,
-    setError,
-    formState: { errors, isSubmitting },
-  } = useForm<AuthSchema>({
-    mode: 'all',
-    resolver: zodResolver(authSchema(captchaText)),
+  const [isLoading, setIsLoading] = useState(false);
+  const [form, setForm] = useState({
+    username: '',
+    password: '',
+    captchaEnter: '',
   });
+  const [errors, setErrors] = useState<{ [key: string]: string[] } | null>(
+    null
+  );
 
   // ------------------------------
 
-  const onSubmit: SubmitHandler<AuthSchema> = async (data) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  // ------------------------------
+
+  const resetError = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    errors && setErrors({ ...errors, [e.currentTarget.name]: [] });
+  };
+
+  // ------------------------------
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    let errorBag = {} as { [key: string]: string[] };
+    let errorCount = 0;
+
+    if (!form.username.trim()) {
+      errorBag = { ...errorBag, username: ['Username is required'] };
+      errorCount++;
+    }
+    if (!form.password.trim()) {
+      errorBag = { ...errorBag, password: ['Password is required'] };
+      errorCount++;
+    }
+    if (!form.captchaEnter.trim()) {
+      errorBag = { ...errorBag, captchaEnter: ['Captcha is required'] };
+      errorCount++;
+    }
+    if (form.captchaEnter.trim() !== captchaText) {
+      errorBag = { ...errorBag, captchaEnter: ['Captcha is incorrect'] };
+      if (captchaRef.current) {
+        captchaRef.current.value = '';
+        captchaRef.current.focus();
+      }
+      resetCaptcha();
+      errorCount++;
+    }
+
+    if (errorCount > 0) {
+      setErrors(errorBag);
+      return;
+    }
+
+    const formData = new FormData(e.currentTarget);
+    let data = Object.fromEntries(formData);
+    data = { ...data, captchaText: captchaText, organisation: `sports` };
+    setIsLoading(true);
     try {
-      const finalData: ExtendedFormProps = {
-        ...data,
-        captchaText,
-        organisation: 'sports',
-      };
-      const response = await customFetch.post(`/auth/login`, finalData);
+      const response = await customFetch.post(`/auth/login`, data);
       const name = response.data.data.name;
       const slug = response.data.data.user_details.slug;
       const token = response.data.token;
@@ -63,18 +99,15 @@ const SpSignIn = () => {
       navigate(`/${titles.sportsUrl}/${slug}/dashboard`);
     } catch (error) {
       if ((error as any).status === 422) {
-        Object.entries((error as any)?.response?.data?.errors).forEach(
-          ([field, message]) => {
-            setError(field as keyof AuthSchema, {
-              message: message as string,
-            });
-          }
-        );
-        return;
+        return setErrors((error as any)?.response?.data?.errors);
       }
       return showError((error as any)?.response?.data?.errors[0]);
+    } finally {
+      setIsLoading(false);
     }
   };
+
+  // ------------------------------
 
   return (
     <div className="h-screen w-screen bg-gray-100 flex items-center justify-center">
@@ -96,18 +129,21 @@ const SpSignIn = () => {
             </p>
           </div>
           <div className="w-full">
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form onSubmit={handleSubmit}>
               <div className="flex flex-col space-y-2">
                 <Label className="text-muted-foreground">
                   Username <span className="text-red-500">*</span>
                 </Label>
                 <Input
                   type="text"
-                  {...register('username')}
+                  name="username"
                   placeholder="Enter your username"
+                  value={form.username}
+                  onChange={handleChange}
+                  onKeyUp={resetError}
                 />
                 <span className="text-red-500 text-xs">
-                  {errors.username?.message}
+                  {errors?.username?.[0]}
                 </span>
               </div>
               <div className="flex flex-col space-y-2 mt-3">
@@ -125,11 +161,14 @@ const SpSignIn = () => {
                 </span>
                 <Input
                   type="password"
-                  {...register('password')}
+                  name="password"
                   placeholder="Enter your password"
+                  value={form.password}
+                  onChange={handleChange}
+                  onKeyUp={resetError}
                 />
                 <span className="text-red-500 text-xs">
-                  {errors.password?.message}
+                  {errors?.password?.[0]}
                 </span>
               </div>
               <div className="mt-3 flex flex-row justify-start items-center">
@@ -156,19 +195,23 @@ const SpSignIn = () => {
                 <div className="w-full flex flex-col justify-start items-start space-y-2">
                   <Input
                     type="text"
-                    {...register('captchaEnter')}
+                    ref={captchaRef}
+                    name="captchaEnter"
                     placeholder="Enter captcha"
+                    value={form.captchaEnter}
+                    onChange={handleChange}
+                    onKeyUp={resetError}
                   />
                   <span className="text-red-500 text-xs">
-                    {errors.captchaEnter?.message}
+                    {errors?.captchaEnter?.[0]}
                   </span>
                 </div>
               </div>
               <div className="mt-4">
                 <WbcSubmitBtn
                   customClass="w-full cs-btn-success"
+                  isLoading={isLoading}
                   text="Sign In"
-                  isLoading={isSubmitting}
                 />
               </div>
             </form>
