@@ -1,4 +1,4 @@
-import { SpFooter, SpTopnav } from '@/components';
+import { AppScrollToTop, SpFooter, SpTopnav } from '@/components';
 import { AppSidebar } from '@/components/cms-sports/sidebar/app-sidebar';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import { titles } from '@/constants';
@@ -56,6 +56,7 @@ const SpCmsLayout = () => {
   return (
     <>
       <SidebarProvider>
+        <AppScrollToTop />
         <AppSidebar />
         <main className="w-full">
           <SpTopnav />

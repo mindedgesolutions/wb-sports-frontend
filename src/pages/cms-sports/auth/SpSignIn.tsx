@@ -81,11 +81,7 @@ const SpSignIn = () => {
       <div className="bg-white grid grid-cols-5 max-w-4xl min-h-[500px] mx-auto rounded-md shadow-2xl">
         <div className="col-span-3 p-8">
           <div className="flex flex-row justify-between items-center mb-10">
-            <img
-              src={images.sportsLogo}
-              alt={titles.services}
-              className="h-14"
-            />
+            <img src={images.sportsLogo} alt={titles.sports} className="h-14" />
           </div>
           <div className="">
             <h1 className="text-3xl font-bold text-success tracking-wider">

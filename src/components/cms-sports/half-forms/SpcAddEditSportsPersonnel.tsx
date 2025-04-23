@@ -9,6 +9,7 @@ import { updateSpCounter } from '@/features/commonSlice';
 import { useAppDispatch, useAppSelector } from '@/hooks';
 import { SportsPersonnelProps } from '@/types/contents';
 import customFetch from '@/utils/customFetch';
+import { smoothScrollTo } from '@/utils/function';
 import showError from '@/utils/showError';
 import showSuccess from '@/utils/showSuccess';
 import { useEffect, useRef, useState } from 'react';
@@ -142,6 +143,7 @@ const SpcAddEditSportsPersonnel = ({
         resetForm();
         dispatch(updateSpCounter());
         if (selectRef.current) selectRef.current.focus();
+        smoothScrollTo(0, 0, 500);
       }
     } catch (error) {
       if ((error as any)?.response?.status === 422) {
