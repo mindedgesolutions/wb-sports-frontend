@@ -1,4 +1,4 @@
-import { WbcFooter, WbcTopnav } from '@/components';
+import { AppScrollToTop, WbcFooter, WbcTopnav } from '@/components';
 import { AppSidebar } from '@/components/cms-services/sidebar/app-sidebar';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import { titles } from '@/constants';
@@ -53,6 +53,7 @@ const WbCmsLayout = () => {
   return (
     <>
       <SidebarProvider>
+        <AppScrollToTop />
         <AppSidebar />
         <main className="w-full">
           <WbcTopnav />

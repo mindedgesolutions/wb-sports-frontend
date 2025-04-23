@@ -8,6 +8,7 @@ import { updateSpCounter } from '@/features/commonSlice';
 import { useAppDispatch, useAppSelector } from '@/hooks';
 import { KeyPersonnelProps } from '@/types/contents';
 import customFetch from '@/utils/customFetch';
+import { smoothScrollTo } from '@/utils/function';
 import showError from '@/utils/showError';
 import showSuccess from '@/utils/showSuccess';
 import { X } from 'lucide-react';
@@ -173,6 +174,7 @@ const SpcAddEditKeyPersonnel = ({
         resetForm();
         dispatch(updateSpCounter());
         if (nameRef.current) nameRef.current.focus();
+        smoothScrollTo(0, 0, 500);
       }
     } catch (error) {
       if ((error as any)?.response?.status === 422) {
