@@ -3,12 +3,15 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import WbcSubmitBtn from '../WbcSubmitBtn';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import customFetch from '@/utils/customFetch';
 import showError from '@/utils/showError';
 import showSuccess from '@/utils/showSuccess';
 import { useAppDispatch, useAppSelector } from '@/hooks';
 import { updateSrCounter } from '@/features/commonSlice';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { gbMembersSchema, GbMembersSchema } from '@/types/servicesSchema';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 const WbcAddEditGbMembers = ({
   editId,
@@ -17,15 +20,16 @@ const WbcAddEditGbMembers = ({
   editId: number | null;
   setEditId: React.Dispatch<React.SetStateAction<number | null>>;
 }) => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [form, setForm] = useState({
-    designation: '',
-    name: '',
-    desc: '',
+  const {
+    register,
+    formState: { errors, isSubmitting },
+    handleSubmit,
+    reset,
+    setError,
+  } = useForm({
+    mode: 'all',
+    resolver: zodResolver(gbMembersSchema),
   });
-  const [errors, setErrors] = useState<{ [key: string]: string[] } | null>(
-    null
-  );
   const dispatch = useAppDispatch();
   const { gbMembers } = useAppSelector((state) => state.mountains);
   const editData = editId && gbMembers.find((item) => item.id === editId);
@@ -34,8 +38,8 @@ const WbcAddEditGbMembers = ({
 
   useEffect(() => {
     if (editData) {
-      setForm({
-        ...form,
+      reset({
+        ...editData,
         designation: editData.designation || '',
         name: editData.name,
         desc: editData.description,
@@ -45,48 +49,18 @@ const WbcAddEditGbMembers = ({
 
   // ---------------------------------------
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
-
-  // ---------------------------------------
-
-  const resetError = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    setErrors({ ...errors, [e.currentTarget.name]: [] });
-  };
-
-  // ---------------------------------------
-
   const resetForm = () => {
-    setForm({ ...form, designation: '', name: '', desc: '' });
-    setErrors(null);
+    reset({
+      designation: editData ? editData.designation : '',
+      name: editData ? editData.name : '',
+      desc: editData ? editData.description : '',
+    });
     setEditId(null);
   };
 
   // ---------------------------------------
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    let errorBag = {};
-    let errorCount = 0;
-
-    if (!form.name.trim()) {
-      errorBag = { ...errorBag, name: ['Name is required'] };
-      errorCount++;
-    }
-    if (!form.desc.trim()) {
-      errorBag = { ...errorBag, desc: ['Description is required'] };
-      errorCount++;
-    }
-    if (errorCount > 0) {
-      setErrors(errorBag);
-      return;
-    }
-
-    setIsLoading(true);
-    const formData = new FormData(e.currentTarget);
-    const data = Object.fromEntries(formData);
+  const onSubmit: SubmitHandler<GbMembersSchema> = async (data) => {
     const apiUrl = editId
       ? `/mountain/general-body/update/${editId}`
       : `/mountain/general-body/store`;
@@ -94,7 +68,6 @@ const WbcAddEditGbMembers = ({
     const msg = editId ? `Member details updated` : `Member details added`;
     try {
       const response = await process(apiUrl, data);
-
       if (response.status === 201 || response.status === 200) {
         showSuccess(msg);
         resetForm();
@@ -102,11 +75,15 @@ const WbcAddEditGbMembers = ({
       }
     } catch (error) {
       if ((error as any)?.response?.status === 422) {
-        return setErrors((error as any)?.response?.data?.errors);
+        Object.entries((error as any)?.response?.data?.errors).forEach(
+          ([field, message]) => {
+            setError(field as keyof GbMembersSchema, {
+              message: message as string,
+            });
+          }
+        );
       }
       return showError(`Something went wrong!`);
-    } finally {
-      setIsLoading(false);
     }
   };
 
@@ -115,57 +92,36 @@ const WbcAddEditGbMembers = ({
       <div className="bg-muted-foreground/10 text-muted-foreground p-2 text-base font-medium tracking-wider">
         {editId ? `Update details` : `Add member details`}
       </div>
-      <form onSubmit={handleSubmit} autoComplete="off">
+      <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
         <div className="mt-6">
           <div className="flex flex-col justify-start items-start gap-2">
             <Label htmlFor="designation" className="text-muted-foreground">
               Designation
             </Label>
             <Input
-              type="text"
-              name="designation"
-              id="designation"
+              {...register('designation')}
               placeholder="Enter designation"
-              value={form.designation}
-              onChange={handleChange}
-              onKeyUp={resetError}
             />
             <span className="text-red-500 text-xs -mt-1">
-              {errors?.designation?.[0]}
+              {errors.designation?.message}
             </span>
           </div>
           <div className="flex flex-col justify-start items-start gap-2 my-4">
             <Label htmlFor="name" className="text-muted-foreground">
               Name <span className="text-red-500">*</span>
             </Label>
-            <Input
-              type="text"
-              name="name"
-              id="name"
-              placeholder="Enter name"
-              value={form.name}
-              onChange={handleChange}
-              onKeyUp={resetError}
-            />
+            <Input {...register('name')} placeholder="Enter name" />
             <span className="text-red-500 text-xs -mt-1">
-              {errors?.name?.[0]}
+              {errors.name?.message}
             </span>
           </div>
           <div className="flex flex-col justify-start items-start gap-2 my-4">
             <Label htmlFor="desc" className="text-muted-foreground">
               Description <span className="text-red-500">*</span>
             </Label>
-            <Input
-              type="text"
-              name="desc"
-              id="desc"
-              placeholder="Enter description"
-              value={form.desc}
-              onChange={handleChange}
-              onKeyUp={resetError}
-            />
+            <Input {...register('desc')} placeholder="Enter description" />
             <span className="text-red-500 text-xs -mt-1">
-              {errors?.desc?.[0]}
+              {errors.desc?.message}
             </span>
           </div>
           <Separator />
@@ -179,7 +135,7 @@ const WbcAddEditGbMembers = ({
               Reset
             </Button>
             <WbcSubmitBtn
-              isLoading={isLoading}
+              isLoading={isSubmitting}
               text={editId ? `Update Details` : `Add Member`}
               customClass="cs-btn-primary"
             />

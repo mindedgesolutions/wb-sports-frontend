@@ -21,125 +21,69 @@ import { Pencil } from 'lucide-react';
 import { useAppDispatch, useAppSelector } from '@/hooks';
 import { ComputerCourseProps } from '@/types/contents';
 import { updateSrCounter } from '@/features/commonSlice';
-
-type WbcAddEditCourseDetailsProps = {
-  courseType: string;
-  courseName: string;
-  duration: string;
-  courseFee: number;
-  eligibility: string;
-};
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import {
+  CourseDetailsSchema,
+  courseDetailsSchema,
+} from '@/types/servicesSchema';
 
 const WbcAddEditCourseDetails = ({ editId }: { editId?: number }) => {
-  const [errors, setErrors] = useState<{ [key: string]: string[] } | null>(
-    null
-  );
-  const [isLoading, setIsLoading] = useState(false);
-  const [form, setForm] = useState<WbcAddEditCourseDetailsProps>({
-    courseType: '',
-    courseName: '',
-    duration: '',
-    courseFee: 0,
-    eligibility: '',
+  const {
+    register,
+    setError,
+    formState: { errors, isSubmitting },
+    reset,
+    handleSubmit,
+  } = useForm({
+    mode: 'all',
+    resolver: zodResolver(courseDetailsSchema),
   });
+
   const dispatch = useAppDispatch();
   const [open, setOpen] = useState(false);
   const { courses } = useAppSelector((state) => state.compCourses);
-  const data: ComputerCourseProps | 0 | null | undefined =
+  const editData: ComputerCourseProps | 0 | null | undefined =
     editId &&
     courses.find((course: ComputerCourseProps) => course.id === editId);
 
   // ----------------------------------------
 
+  const openModal = () => {
+    reset();
+    setOpen(open === true ? false : true);
+  };
+
+  // ----------------------------------------
+
   useEffect(() => {
-    if (editId && data) {
-      setForm({
-        courseType: (data as ComputerCourseProps).course_type || '',
-        courseName: (data as ComputerCourseProps).course_name || '',
-        duration: (data as ComputerCourseProps).course_duration || '',
-        courseFee: (data as ComputerCourseProps).course_fees || 0,
-        eligibility: (data as ComputerCourseProps).course_eligibility || '',
+    if (editId && editData) {
+      reset({
+        ...editData,
+        courseType: editData.course_type || '',
+        courseName: editData.course_name || '',
+        duration: editData.course_duration || '',
+        courseFee: editData.course_fees || 0,
+        eligibility: editData.course_eligibility || '',
       });
     }
   }, [editId, open]);
 
   // ----------------------------------------
 
-  const openModal = () => {
-    setErrors(null);
-    setOpen(open === true ? false : true);
-  };
-
-  // ----------------------------------------
-
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-
-    if (e.target.name === 'courseFee' && e.target.value) {
-      const numberValue = e.target.value.replace(/[^0-9]/g, '');
-      setForm({ ...form, courseFee: Number(numberValue) });
-    }
-  };
-
-  // ----------------------------------------
-
-  const resetError = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    setErrors({ ...errors, [e.currentTarget.name]: [] });
-  };
-
-  // ----------------------------------------
-
   const resetForm = () => {
-    setErrors(null);
-    setForm({
-      ...form,
-      courseType: '',
-      courseName: '',
-      duration: '',
-      courseFee: 0,
-      eligibility: '',
+    reset({
+      courseType: editData ? editData.course_type : '',
+      courseName: editData ? editData.course_name : '',
+      duration: editData ? editData.course_duration : '',
+      courseFee: editData ? editData.course_fees : 0,
+      eligibility: editData ? editData.course_eligibility : '',
     });
   };
 
   // ----------------------------------------
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    let errorBag = {};
-    let errorCount = 0;
-
-    if (!form.courseType) {
-      errorBag = { ...errorBag, courseType: ['Course type is required'] };
-      errorCount++;
-    }
-    if (!form.courseName.trim()) {
-      errorBag = { ...errorBag, courseName: ['Course name is required'] };
-      errorCount++;
-    }
-    if (!form.duration) {
-      errorBag = { ...errorBag, duration: ['Course duration is required'] };
-      errorCount++;
-    }
-    if (!form.courseFee) {
-      errorBag = { ...errorBag, courseFee: ['Course fee is required'] };
-      errorCount++;
-    }
-    if (!form.eligibility.trim()) {
-      errorBag = { ...errorBag, eligibility: ['Eligibility is required'] };
-      errorCount;
-    }
-    if (errorCount > 0) {
-      setErrors(errorBag);
-      return;
-    }
-
-    setIsLoading(true);
-    setOpen(true);
-    const formData = new FormData(e.currentTarget);
-    const data = Object.fromEntries(formData);
+  const onSubmit: SubmitHandler<CourseDetailsSchema> = async (data) => {
     const apiUrl = editId
       ? `/com-training-courses/${editId}`
       : `/com-training-courses`;
@@ -151,19 +95,21 @@ const WbcAddEditCourseDetails = ({ editId }: { editId?: number }) => {
       const response = await process(apiUrl, data);
 
       if (response.status === 201) {
-        resetForm();
         showSuccess(msg);
         setOpen(false);
         dispatch(updateSrCounter());
       }
     } catch (error) {
-      if ((error as any).status === 400) {
-        return setErrors((error as any)?.response?.data?.errors);
+      if ((error as any)?.response?.status === 422) {
+        Object.entries((error as any)?.response?.data?.errors).forEach(
+          ([field, message]) => {
+            setError(field as keyof CourseDetailsSchema, {
+              message: message as string,
+            });
+          }
+        );
       }
-      showError((error as any)?.response?.data?.errors?.[0]);
-      setOpen(true);
-    } finally {
-      setIsLoading(false);
+      return showError(`Something went wrong!`);
     }
   };
 
@@ -189,18 +135,12 @@ const WbcAddEditCourseDetails = ({ editId }: { editId?: number }) => {
           </DialogTitle>
           <DialogDescription></DialogDescription>
         </DialogHeader>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <div className="mt-2.5 flex flex-col justify-start items-start gap-2">
             <Label htmlFor="courseType" className="text-muted-foreground">
               Course type <span className="text-red-500">*</span>
             </Label>
-            <select
-              className="flex h-10 w-full items-center justify-between rounded-xs border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground/70 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1"
-              name="courseType"
-              id="courseType"
-              value={form.courseType}
-              onChange={handleChange}
-            >
+            <select {...register('courseType')} className="cs-select">
               <option value="">- Select -</option>
               {compCourseTypes.map((courseType) => (
                 <option key={courseType.value} value={courseType.value}>
@@ -209,7 +149,7 @@ const WbcAddEditCourseDetails = ({ editId }: { editId?: number }) => {
               ))}
             </select>
             <span className="text-red-500 text-xs -mt-1">
-              {!form.courseType && errors?.courseType?.[0]}
+              {errors.courseType?.message}
             </span>
           </div>
           <div className="mt-2.5 flex flex-col justify-start items-start gap-2">
@@ -217,15 +157,11 @@ const WbcAddEditCourseDetails = ({ editId }: { editId?: number }) => {
               Name <span className="text-red-500">*</span>
             </Label>
             <Input
-              name="courseName"
-              id="courseName"
+              {...register('courseName')}
               placeholder="Enter course name"
-              value={form.courseName}
-              onChange={handleChange}
-              onKeyUp={resetError}
             />
             <span className="text-red-500 text-xs -mt-1">
-              {errors?.courseName?.[0]}
+              {errors.courseName?.message}
             </span>
           </div>
           <div className="mt-2.5 flex flex-col justify-start items-start">
@@ -234,13 +170,7 @@ const WbcAddEditCourseDetails = ({ editId }: { editId?: number }) => {
                 <Label htmlFor="duration" className="text-muted-foreground">
                   Course duration <span className="text-red-500">*</span>
                 </Label>
-                <select
-                  className="flex h-9 w-full items-center justify-between rounded-xs border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground/70 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1"
-                  name="duration"
-                  id="duration"
-                  value={form.duration}
-                  onChange={handleChange}
-                >
+                <select className="cs-select" {...register('duration')}>
                   <option value="">- Select -</option>
                   {compCourseDuration.map((duration) => (
                     <option key={duration.value} value={duration.value}>
@@ -249,7 +179,7 @@ const WbcAddEditCourseDetails = ({ editId }: { editId?: number }) => {
                   ))}
                 </select>
                 <span className="text-red-500 text-xs -mt-1">
-                  {!form.duration && errors?.duration?.[0]}
+                  {errors.duration?.message}
                 </span>
               </div>
               <div className="col-span-1 flex flex-col justify-start items-start gap-2">
@@ -257,15 +187,11 @@ const WbcAddEditCourseDetails = ({ editId }: { editId?: number }) => {
                   Fees <span className="text-red-500">*</span>
                 </Label>
                 <Input
-                  name="courseFee"
-                  id="courseFee"
+                  {...register('courseFee')}
                   placeholder="Enter course fee (number only)"
-                  value={form.courseFee}
-                  onChange={handleChange}
-                  onKeyUp={resetError}
                 />
                 <span className="text-red-500 text-xs -mt-1">
-                  {errors?.courseFee?.[0]}
+                  {errors.courseFee?.message}
                 </span>
               </div>
             </div>
@@ -275,29 +201,25 @@ const WbcAddEditCourseDetails = ({ editId }: { editId?: number }) => {
               Eligibility <span className="text-red-500">*</span>
             </Label>
             <Input
-              name="eligibility"
-              id="eligibility"
+              {...register('eligibility')}
               placeholder="Enter course eligibility"
-              value={form.eligibility}
-              onChange={handleChange}
-              onKeyUp={resetError}
             />
             <span className="text-red-500 text-xs -mt-1">
-              {errors?.eligibility?.[0]}
+              {errors.eligibility?.message}
             </span>
           </div>
           <Separator className="my-4" />
-          <div className="flex flex-row justify-between items-center">
+          <div className="flex flex-row justify-between items-center pr-2">
             <Button
-              variant={'outline'}
               type="button"
+              variant="outline"
               className="cs-btn-reset"
               onClick={resetForm}
             >
               Reset
             </Button>
             <WbcSubmitBtn
-              isLoading={isLoading}
+              isLoading={isSubmitting}
               text={editId ? `Update` : `Add Details`}
               customClass="cs-btn-primary"
             />

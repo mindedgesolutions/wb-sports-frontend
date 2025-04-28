@@ -52,13 +52,15 @@ const WbcAddEditCompCentre = ({ editId }: { editId?: number }) => {
     editData &&
       reset({
         ...editData,
-        district: editData.district_id.toString(),
+        district: editData.district_id,
         yctcName: editData.yctc_name,
         yctcCode: editData.yctc_code,
         centreCategory: editData.center_category,
-        address1: editData.address_line_1!,
+        address1: editData.address_line_1 ?? '',
         address2: editData.address_line_2,
         address3: editData.address_line_3,
+        city: editData.city ?? '',
+        pincode: editData.pincode ?? '',
         inchargeName: editData.center_incharge_name,
         inchargeMobile: editData.center_incharge_mobile,
         inchargeEmail: editData.center_incharge_email ?? '',
@@ -70,7 +72,29 @@ const WbcAddEditCompCentre = ({ editId }: { editId?: number }) => {
   // ------------------------------------
 
   const openModal = () => {
+    reset();
     setOpen(!open);
+  };
+
+  // ------------------------------------
+
+  const resetForm = () => {
+    reset({
+      district: editData ? editData.district_id : undefined,
+      yctcName: editData ? editData.yctc_name : '',
+      yctcCode: editData ? editData.yctc_code : '',
+      centreCategory: editData ? editData.center_category : '',
+      address1: editData ? editData.address_line_1! : '',
+      address2: editData ? editData.address_line_2 : '',
+      address3: editData ? editData.address_line_3 : '',
+      city: editData ? editData.city : '',
+      pincode: editData ? editData.pincode : '',
+      inchargeName: editData ? editData.center_incharge_name : '',
+      inchargeMobile: editData ? editData.center_incharge_mobile : '',
+      inchargeEmail: editData ? editData.center_incharge_email : '',
+      ownerName: editData ? editData.center_owner_name : '',
+      ownerMobile: editData ? editData.center_owner_mobile : '',
+    });
   };
 
   // ------------------------------------
@@ -338,12 +362,12 @@ const WbcAddEditCompCentre = ({ editId }: { editId?: number }) => {
               </div>
             </div>
             <Separator className="my-4" />
-            <div className="flex flex-row justify-between items-center">
+            <div className="flex flex-row justify-between pr-2 items-center">
               <Button
-                variant={'outline'}
                 type="button"
+                variant="outline"
                 className="cs-btn-reset"
-                onClick={() => reset()}
+                onClick={resetForm}
               >
                 Reset
               </Button>
