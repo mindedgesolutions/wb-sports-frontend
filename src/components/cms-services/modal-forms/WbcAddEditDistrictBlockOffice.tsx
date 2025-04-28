@@ -10,7 +10,7 @@ import { Separator } from '@/components/ui/separator';
 import { cn } from '@/lib/utils';
 import { DialogDescription } from '@radix-ui/react-dialog';
 import { Pencil } from 'lucide-react';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import WbcSubmitBtn from '../WbcSubmitBtn';
 import { useAppDispatch, useAppSelector } from '@/hooks';
 import { Label } from '@/components/ui/label';
@@ -20,51 +20,45 @@ import showError from '@/utils/showError';
 import { updateSrCounter } from '@/features/commonSlice';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import showSuccess from '@/utils/showSuccess';
-
-type WbcAddEditCompCentreProps = {
-  district: string | number | null;
-  name: string;
-  address: string;
-  landline: string | number | undefined;
-  email: string | undefined;
-  mobile_1: string | number | undefined;
-  mobile_2: string | number | undefined;
-  officerName: string | undefined;
-  officerDesignation: string;
-  officerMobile: string | number | undefined;
-};
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import {
+  DistrictBlockOfficeSchema,
+  districtBlockOfficeSchema,
+} from '@/types/servicesSchema';
 
 const WbcAddEditDistrictBlockOffice = ({ editId }: { editId?: number }) => {
   const [open, setOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [form, setForm] = useState<WbcAddEditCompCentreProps>({
-    district: '',
-    name: '',
-    address: '',
-    landline: '',
-    email: '',
-    mobile_1: '',
-    mobile_2: '',
-    officerName: '',
-    officerDesignation: '',
-    officerMobile: '',
+  const {
+    register,
+    formState: { errors, isSubmitting },
+    reset,
+    setError,
+    handleSubmit,
+  } = useForm({
+    mode: 'all',
+    resolver: zodResolver(districtBlockOfficeSchema),
   });
-  const [errors, setErrors] = useState<{ [key: string]: string[] } | null>(
-    null
-  );
+
   const { districts } = useAppSelector((state) => state.common);
   const dispatch = useAppDispatch();
-  const targetRef = useRef<HTMLSelectElement>(null);
   const { offices } = useAppSelector((state) => state.districtBlockOffices);
   const editData = editId && offices?.find((item) => item.id === editId);
 
   // ------------------------------------
 
+  const openModal = () => {
+    reset();
+    setOpen(!open);
+  };
+
+  // ------------------------------------
+
   useEffect(() => {
     editData &&
-      setForm({
-        ...form,
-        district: editData.district_id,
+      reset({
+        ...editData,
+        district: editData.district_id.toString(),
         name: editData.name,
         address: editData.address || '',
         landline: editData.landline_no || '',
@@ -75,124 +69,28 @@ const WbcAddEditDistrictBlockOffice = ({ editId }: { editId?: number }) => {
         officerDesignation: editData.officer_designation || '',
         officerMobile: editData.officer_mobile || '',
       });
-    setErrors(null);
   }, [editId, open]);
 
   // ------------------------------------
 
-  const openModal = () => {
-    setOpen(!open);
-  };
-
-  // ------------------------------------
-
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-
-    if (e.target.name === 'landline' && e.target.value) {
-      const numberValue = e.target.value.replace(/[^0-9]/g, '');
-      setForm({ ...form, landline: Number(numberValue) });
-    }
-    if (e.target.name === 'mobile_1' && e.target.value) {
-      const numberValue = e.target.value.replace(/[^0-9]/g, '');
-      setForm({ ...form, mobile_1: Number(numberValue) });
-    }
-    if (e.target.name === 'mobile_2' && e.target.value) {
-      const numberValue = e.target.value.replace(/[^0-9]/g, '');
-      setForm({ ...form, mobile_2: Number(numberValue) });
-    }
-    if (e.target.name === 'officerMobile' && e.target.value) {
-      const numberValue = e.target.value.replace(/[^0-9]/g, '');
-      setForm({ ...form, officerMobile: Number(numberValue) });
-    }
-  };
-
-  // ------------------------------------
-
-  const resetError = (
-    e: React.KeyboardEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
-    setErrors({ ...errors, [e.currentTarget.name]: [] });
-  };
-
-  // ------------------------------------
-
   const resetForm = () => {
-    setForm({
-      ...form,
-      district: '',
-      name: '',
-      address: '',
-      landline: '',
-      email: '',
-      mobile_1: '',
-      mobile_2: '',
-      officerName: '',
-      officerDesignation: '',
-      officerMobile: '',
+    reset({
+      district: editData ? editData.district_id.toString() : '',
+      name: editData ? editData.name : '',
+      address: editData ? editData.address! : '',
+      landline: editData ? editData.landline_no : '',
+      email: editData ? editData.email : '',
+      mobile_1: editData ? editData.mobile_1 : '',
+      mobile_2: editData ? editData.mobile_2 : '',
+      officerName: editData ? editData.officer_name : '',
+      officerDesignation: editData ? editData.officer_designation! : '',
+      officerMobile: editData ? editData.officer_mobile : '',
     });
-    setErrors(null);
   };
 
   // ------------------------------------
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    let errorBag = {};
-    let errorCount = 0;
-    const emailFormat = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const mobileFormat = /^[0-9]{10}$/;
-
-    if (!form.district) {
-      errorBag = { ...errorBag, district: ['District is required'] };
-      errorCount++;
-    }
-    if (!form.name.trim()) {
-      errorBag = { ...errorBag, name: ['Name of the office is required'] };
-      errorCount++;
-    }
-    if (!form.address.trim()) {
-      errorBag = { ...errorBag, address: ['Address is required'] };
-      errorCount++;
-    }
-    if (!form.officerDesignation.trim()) {
-      errorBag = {
-        ...errorBag,
-        officerDesignation: ['Officer designation is required'],
-      };
-      errorCount++;
-    }
-    if (form.email && !emailFormat.test(form.email)) {
-      errorBag = { ...errorBag, email: ['Invalid email'] };
-      errorCount++;
-    }
-    if (form.mobile_1 && !mobileFormat.test(form.mobile_1 as string)) {
-      errorBag = { ...errorBag, mobile_1: ['Invalid mobile number'] };
-      errorCount++;
-    }
-    if (form.mobile_2 && !mobileFormat.test(form.mobile_2 as string)) {
-      errorBag = { ...errorBag, mobile_2: ['Invalid mobile number'] };
-      errorCount++;
-    }
-    if (
-      form.officerMobile &&
-      !mobileFormat.test(form.officerMobile as string)
-    ) {
-      errorBag = { ...errorBag, officerMobile: ['Invalid mobile number'] };
-      errorCount++;
-    }
-
-    if (errorCount > 0) {
-      setErrors(errorBag);
-      return;
-    }
-
-    const formData = new FormData(e.currentTarget);
-    const data = Object.fromEntries(formData);
-    setIsLoading(true);
+  const onSubmit: SubmitHandler<DistrictBlockOfficeSchema> = async (data) => {
     const url = editId
       ? `/district-block-offices/${editId}`
       : `/district-block-offices`;
@@ -200,22 +98,25 @@ const WbcAddEditDistrictBlockOffice = ({ editId }: { editId?: number }) => {
     const msg = editId
       ? `District / Block office updated successfully`
       : `District / Block office added successfully`;
-
     try {
       const response = await process(url, data);
       if (response.status === 200 || response.status === 201) {
-        resetForm();
+        reset();
         setOpen(false);
         dispatch(updateSrCounter());
         showSuccess(msg);
       }
     } catch (error) {
       if ((error as any)?.response?.status === 422) {
-        setErrors((error as any)?.response?.data?.errors);
+        Object.entries((error as any)?.response?.data?.errors).forEach(
+          ([field, message]) => {
+            setError(field as keyof DistrictBlockOfficeSchema, {
+              message: message as string,
+            });
+          }
+        );
       }
-      showError(`Something went wrong`);
-    } finally {
-      setIsLoading(false);
+      return showError(`Something went wrong!`);
     }
   };
 
@@ -242,21 +143,14 @@ const WbcAddEditDistrictBlockOffice = ({ editId }: { editId?: number }) => {
             </DialogTitle>
             <DialogDescription></DialogDescription>
           </DialogHeader>
-          <form onSubmit={handleSubmit} autoComplete="off">
+          <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
             <div className="mt-2.5 flex flex-col justify-start items-start gap-2">
               <div className="w-full grid grid-cols-2 gap-4">
                 <div className="col-span-1 flex flex-col justify-start items-start gap-2">
                   <Label htmlFor="district" className="text-muted-foreground">
                     District <span className="text-red-500">*</span>
                   </Label>
-                  <select
-                    className="flex h-10 w-full items-center justify-between rounded-xs border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground/70 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1"
-                    name="district"
-                    id="district"
-                    value={form.district as number}
-                    onChange={handleChange}
-                    ref={targetRef}
-                  >
+                  <select className="cs-select" {...register('district')}>
                     <option value="">- Select -</option>
                     {districts?.map((district) => (
                       <option key={district.id} value={district.id}>
@@ -265,7 +159,7 @@ const WbcAddEditDistrictBlockOffice = ({ editId }: { editId?: number }) => {
                     ))}
                   </select>
                   <span className="text-red-500 text-xs -mt-1">
-                    {!form.district && errors?.district?.[0]}
+                    {errors.district?.message}
                   </span>
                 </div>
               </div>
@@ -274,16 +168,9 @@ const WbcAddEditDistrictBlockOffice = ({ editId }: { editId?: number }) => {
               <Label htmlFor="name" className="text-muted-foreground">
                 Office name <span className="text-red-500">*</span>
               </Label>
-              <Input
-                name="name"
-                id="name"
-                placeholder="Enter office name"
-                value={form.name}
-                onChange={handleChange}
-                onKeyUp={resetError}
-              />
+              <Input {...register('name')} placeholder="Enter office name" />
               <span className="text-red-500 text-xs -mt-1">
-                {errors?.name?.[0]}
+                {errors.name?.message}
               </span>
             </div>
             <div className="mt-2.5 flex flex-col justify-start items-start gap-2">
@@ -291,15 +178,11 @@ const WbcAddEditDistrictBlockOffice = ({ editId }: { editId?: number }) => {
                 Address <span className="text-red-500">*</span>
               </Label>
               <Input
-                name="address"
-                id="address"
+                {...register('address')}
                 placeholder="Enter office address"
-                value={form.address}
-                onChange={handleChange}
-                onKeyUp={resetError}
               />
               <span className="text-red-500 text-xs -mt-1">
-                {errors?.address?.[0]}
+                {errors.address?.message}
               </span>
             </div>
             <div className="mt-2.5 flex flex-col justify-start items-start">
@@ -309,15 +192,11 @@ const WbcAddEditDistrictBlockOffice = ({ editId }: { editId?: number }) => {
                     Landline no.
                   </Label>
                   <Input
-                    name="landline"
-                    id="landline"
+                    {...register('landline')}
                     placeholder="Enter landline no."
-                    value={form.landline}
-                    onChange={handleChange}
-                    onKeyUp={resetError}
                   />
                   <span className="text-red-500 text-xs -mt-1">
-                    {errors?.landline?.[0]}
+                    {errors.landline?.message}
                   </span>
                 </div>
                 <div className="col-span-1 flex flex-col justify-start items-start gap-2">
@@ -325,15 +204,11 @@ const WbcAddEditDistrictBlockOffice = ({ editId }: { editId?: number }) => {
                     Email
                   </Label>
                   <Input
-                    name="email"
-                    id="email"
+                    {...register('email')}
                     placeholder="Enter office email"
-                    value={form.email}
-                    onChange={handleChange}
-                    onKeyUp={resetError}
                   />
                   <span className="text-red-500 text-xs -mt-1">
-                    {errors?.email?.[0]}
+                    {errors.email?.message}
                   </span>
                 </div>
               </div>
@@ -345,15 +220,11 @@ const WbcAddEditDistrictBlockOffice = ({ editId }: { editId?: number }) => {
                     Office mobile no. 1
                   </Label>
                   <Input
-                    name="mobile_1"
-                    id="mobile_1"
+                    {...register('mobile_1')}
                     placeholder="Enter office mobile no. 1 (if any)"
-                    value={form.mobile_1}
-                    onChange={handleChange}
-                    onKeyUp={resetError}
                   />
                   <span className="text-red-500 text-xs -mt-1">
-                    {errors?.mobile_1?.[0]}
+                    {errors.mobile_1?.message}
                   </span>
                 </div>
                 <div className="col-span-1 flex flex-col justify-start items-start gap-2">
@@ -361,15 +232,11 @@ const WbcAddEditDistrictBlockOffice = ({ editId }: { editId?: number }) => {
                     Office mobile no. 2
                   </Label>
                   <Input
-                    name="mobile_2"
-                    id="mobile_2"
+                    {...register('mobile_2')}
                     placeholder="Enter office mobile no. 2 (if any)"
-                    value={form.mobile_2}
-                    onChange={handleChange}
-                    onKeyUp={resetError}
                   />
                   <span className="text-red-500 text-xs -mt-1">
-                    {errors?.mobile_2?.[0]}
+                    {errors.mobile_2?.message}
                   </span>
                 </div>
               </div>
@@ -379,15 +246,11 @@ const WbcAddEditDistrictBlockOffice = ({ editId }: { editId?: number }) => {
                 Officer's name
               </Label>
               <Input
-                name="officerName"
-                id="officerName"
+                {...register('officerName')}
                 placeholder="Enter officer's name"
-                value={form.officerName}
-                onChange={handleChange}
-                onKeyUp={resetError}
               />
               <span className="text-red-500 text-xs -mt-1">
-                {errors?.officerName?.[0]}
+                {errors.officerName?.message}
               </span>
             </div>
             <div className="mt-2.5 flex flex-col justify-start items-start gap-2">
@@ -398,15 +261,11 @@ const WbcAddEditDistrictBlockOffice = ({ editId }: { editId?: number }) => {
                 Officer's designation <span className="text-red-500">*</span>
               </Label>
               <Input
-                name="officerDesignation"
-                id="officerDesignation"
+                {...register('officerDesignation')}
                 placeholder="Enter office's designation"
-                value={form.officerDesignation}
-                onChange={handleChange}
-                onKeyUp={resetError}
               />
               <span className="text-red-500 text-xs -mt-1">
-                {errors?.officerDesignation?.[0]}
+                {errors.officerDesignation?.message}
               </span>
             </div>
             <div className="mt-2.5 flex flex-col justify-start items-start">
@@ -419,31 +278,27 @@ const WbcAddEditDistrictBlockOffice = ({ editId }: { editId?: number }) => {
                     Officer's mobile no.
                   </Label>
                   <Input
-                    name="officerMobile"
-                    id="officerMobile"
+                    {...register('officerMobile')}
                     placeholder="Enter office's designation"
-                    value={form.officerMobile}
-                    onChange={handleChange}
-                    onKeyUp={resetError}
                   />
                   <span className="text-red-500 text-xs -mt-1">
-                    {errors?.officerMobile?.[0]}
+                    {errors.officerMobile?.message}
                   </span>
                 </div>
               </div>
             </div>
             <Separator className="my-4" />
-            <div className="flex flex-row justify-between items-center">
+            <div className="flex flex-row justify-between items-center pr-2">
               <Button
-                variant={'outline'}
                 type="button"
+                variant="outline"
                 className="cs-btn-reset"
                 onClick={resetForm}
               >
                 Reset
               </Button>
               <WbcSubmitBtn
-                isLoading={isLoading}
+                isLoading={isSubmitting}
                 text={editId ? `Update` : `Add Details`}
                 customClass="cs-btn-primary"
               />
