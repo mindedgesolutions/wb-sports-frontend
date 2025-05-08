@@ -49,7 +49,7 @@ const WbMountaineering = () => {
             Yuba Bharati Krirangan, Saltlake, Kolkata.
           </p>
           <p>For more details, visit the website</p>
-          <Separator className="bg-sky/10" />
+          <Separator className="bg-sky/20" />
           <p className="text-sky-foreground font-medium tracking-wider">
             Main Objects
           </p>
@@ -96,7 +96,7 @@ const WbMountaineering = () => {
               sanction funds for any work related to its objectives.
             </li>
           </ol>
-          <Separator className="bg-sky/10" />
+          <Separator className="bg-sky/20" />
           <p className="text-sky-foreground font-medium tracking-wider">
             Name, Address & Description of the Members of the General Body
           </p>

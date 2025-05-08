@@ -32,7 +32,7 @@ const WbHomePage = () => {
             meeting up the demand of the day.
           </p>
         </div>
-        <div className="mt-8 md:mt-16 w-full md:max-w-4xl md:mx-auto grid grid-cols-1 md:grid-cols-3 grid-flow-col lg:grid-flow-row gap-4">
+        <div className="mt-8 md:mt-16 w-full md:max-w-4xl md:mx-auto grid grid-cols-1 md:grid-cols-3 sm:grid-flow-col lg:grid-flow-row gap-4">
           <div className="w-full">
             <WbHomepageCard
               title="Computer training"
