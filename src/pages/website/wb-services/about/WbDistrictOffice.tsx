@@ -62,7 +62,7 @@ const WbDistrictOffice = () => {
             </div>
           </div>
           {!districtId && (
-            <div className="grid grid-cols-3 grid-flow-row gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 grid-flow-row gap-4">
               {districts?.map((district) => (
                 <div
                   key={district.id}

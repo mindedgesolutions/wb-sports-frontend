@@ -44,7 +44,7 @@ const WbVocationalTraining = () => {
               </li>
               <li className="mb-4">Certificate in Beautician Course.</li>
             </ol>
-            <p>
+            <p className="-mt-4">
               Thousands of students & youth are being enabled to move forward
               towards the path of self-employment receiving training from these
               centres.

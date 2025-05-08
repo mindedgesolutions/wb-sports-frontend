@@ -42,18 +42,18 @@ const WbYouthHostelCard = ({ hostel }: { hostel: YouthHostelProps }) => {
             />
           </div>
           <div className="col-span-4">
-            <h1 className="text-sm md:text-base tracking-wider text-sky-foreground font-medium">
+            <h1 className="text-sm md:text-base tracking-tight md:tracking-normal text-sky-foreground font-medium">
               {hostel.name}
             </h1>
             <div className="mt-3 flex items-start gap-1">
               <MapPin className="h-3.5 text-muted-foreground/70" />{' '}
-              <span className="text-xs uppercase text-muted-foreground/70 font-medium tracking-wide leading-relaxed">
+              <span className="text-xs uppercase text-muted-foreground/70 font-medium tracking-tight md:tracking-normal leading-tight md:leading-normal">
                 {hostel.address.length > 35
                   ? hostel.address.slice(0, 35) + '...'
                   : hostel.address}
               </span>
             </div>
-            <div className="w-full mt-1 flex flex-row justify-start items-start gap-2">
+            <div className="w-full mt-1 flex flex-col justify-start items-start">
               {hostel.phone_1 ? (
                 <div className="mt-1 flex justify-start items-center gap-1">
                   <Phone className="h-3.5 text-muted-foreground/70" />{' '}

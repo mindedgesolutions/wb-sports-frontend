@@ -15,7 +15,7 @@ const WbHowBookHostel = () => {
       <WbPageWrapper>
         <WbPageSidebar parentMenu="Youth Hostel" />
         <WbContentWrapper title="How to Book Youth Hostel / Phone Number">
-          <p>
+          <p className="tracking-normal">
             Kindly visit our Website{' '}
             <a
               href="https://youthhostelbooking.wb.gov.in"
