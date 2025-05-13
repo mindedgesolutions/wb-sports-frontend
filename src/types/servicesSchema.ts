@@ -179,3 +179,11 @@ export const gbMembersSchema = z.object({
   desc: z.string().min(1, 'Description is required'),
 });
 export type GbMembersSchema = z.infer<typeof gbMembersSchema>;
+
+// -------------------------------
+
+export const newsEvemtsSchema = z.object({
+  title: z
+    .string({ required_error: 'Title is required' })
+    .min(1, { message: 'Title is required' }),
+});

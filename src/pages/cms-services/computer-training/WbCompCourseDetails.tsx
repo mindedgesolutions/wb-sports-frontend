@@ -26,7 +26,7 @@ import { ComputerCourseProps, MetaProps } from '@/types/contents';
 import customFetch from '@/utils/customFetch';
 import { currencyFormat, serialNo } from '@/utils/function';
 import showSuccess from '@/utils/showSuccess';
-import { nanoid } from '@reduxjs/toolkit';
+import { nanoid } from 'nanoid';
 import dayjs from 'dayjs';
 import { EyeIcon } from 'lucide-react';
 import { useEffect, useState } from 'react';

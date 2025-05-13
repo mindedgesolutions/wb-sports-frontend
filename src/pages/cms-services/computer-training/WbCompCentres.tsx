@@ -28,7 +28,7 @@ import customFetch from '@/utils/customFetch';
 import { serialNo } from '@/utils/function';
 import showError from '@/utils/showError';
 import showSuccess from '@/utils/showSuccess';
-import { nanoid } from '@reduxjs/toolkit';
+import { nanoid } from 'nanoid';
 import { EyeIcon, Mail, Phone, User } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';

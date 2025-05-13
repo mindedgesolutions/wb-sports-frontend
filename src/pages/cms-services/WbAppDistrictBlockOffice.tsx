@@ -22,7 +22,7 @@ import { titles } from '@/constants';
 import { DistrictBlockOfficeProps, MetaProps } from '@/types/contents';
 import customFetch from '@/utils/customFetch';
 import { serialNo } from '@/utils/function';
-import { nanoid } from '@reduxjs/toolkit';
+import { nanoid } from 'nanoid';
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import dayjs from 'dayjs';

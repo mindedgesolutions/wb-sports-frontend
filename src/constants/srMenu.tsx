@@ -100,11 +100,11 @@ function adminMenus() {
       url: `/${titles.servicesUrl}/${slug}/youth-hostels`,
       icon: Building,
     },
-    {
-      title: 'Photo Gallery',
-      url: `/${titles.servicesUrl}/${slug}/photo-gallery`,
-      icon: Images,
-    },
+    // {
+    //   title: 'Photo Gallery',
+    //   url: `/${titles.servicesUrl}/${slug}/photo-gallery`,
+    //   icon: Images,
+    // },
   ];
 
   return menus;

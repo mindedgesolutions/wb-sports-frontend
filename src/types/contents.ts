@@ -224,6 +224,18 @@ export type YouthHostelProps = {
   uuid: string;
 };
 
+export type NewsEventsProps = {
+  id: number;
+  title: string;
+  slug: string;
+  description: string | null;
+  file_path: string | null;
+  event_date: string | Date;
+  is_active: boolean;
+  created_at: Date;
+  updated_at: Date;
+};
+
 // Sports API wrappers start ------------------------------
 
 export type SliderProps = {
