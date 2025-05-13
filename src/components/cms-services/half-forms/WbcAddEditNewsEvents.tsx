@@ -4,16 +4,15 @@ import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
 import { Button } from '@/components/ui/button';
 import { useEffect, useRef, useState } from 'react';
-import { X } from 'lucide-react';
 import WbcSubmitBtn from '../WbcSubmitBtn';
 import customFetch from '@/utils/customFetch';
 import showSuccess from '@/utils/showSuccess';
 import { useAppDispatch, useAppSelector } from '@/hooks';
 import { updateSrCounter } from '@/features/commonSlice';
-import { BannerProps, NewsEventsProps } from '@/types/contents';
-import { titles } from '@/constants';
+import { NewsEventsProps } from '@/types/contents';
 import { Textarea } from '@/components/ui/textarea';
 import { newsEvemtsSchema } from '@/types/servicesSchema';
+import { images } from '@/constants';
 
 const WbcAddEditNewsEvents = ({
   editId,
@@ -28,6 +27,33 @@ const WbcAddEditNewsEvents = ({
     eventDate: '',
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [isLoading, setIsLoading] = useState(false);
+  const [file, setFile] = useState<File | null>(null);
+  const [savedFile, setSavedFile] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const dispatch = useAppDispatch();
+  const { newsEvents } = useAppSelector((state) => state.newsEvents);
+
+  const editData: NewsEventsProps | 0 | null | undefined =
+    newsEvents &&
+    editId &&
+    newsEvents.find((newsEvent: NewsEventsProps) => newsEvent.id === editId);
+
+  // ---------------------------------------
+
+  useEffect(() => {
+    if (editData) {
+      setForm({
+        title: (editData as NewsEventsProps).title,
+        description: (editData as NewsEventsProps).description || '',
+        eventDate:
+          ((editData as NewsEventsProps).event_date as Date)
+            ?.toISOString()
+            .split('T')[0] || '',
+      });
+      setSavedFile((editData as NewsEventsProps).file_path || null);
+    }
+  }, [editId]);
 
   // ---------------------------------------
 
@@ -47,11 +73,41 @@ const WbcAddEditNewsEvents = ({
 
   // ---------------------------------------
 
+  const resetForm = () => {
+    setForm({
+      title: '',
+      description: '',
+      eventDate: '',
+    });
+    setFile(null);
+    setSavedFile(null);
+    setErrors({});
+    setEditId(null);
+    if (fileInputRef.current) fileInputRef.current.value = '';
+  };
+
+  // ---------------------------------------
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (file.size > 512 * 1024) {
+      setErrors({ ...errors, file: 'File size must be less than 512 KB' });
+      setFile(null);
+      if (fileInputRef.current) fileInputRef.current.value = '';
+      return;
+    }
+    setFile(file);
+  };
+
+  // ---------------------------------------
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const formData = new FormData(e.currentTarget);
-    const data = Object.fromEntries(formData);
+    let data = Object.fromEntries(formData);
     const validated = newsEvemtsSchema.safeParse(data);
     const fieldErrors: Record<string, string> = {};
     if (!validated.success) {
@@ -59,6 +115,34 @@ const WbcAddEditNewsEvents = ({
         (issue) => (fieldErrors[issue.path[0]] = issue.message)
       );
       setErrors(fieldErrors);
+    }
+    if (file && file?.size > 0) {
+      data = { ...data, file };
+    }
+
+    setIsLoading(true);
+    try {
+      const response = await customFetch.post(`/news-events`, data, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      if (response.status === 201 || response.status === 200) {
+        showSuccess(
+          editId
+            ? 'News / Event details updated successfully'
+            : 'News / Event added successfully'
+        );
+        dispatch(updateSrCounter());
+        resetForm();
+      }
+    } catch (error: any) {
+      if (error.status === 400) {
+        return setErrors(error?.response?.data?.message);
+      }
+      setErrors(error?.response?.data?.errors);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -117,7 +201,7 @@ const WbcAddEditNewsEvents = ({
           <div className="flex flex-col justify-start items-start gap-2 my-4">
             <div className="flex flex-row gap-2">
               <Label className="text-muted-foreground">
-                Select an image{' '}
+                Select a file{' '}
                 {!!editId ? (
                   '(optional)'
                 ) : (
@@ -128,40 +212,31 @@ const WbcAddEditNewsEvents = ({
             </div>
             <Input
               type="file"
-              name="banner"
-              id="banner"
-              // ref={fileInputRef}
-              // onChange={handleImageChange}
+              name="file"
+              id="file"
+              ref={fileInputRef}
+              onChange={handleImageChange}
             />
+            <div className="w-full flex justify-start items-start gap-2">
+              {file ? (
+                <>
+                  {file.type.startsWith('image/') && (
+                    <img src={images.noImg} alt="file" className="h-16" />
+                  )}
+                  {file.type === 'application/pdf' && (
+                    <img src={images.pdfIcon} alt="file" className="h-16" />
+                  )}
+                  {(file.type === 'application/msword' ||
+                    file.type ===
+                      'application/vnd.openxmlformats-officedocument.wordprocessingml.document') && (
+                    <img src={images.docIcon} alt="file" className="h-16" />
+                  )}
+                </>
+              ) : null}
+            </div>
             <span className="text-red-500 text-xs -mt-1">
-              {/* {!banner && errors?.banner?.[0]} */}
+              {!file && errors?.file}
             </span>
-            {/* <div className="w-full flex justify-start items-start gap-2">
-              <div className="w-full h-28 border border-dashed flex justify-center items-center">
-                {banner ? (
-                  <img
-                    src={URL.createObjectURL(banner)}
-                    alt="banner"
-                    className="w-full h-full object-cover"
-                  />
-                ) : savedImage ? (
-                  <img
-                    src={titles.baseUrl + savedImage}
-                    alt="banner"
-                    className="w-full h-full object-cover"
-                  />
-                ) : (
-                  <p className="text-sm font-extralight tracking-widest">
-                    preview banner
-                  </p>
-                )}
-              </div>
-              {banner && (
-                <Button variant="ghost" onClick={clearImage}>
-                  <X className="text-red-500 h-8" />
-                </Button>
-              )}
-            </div> */}
           </div>
           <Separator />
           <div className="my-4 flex flex-row justify-between items-center">
@@ -169,12 +244,12 @@ const WbcAddEditNewsEvents = ({
               type="button"
               variant="outline"
               className="cs-btn-reset"
-              // onClick={resetForm}
+              onClick={resetForm}
             >
               Reset
             </Button>
             <WbcSubmitBtn
-              // isLoading={isLoading}
+              isLoading={isLoading}
               text="Upload"
               customClass="cs-btn-primary"
             />

@@ -230,7 +230,7 @@ export type NewsEventsProps = {
   slug: string;
   description: string | null;
   file_path: string | null;
-  event_date: string | Date;
+  event_date: Date | string | null;
   is_active: boolean;
   created_at: Date;
   updated_at: Date;
