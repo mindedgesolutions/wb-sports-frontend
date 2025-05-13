@@ -27,7 +27,7 @@ import customFetch from '@/utils/customFetch';
 import { handleDownload, serialNo } from '@/utils/function';
 import showError from '@/utils/showError';
 import showSuccess from '@/utils/showSuccess';
-import { nanoid } from '@reduxjs/toolkit';
+import { nanoid } from 'nanoid';
 import dayjs from 'dayjs';
 import { EyeIcon, Pencil } from 'lucide-react';
 import { useEffect, useState } from 'react';

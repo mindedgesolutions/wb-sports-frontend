@@ -1,7 +1,7 @@
 import { Label } from '@/components/ui/label';
 import { menus } from '@/constants/wbMenu';
 import { WebsiteMenuProps } from '@/types/menu';
-import { nanoid } from '@reduxjs/toolkit';
+import { nanoid } from 'nanoid';
 import { WbcBannerPopover } from '@/components';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';

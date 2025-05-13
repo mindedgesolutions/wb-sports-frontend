@@ -46,6 +46,7 @@ const WbFairsProgrammes = () => {
     setIsLoading(true);
     try {
       const response = await customFetch.get(`/fair-programme/list`);
+      console.log(response);
 
       if (response.status === 200) {
         setData(response.data.data);
@@ -113,6 +114,7 @@ const WbFairsProgrammes = () => {
               ) : (
                 data?.map((fairprogram: FairProgrammeProps, index: number) => {
                   const view = `${titles.websiteBaseUrl}/${titles.serviceUrlWeb}/mountaineering`;
+                  const galleryCount = fairprogram?.gallery?.length || 0;
 
                   return (
                     <TableRow
@@ -128,7 +130,7 @@ const WbFairsProgrammes = () => {
                       <TableCell className="uppercase">
                         {fairprogram.occurance}
                       </TableCell>
-                      <TableCell>0</TableCell>
+                      <TableCell>{galleryCount}</TableCell>
                       <TableCell>
                         {dayjs(fairprogram.updated_at).format(
                           'DD/MM/YYYY h:mm A'

@@ -52,6 +52,7 @@ export { default as WbcSortMountainGbMembers } from '@/components/cms-services/m
 export { default as AppProfile } from '@/components/AppProfile';
 export { default as AppChangePassword } from '@/components/AppChangePassword';
 export { default as AppProfileImgPopover } from '@/components/AppProfileImgPopover';
+export { default as WbcAddEditNewsEvents } from '@/components/cms-services/half-forms/WbcAddEditNewsEvents';
 
 // Services App Components end ----------------------------
 
