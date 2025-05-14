@@ -182,8 +182,20 @@ export type GbMembersSchema = z.infer<typeof gbMembersSchema>;
 
 // -------------------------------
 
-export const newsEvemtsSchema = z.object({
-  title: z
-    .string({ required_error: 'Title is required' })
-    .min(1, { message: 'Title is required' }),
-});
+export const newsEvemtsSchema = z
+  .object({
+    title: z
+      .string({ required_error: 'Title is required' })
+      .min(1, { message: 'Title is required' }),
+    file: z.custom<FileList>(),
+    editId: z.number().nullable(),
+  })
+  .superRefine((data, ctx) => {
+    if (!data.editId && !data.file) {
+      ctx.addIssue({
+        code: 'custom',
+        path: ['file'],
+        message: 'File is required',
+      });
+    }
+  });

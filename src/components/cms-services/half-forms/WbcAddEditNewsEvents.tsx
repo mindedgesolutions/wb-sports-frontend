@@ -14,6 +14,12 @@ import { Textarea } from '@/components/ui/textarea';
 import { newsEvemtsSchema } from '@/types/servicesSchema';
 import { images } from '@/constants';
 
+type FormProps = {
+  title: string;
+  description: string;
+  eventDate: Date | string;
+};
+
 const WbcAddEditNewsEvents = ({
   editId,
   setEditId,
@@ -21,7 +27,7 @@ const WbcAddEditNewsEvents = ({
   editId: number | null;
   setEditId: React.Dispatch<React.SetStateAction<number | null>>;
 }) => {
-  const [form, setForm] = useState({
+  const [form, setForm] = useState<FormProps>({
     title: '',
     description: '',
     eventDate: '',
@@ -46,10 +52,7 @@ const WbcAddEditNewsEvents = ({
       setForm({
         title: (editData as NewsEventsProps).title,
         description: (editData as NewsEventsProps).description || '',
-        eventDate:
-          ((editData as NewsEventsProps).event_date as Date)
-            ?.toISOString()
-            .split('T')[0] || '',
+        eventDate: (editData as NewsEventsProps).event_date || '',
       });
       setSavedFile((editData as NewsEventsProps).file_path || null);
     }
@@ -108,21 +111,24 @@ const WbcAddEditNewsEvents = ({
 
     const formData = new FormData(e.currentTarget);
     let data = Object.fromEntries(formData);
-    const validated = newsEvemtsSchema.safeParse(data);
+    const validate = { ...data, file, editId: editId || null };
+    const validated = newsEvemtsSchema.safeParse(validate);
     const fieldErrors: Record<string, string> = {};
     if (!validated.success) {
       validated.error.issues.map(
         (issue) => (fieldErrors[issue.path[0]] = issue.message)
       );
       setErrors(fieldErrors);
+      return;
     }
     if (file && file?.size > 0) {
       data = { ...data, file };
     }
 
+    const api = editId ? `/news-events/update/${editId}` : `/news-events`;
     setIsLoading(true);
     try {
-      const response = await customFetch.post(`/news-events`, data, {
+      const response = await customFetch.post(api, data, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -152,54 +158,55 @@ const WbcAddEditNewsEvents = ({
         {editId ? 'Edit banner details' : 'Add new banner'}
       </div>
       <form onSubmit={handleSubmit} autoComplete="off">
-        <div className="mt-6">
-          <div className="flex flex-col justify-start items-start gap-2 my-4">
-            <Label htmlFor="title" className="text-muted-foreground">
-              Title <span className="text-red-500">*</span>
-            </Label>
-            <Input
-              type="text"
-              name="title"
-              id="title"
-              placeholder="News / Event title"
-              value={form.title}
-              onChange={handleChange}
-              onKeyUp={resetError}
-            />
-            <span className="text-red-500 text-xs -mt-1">{errors?.title}</span>
-          </div>
-          <div className="flex flex-col justify-start items-start gap-2 my-4">
-            <Label htmlFor="description" className="text-muted-foreground">
-              Description
-            </Label>
-            <Textarea
-              name="description"
-              id="description"
-              placeholder="News / Event description"
-              value={form.description}
-              onChange={handleChange}
-            />
-            <span className="text-red-500 text-xs -mt-1">
-              {errors?.description}
-            </span>
-          </div>
-          <div className="flex flex-col justify-start items-start gap-2 my-4">
-            <Label htmlFor="eventDate" className="text-muted-foreground">
-              Event date
-            </Label>
-            <Input
-              type="date"
-              name="eventDate"
-              id="eventDate"
-              value={form.eventDate}
-              onChange={handleChange}
-            />
-            <span className="text-red-500 text-xs -mt-1">
-              {errors?.eventDate}
-            </span>
-          </div>
-          <div className="flex flex-col justify-start items-start gap-2 my-4">
-            <div className="flex flex-row gap-2">
+        <fieldset disabled={isLoading}>
+          <div className="mt-6">
+            <div className="flex flex-col justify-start items-start gap-2 my-4">
+              <Label htmlFor="title" className="text-muted-foreground">
+                Title <span className="text-red-500">*</span>
+              </Label>
+              <Textarea
+                name="title"
+                id="title"
+                placeholder="News / Event title"
+                value={form.title}
+                onChange={handleChange}
+                onKeyUp={resetError}
+              />
+              <span className="text-red-500 text-xs -mt-1">
+                {errors?.title}
+              </span>
+            </div>
+            <div className="flex flex-col justify-start items-start gap-2 my-4">
+              <Label htmlFor="description" className="text-muted-foreground">
+                Description
+              </Label>
+              <Textarea
+                name="description"
+                id="description"
+                placeholder="News / Event description"
+                value={form.description}
+                onChange={handleChange}
+              />
+              <span className="text-red-500 text-xs -mt-1">
+                {errors?.description}
+              </span>
+            </div>
+            <div className="flex flex-col justify-start items-start gap-2 my-4">
+              <Label htmlFor="eventDate" className="text-muted-foreground">
+                Event date
+              </Label>
+              <Input
+                type="date"
+                name="eventDate"
+                id="eventDate"
+                value={form.eventDate as string}
+                onChange={handleChange}
+              />
+              <span className="text-red-500 text-xs -mt-1">
+                {errors?.eventDate}
+              </span>
+            </div>
+            <div className="flex flex-col justify-start items-start gap-2 my-4">
               <Label className="text-muted-foreground">
                 Select a file{' '}
                 {!!editId ? (
@@ -208,53 +215,54 @@ const WbcAddEditNewsEvents = ({
                   <span className="text-red-500">*</span>
                 )}
               </Label>
-              <WbcBannerPopover />
+              <Input
+                type="file"
+                name="file"
+                id="file"
+                ref={fileInputRef}
+                onChange={handleImageChange}
+              />
+              <span className="text-red-500 text-xs -mt-1">
+                {!file && errors?.file}
+              </span>
+              <div className="w-full flex justify-start items-start gap-2">
+                {file ? (
+                  <>
+                    {file.type.startsWith('image/') && (
+                      <img src={images.noImg} alt="file" className="h-10" />
+                    )}
+                    {file.type === 'application/pdf' && (
+                      <img src={images.pdfIcon} alt="file" className="h-10" />
+                    )}
+                    {(file.type === 'application/msword' ||
+                      file.type ===
+                        'application/vnd.openxmlformats-officedocument.wordprocessingml.document') && (
+                      <img src={images.docIcon} alt="file" className="h-10" />
+                    )}
+                  </>
+                ) : savedFile ? (
+                  <img src={images.attachBg} alt="file" className="h-10" />
+                ) : null}
+              </div>
             </div>
-            <Input
-              type="file"
-              name="file"
-              id="file"
-              ref={fileInputRef}
-              onChange={handleImageChange}
-            />
-            <div className="w-full flex justify-start items-start gap-2">
-              {file ? (
-                <>
-                  {file.type.startsWith('image/') && (
-                    <img src={images.noImg} alt="file" className="h-16" />
-                  )}
-                  {file.type === 'application/pdf' && (
-                    <img src={images.pdfIcon} alt="file" className="h-16" />
-                  )}
-                  {(file.type === 'application/msword' ||
-                    file.type ===
-                      'application/vnd.openxmlformats-officedocument.wordprocessingml.document') && (
-                    <img src={images.docIcon} alt="file" className="h-16" />
-                  )}
-                </>
-              ) : null}
+            <Separator />
+            <div className="my-4 flex flex-row justify-between items-center">
+              <Button
+                type="button"
+                variant="outline"
+                className="cs-btn-reset"
+                onClick={resetForm}
+              >
+                Reset
+              </Button>
+              <WbcSubmitBtn
+                isLoading={isLoading}
+                text="Upload"
+                customClass="cs-btn-primary"
+              />
             </div>
-            <span className="text-red-500 text-xs -mt-1">
-              {!file && errors?.file}
-            </span>
           </div>
-          <Separator />
-          <div className="my-4 flex flex-row justify-between items-center">
-            <Button
-              type="button"
-              variant="outline"
-              className="cs-btn-reset"
-              onClick={resetForm}
-            >
-              Reset
-            </Button>
-            <WbcSubmitBtn
-              isLoading={isLoading}
-              text="Upload"
-              customClass="cs-btn-primary"
-            />
-          </div>
-        </div>
+        </fieldset>
       </form>
     </div>
   );

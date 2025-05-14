@@ -1,5 +1,7 @@
-import { WbHomepageCard, WbHomepageCard2, WbHomeTopBanner } from '@/components';
+import { WbHomepageCard, WbHomeTopBanner, WbNewsScroller } from '@/components';
 import { images, titles } from '@/constants';
+import customFetch from '@/utils/customFetch';
+import { LoaderFunction } from 'react-router-dom';
 
 const training = `Computer Training Centres run by the Department of Youth Services &
         Sports (Youth Services wing) in collaboration with different private
@@ -32,8 +34,8 @@ const WbHomePage = () => {
             meeting up the demand of the day.
           </p>
         </div>
-        <div className="mt-8 md:mt-16 w-full md:max-w-4xl md:mx-auto grid grid-cols-1 md:grid-cols-3 sm:grid-flow-col lg:grid-flow-row gap-4">
-          <div className="w-full">
+        <div className="mt-8 md:mt-16 w-full md:max-w-screen-xl md:mx-auto grid grid-cols-1 md:grid-cols-7 sm:grid-flow-col lg:grid-flow-row gap-6">
+          <div className="col-span-1 md:col-span-2">
             <WbHomepageCard
               title="Computer training"
               content={training}
@@ -42,7 +44,7 @@ const WbHomePage = () => {
               btn={false}
             />
           </div>
-          <div className="w-full">
+          <div className="col-span-1 md:col-span-2">
             <WbHomepageCard
               content={hostel}
               img={images.hostel}
@@ -52,25 +54,8 @@ const WbHomePage = () => {
               href={`https://youthhostelbooking.wb.gov.in/pages/Home.aspx`}
             />
           </div>
-          <div className="flex-1 flex flex-col justify-center items-center gap-8">
-            <WbHomepageCard2
-              title="E-tender"
-              content="Click for more details"
-              href={`/${titles.serviceUrlWeb}/e-tender`}
-              abbrev={`T`}
-            />
-            <WbHomepageCard2
-              title="West Bengal State Student Youth Science Fair"
-              content="Click for more details"
-              href={`/${titles.serviceUrlWeb}/wbsysf`}
-              abbrev={`S`}
-            />
-            <WbHomepageCard2
-              title="News & Events"
-              content="Click for more details"
-              href={`/${titles.serviceUrlWeb}/news-events`}
-              abbrev={`N`}
-            />
+          <div className="col-span-1 md:col-span-3 p-2 max-h-[400px] overflow-hidden">
+            <WbNewsScroller />
           </div>
         </div>
       </div>
@@ -78,3 +63,16 @@ const WbHomePage = () => {
   );
 };
 export default WbHomePage;
+
+// --------------------------------------
+
+export const loader: LoaderFunction = async () => {
+  try {
+    const response = await customFetch.get(`/services/news-events/scroll`);
+    const data = response.data.news;
+    return { data };
+  } catch (error) {
+    console.log(error);
+    return;
+  }
+};

@@ -19,6 +19,7 @@ import honbleMos from '@/assets/images/services/honerablemos_pic2.jpg';
 import noImg from '@/assets/images/no-image.jpg';
 import fairDefault from '@/assets/images/services/fair-default.jpg';
 import hostelDefault from '@/assets/images/services/hostel-default.jpg';
+import attachBg from '@/assets/images/attachment.png';
 // Sports images start -------------------
 import spSigninBg from '@/assets/images/sports/signin-bg.jpg';
 import spSigninFormBg from '@/assets/images/sports/signin-form-bg.jpg';
@@ -47,6 +48,7 @@ export const images = {
   spSigninBg,
   spSigninFormBg,
   docIcon,
+  attachBg,
 };
 
 export const titles = {

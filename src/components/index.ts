@@ -19,6 +19,7 @@ export { default as WbCompCourseTable } from '@/components/website/wb-services/t
 export { default as WbGallerySingleBanner } from '@/components/website/wb-services/WbGallerySingleBanner';
 export { default as WbGbMembersTable } from '@/components/website/wb-services/mountaineering/WbGbMembersTable';
 export { default as WbYouthHostelCard } from '@/components/website/wb-services/youth-hostel/WbYouthHostelCard';
+export { default as WbNewsScroller } from '@/components/website/wb-services/WbNewsScroller';
 
 // Services Website Components end ----------------------------
 

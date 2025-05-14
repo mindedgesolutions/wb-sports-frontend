@@ -14,6 +14,7 @@ import { loader as srWebFpLoader } from '@/pages/website/wb-services/fairs-progr
 import { loader as srWebMountaineeringLoader } from '@/pages/website/wb-services/mountaineering/WbMountaineering';
 import { loader as wbHostelLoader } from '@/pages/cms-services/youth-hostel/WbAppHostelInfo';
 import { loader as srWebHostelListLoader } from '@/pages/website/wb-services/youth-hostel/WbHostelList';
+import { loader as srWebHomepageLoader } from '@/pages/website/wb-services/WbHomePage';
 // Sports loaders start ------------------------
 import { loader as spLayoutLoader } from '@/pages/cms-sports/SpCmsLayout';
 
@@ -25,7 +26,7 @@ const router = createBrowserRouter([
     element: <sy.WbLayout />,
     loader: srWebsiteLayoutLoader(store),
     children: [
-      { path: 'home', element: <sy.WbHomePage /> },
+      { index: true, element: <sy.WbHomePage />, loader: srWebHomepageLoader },
       {
         path: '',
         children: [
