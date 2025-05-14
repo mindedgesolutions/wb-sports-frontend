@@ -20,7 +20,7 @@ import { titles } from '.';
 export const menus: WebsiteMenuProps[] = [
   {
     name: 'Home',
-    link: `/${titles.serviceUrlWeb}/home`,
+    link: `/${titles.serviceUrlWeb}`,
     icon: House,
   },
   {

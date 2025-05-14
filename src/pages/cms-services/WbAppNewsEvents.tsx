@@ -4,7 +4,6 @@ import {
   AppMainWrapper,
   AppTitleWrapper,
   AppTooltip,
-  WbcAddEditBanner,
   WbcAddEditNewsEvents,
   WbcDeleteModal,
   WbcPaginationContainer,
@@ -19,7 +18,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { titles } from '@/constants';
+import { images, titles } from '@/constants';
 import { updateSrCounter } from '@/features/commonSlice';
 import { setNewsEvents } from '@/features/newsEventsSlice';
 import { useAppDispatch, useAppSelector } from '@/hooks';
@@ -28,10 +27,10 @@ import customFetch from '@/utils/customFetch';
 import { serialNo } from '@/utils/function';
 import showSuccess from '@/utils/showSuccess';
 import dayjs from 'dayjs';
-import { EyeIcon, Pencil } from 'lucide-react';
+import { Pencil } from 'lucide-react';
 import { nanoid } from 'nanoid';
 import { useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 const WbAppNewsEvents = () => {
   document.title = `News & Events | ${titles.services}`;
@@ -48,8 +47,6 @@ const WbAppNewsEvents = () => {
   const { search } = useLocation();
   const queryString = new URLSearchParams(search);
   const page = queryString.get('page');
-  const dist = queryString.get('dist');
-  const s = queryString.get('s');
   const [editId, setEditId] = useState<number | null>(null);
 
   // ---------------------------------
@@ -57,8 +54,8 @@ const WbAppNewsEvents = () => {
   const fetchData = async () => {
     setIsLoading(true);
     try {
-      const response = await customFetch.get('news-events', {
-        params: { page, dist, s },
+      const response = await customFetch.get(`/news-events`, {
+        params: { page },
       });
 
       if (response.status === 200) {
@@ -76,19 +73,20 @@ const WbAppNewsEvents = () => {
       setIsLoading(false);
     }
   };
+  console.log(data);
 
   // ---------------------------------
 
   useEffect(() => {
     fetchData();
-  }, [page, srCounter, dist, s]);
+  }, [page, srCounter]);
 
   // ---------------------------------
 
   const handleActive = (id: number) => async (checked: boolean) => {
     setIsLoading(true);
     try {
-      await customFetch.put(`/district-block-offices/activate/${id}`, {
+      await customFetch.put(`/news-events/activate/${id}`, {
         is_active: checked,
       });
       dispatch(updateSrCounter());
@@ -114,8 +112,8 @@ const WbAppNewsEvents = () => {
                 <TableRow>
                   <TableHead className="w-[50px]">#</TableHead>
                   <TableHead></TableHead>
-                  <TableHead>Page</TableHead>
-                  <TableHead>Last Updated</TableHead>
+                  <TableHead>Title</TableHead>
+                  <TableHead>Created On</TableHead>
                   <TableHead>Active</TableHead>
                   <TableHead></TableHead>
                 </TableRow>
@@ -137,9 +135,9 @@ const WbAppNewsEvents = () => {
                     </TableCell>
                   </TableRow>
                 ) : (
-                  data?.map((banner: NewsEventsProps, index: number) => {
+                  data?.map((news: NewsEventsProps, index: number) => {
                     const deletemsg =
-                      'The banner image will be permanently deleted. There is a default banner set for every page. So rest assured, the page will not be left without a banner.';
+                      'The news / event will be permanently deleted';
 
                     return (
                       <TableRow
@@ -149,31 +147,43 @@ const WbAppNewsEvents = () => {
                         <TableCell className="font-medium">
                           {serialNo(Number(meta.currentPage), 10) + index}.
                         </TableCell>
-                        <TableCell className="w-[100px] md:w-[100px]"></TableCell>
-                        <TableCell></TableCell>
+                        <TableCell className="w-[100px] md:w-[100px]">
+                          <a
+                            href={`${import.meta.env.VITE_BASE_URL}${
+                              news.file_path
+                            }`}
+                            target="_blank"
+                          >
+                            <img
+                              src={images.attachBg}
+                              alt={news.title}
+                              className="h-8"
+                            />
+                          </a>
+                        </TableCell>
                         <TableCell>
-                          {dayjs(banner.updated_at).format('DD/MM/YYYY h:mm A')}
+                          <AppTooltip content={news.title ?? 'NA'} />
+                        </TableCell>
+                        <TableCell>
+                          {dayjs(news.created_at).format('DD/MM/YYYY h:mm A')}
                         </TableCell>
                         <TableCell>
                           <Switch
                             className="data-[state=checked]:bg-sky cursor-pointer"
-                            checked={banner.is_active}
-                            onCheckedChange={handleActive(banner.id)}
+                            checked={news.is_active}
+                            onCheckedChange={handleActive(news.id)}
                           />
                         </TableCell>
                         <TableCell>
                           <div className="flex flex-row justify-center items-center gap-2">
-                            <Link to={`#`}>
-                              <EyeIcon className="h-4 text-blue-500 duration-200 cursor-pointer" />
-                            </Link>
                             <Pencil
                               className="h-4 text-yellow-500 duration-200 cursor-pointer"
-                              onClick={() => setEditId(banner.id)}
+                              onClick={() => setEditId(news.id)}
                             />
                             <WbcDeleteModal
-                              apiUrl={`/banners/${banner.id}`}
+                              apiUrl={`/news-events/${news.id}`}
                               description={deletemsg}
-                              successMsg="Banner deleted successfully"
+                              successMsg="News / Event deleted successfully"
                               setIsLoading={setIsLoading}
                               title="Are you absolutely sure?"
                             />

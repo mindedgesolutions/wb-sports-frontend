@@ -128,8 +128,8 @@ const WbSignIn = () => {
                       Password <span className="text-red-500">*</span>
                     </Label>
                     <Link
-                      to={`/${titles.sportsUrl}/forgot-password`}
-                      className="text-sm font-medium text-muted-foreground hover:text-success"
+                      to={`/${titles.servicesUrl}/forgot-password`}
+                      className="text-sm font-medium text-muted-foreground hover:text-sky"
                       tabIndex={-1}
                     >
                       Forgot password?
