@@ -16,6 +16,8 @@ import { loader as wbHostelLoader } from '@/pages/cms-services/youth-hostel/WbAp
 import { loader as srWebHostelListLoader } from '@/pages/website/wb-services/youth-hostel/WbHostelList';
 import { loader as srWebHomepageLoader } from '@/pages/website/wb-services/WbHomePage';
 import { loader as srWebNewsEventsLoader } from '@/pages/website/wb-services/WbNewsEvents';
+import { loader as srWebFairProgramSingleLoader } from '@/pages/website/wb-services/fairs-programs/WbFairsProgrammesSingleWeb';
+import { loader as srWebFairProgrammeGallryLoader } from '@/pages/website/wb-services/fairs-programs/WbFairProgrammeGallry';
 // Sports loaders start ------------------------
 import { loader as spLayoutLoader } from '@/pages/cms-sports/SpCmsLayout';
 
@@ -73,7 +75,16 @@ const router = createBrowserRouter([
             element: <sy.WbFairsProgrammesWeb />,
             loader: srWebFpLoader(store),
           },
-          { path: ':slug', element: <sy.WbFairsProgrammesSingleWeb /> },
+          {
+            path: ':slug',
+            element: <sy.WbFairsProgrammesSingleWeb />,
+            loader: srWebFairProgramSingleLoader,
+          },
+          {
+            path: ':slug/:gallerySlug',
+            element: <sy.WbFairProgrammeGallry />,
+            loader: srWebFairProgrammeGallryLoader,
+          },
         ],
       },
       {
