@@ -24,7 +24,7 @@ const WbNewsScroller = () => {
   return (
     <div className="relative flex h-full w-full flex-row items-center justify-center overflow-hidden">
       {data.data ? (
-        <Marquee pauseOnHover vertical className="[--duration:20s]">
+        <Marquee pauseOnHover vertical className="[--duration:20s] [--gap:4px]">
           {data.data.map((news: NewsEventsProps) => (
             <ReviewCard key={news.id} {...news} />
           ))}

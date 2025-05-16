@@ -1,4 +1,5 @@
 import {
+  Award,
   Building,
   Fan,
   Gauge,
@@ -31,6 +32,11 @@ function adminMenus() {
       title: 'District / Block Offices',
       url: `/${titles.servicesUrl}/${slug}/district-block-offices`,
       icon: Building,
+    },
+    {
+      title: 'Governing Body Members',
+      url: `/${titles.servicesUrl}/${slug}/governing-body-members`,
+      icon: Award,
     },
     {
       title: 'Computer Training',

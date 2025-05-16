@@ -21,7 +21,7 @@ const WbHomepageCard = ({
 }: WbHomepageCardProps) => {
   const titleShort = title.length > 20 ? title.slice(0, 20) + `...` : title;
   const contentShort =
-    content.length > 140 ? content.slice(0, 140) + `...` : content;
+    content.length > 120 ? content.slice(0, 120) + `...` : content;
 
   return (
     <div className="w-full md:max-w-sm p-4 rounded-sm border border-muted-foreground/15 duration-300 flex flex-col justify-center items-center gap-2">
@@ -38,7 +38,7 @@ const WbHomepageCard = ({
             to={readmore}
             className="md:absolute md:bottom-0 md:right-0 text-sky hover:text-sky/60 duration-200"
           >
-            Read more ...
+            Read more
           </NavLink>
         </p>
       </div>

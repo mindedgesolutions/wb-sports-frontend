@@ -28,8 +28,8 @@ const WbDistrictOffice = () => {
       <WbPageWrapper>
         <WbPageSidebar parentMenu="About Us" />
         <WbContentWrapper title="District / Block Offices">
-          <div className="grid grid-cols-1 md:grid-cols-3 grid-flow-row gap-0 md:gap-4">
-            <div className="">
+          <div className="grid grid-cols-5 md:grid-cols-3 grid-flow-row gap-0 md:gap-4">
+            <div className="col-span-3 md:col-span-1">
               <select
                 className="flex h-9 w-full items-center justify-between rounded-xs border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground/70 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1"
                 name="district"
@@ -47,7 +47,7 @@ const WbDistrictOffice = () => {
                 ))}
               </select>
             </div>
-            <div className="">
+            <div className="col-span-2">
               {districtId && (
                 <Button
                   variant={'ghost'}

@@ -73,7 +73,6 @@ const WbAppNewsEvents = () => {
       setIsLoading(false);
     }
   };
-  console.log(data);
 
   // ---------------------------------
 
@@ -113,6 +112,7 @@ const WbAppNewsEvents = () => {
                   <TableHead className="w-[50px]">#</TableHead>
                   <TableHead></TableHead>
                   <TableHead>Title</TableHead>
+                  <TableHead>Event Date</TableHead>
                   <TableHead>Created On</TableHead>
                   <TableHead>Active</TableHead>
                   <TableHead></TableHead>
@@ -121,14 +121,14 @@ const WbAppNewsEvents = () => {
               <TableBody>
                 {isLoading ? (
                   <TableRow>
-                    <TableCell colSpan={6}>
+                    <TableCell colSpan={7}>
                       <WbcSkeletonRows count={10} />
                     </TableCell>
                   </TableRow>
                 ) : data?.length === 0 ? (
                   <TableRow>
                     <TableCell
-                      colSpan={6}
+                      colSpan={7}
                       className="text-xs uppercase text-center"
                     >
                       NO DATA FOUND
@@ -163,6 +163,11 @@ const WbAppNewsEvents = () => {
                         </TableCell>
                         <TableCell>
                           <AppTooltip content={news.title ?? 'NA'} />
+                        </TableCell>
+                        <TableCell>
+                          {news.event_date
+                            ? dayjs(news.event_date).format('DD/MM/YYYY')
+                            : null}
                         </TableCell>
                         <TableCell>
                           {dayjs(news.created_at).format('DD/MM/YYYY h:mm A')}

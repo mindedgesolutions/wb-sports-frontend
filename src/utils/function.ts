@@ -1,5 +1,5 @@
 import { titles } from '@/constants';
-import { menus } from '@/constants/wbMenu';
+import serviceWebsiteMenus from '@/constants/wbMenu';
 
 export const serialNo = (page: number, limit: number = 10): number => {
   const srno = !page || page <= 1 ? 1 : (page - 1) * limit + 1;
@@ -17,6 +17,7 @@ export function generateCaptcha(): string {
 }
 
 export const getPageTitle = (url: string): string => {
+  const menus = serviceWebsiteMenus();
   let menuTitle = '';
 
   menus.forEach((menu) => {

@@ -3,6 +3,7 @@ import {
   WbFooter,
   WbHeaderBottom,
   WbHeaderTop,
+  WbHeaderTopMobile,
   WbMenu,
   WbPageLoader,
 } from '@/components';
@@ -14,6 +15,8 @@ import { Store } from '@reduxjs/toolkit';
 import { RootState } from '@/store';
 import { setDistricts } from '@/features/commonSlice';
 import { smoothScrollTo } from '@/utils/function';
+import { AppSidebar } from '@/components/website/wb-services/mobile-menu/app-sidebar';
+import { SidebarProvider } from '@/components/ui/sidebar';
 
 const WebsiteContext = createContext<PageBannerProps>({});
 
@@ -47,19 +50,39 @@ const WbLayout = () => {
 
   return (
     <>
-      {isLoading && <WbPageLoader />}
-      <AppScrollToTop />
-      <WebsiteContext.Provider value={{ ...pageBanner }}>
-        <WbHeaderTop />
-        <WbHeaderBottom />
-        <div className="bg-sky-600 h-10">
-          <div className="max-w-screen-xl mx-auto flex flex-row justify-center items-center">
-            <WbMenu />
+      <div className="hidden md:block">
+        {isLoading && <WbPageLoader />}
+        <AppScrollToTop />
+        <WebsiteContext.Provider value={{ ...pageBanner }}>
+          <WbHeaderTop />
+          <WbHeaderBottom />
+          <div className="bg-sky-600 h-10">
+            <div className="md:max-w-screen-xl mx-auto flex flex-row justify-center items-center">
+              <WbMenu />
+            </div>
           </div>
-        </div>
-        <Outlet />
-        <WbFooter />
-      </WebsiteContext.Provider>
+          <Outlet />
+          <WbFooter />
+        </WebsiteContext.Provider>
+      </div>
+
+      {/* For mobile only starts */}
+      <div className="block md:hidden">
+        {isLoading && <WbPageLoader />}
+        <SidebarProvider>
+          <AppScrollToTop />
+          <div className="w-full">
+            <WebsiteContext.Provider value={{ ...pageBanner }}>
+              <AppSidebar />
+              <WbHeaderTopMobile />
+              <WbHeaderBottom />
+              <Outlet />
+              <WbFooter />
+            </WebsiteContext.Provider>
+          </div>
+        </SidebarProvider>
+      </div>
+      {/* For mobile only ends */}
     </>
   );
 };

@@ -1,11 +1,12 @@
 import { Separator } from '@/components/ui/separator';
 import { titles } from '@/constants';
-import { menus } from '@/constants/wbMenu';
-import { WebsiteSubMenuProps } from '@/types/menu';
-import { Building } from 'lucide-react';
+import serviceWebsiteMenus from '@/constants/wbMenu';
+import { WebsiteMenuProps, WebsiteSubMenuProps } from '@/types/menu';
+import { Building, Info } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 
 const WbPageSidebar = ({ parentMenu }: { parentMenu: string }) => {
+  const menus = serviceWebsiteMenus() as WebsiteMenuProps[];
   const { pathname } = useLocation();
   const titleSubMenus = menus.filter((menu) => menu.name === parentMenu)[0]
     .subMenus as WebsiteSubMenuProps[];
@@ -51,6 +52,17 @@ const WbPageSidebar = ({ parentMenu }: { parentMenu: string }) => {
             >
               <Building className="inline-block size-4 mr-3" />
               District-wise Computer Training Centres
+            </Link>
+          </li>
+        )}
+        {pathname === '/wbyouthservices/news-events' && (
+          <li>
+            <Link
+              to={`/wbyouthservices/news-events/forms`}
+              className={`text-sm tracking-wider text-sky-foreground hover:text-sky-foreground/80 duration-200`}
+            >
+              <Info className="inline-block size-4 mr-3" />
+              Forms
             </Link>
           </li>
         )}

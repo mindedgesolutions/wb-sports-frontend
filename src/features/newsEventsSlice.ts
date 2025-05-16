@@ -3,6 +3,7 @@ import { NewsEventsProps } from '../types/contents';
 
 const initialState = {
   newsEvents: [] as NewsEventsProps[] | null,
+  newsEventsAll: [] as NewsEventsProps[] | null,
 };
 
 const newsEventsSlice = createSlice({
@@ -12,7 +13,10 @@ const newsEventsSlice = createSlice({
     setNewsEvents: (state, action) => {
       state.newsEvents = action.payload;
     },
+    setNewsEventsAll: (state, action) => {
+      state.newsEventsAll = action.payload;
+    },
   },
 });
-export const { setNewsEvents } = newsEventsSlice.actions;
+export const { setNewsEvents, setNewsEventsAll } = newsEventsSlice.actions;
 export default newsEventsSlice.reducer;

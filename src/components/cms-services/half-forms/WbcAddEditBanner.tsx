@@ -1,5 +1,5 @@
 import { Label } from '@/components/ui/label';
-import { menus } from '@/constants/wbMenu';
+import serviceWebsiteMenus from '@/constants/wbMenu';
 import { WebsiteMenuProps } from '@/types/menu';
 import { nanoid } from 'nanoid';
 import { WbcBannerPopover } from '@/components';
@@ -23,6 +23,7 @@ const WbcAddEditBanner = ({
   editId: number | null;
   setEditId: React.Dispatch<React.SetStateAction<number | null>>;
 }) => {
+  const menus = serviceWebsiteMenus() as WebsiteMenuProps[];
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState<{ [key: string]: string[] } | null>(
     null
