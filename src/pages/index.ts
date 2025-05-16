@@ -20,6 +20,7 @@ export { default as WbPhotoGallery } from '@/pages/website/wb-services/gallery/W
 export { default as WbGallerySingle } from '@/pages/website/wb-services/gallery/WbGallerySingle';
 export { default as WbFairsProgrammesWeb } from '@/pages/website/wb-services/fairs-programs/WbFairsProgrammesWeb';
 export { default as WbFairsProgrammesSingleWeb } from '@/pages/website/wb-services/fairs-programs/WbFairsProgrammesSingleWeb';
+export { default as WbFairProgrammeGallry } from '@/pages/website/wb-services/fairs-programs/WbFairProgrammeGallry';
 
 // Services Website exports end --------------------------------
 

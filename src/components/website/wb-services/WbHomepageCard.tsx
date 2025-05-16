@@ -24,7 +24,7 @@ const WbHomepageCard = ({
     content.length > 120 ? content.slice(0, 120) + `...` : content;
 
   return (
-    <div className="w-full md:max-w-sm p-4 rounded-sm border border-muted-foreground/15 duration-300 flex flex-col justify-center items-center gap-2">
+    <div className="w-full md:max-w-sm p-4 rounded-sm border border-muted-foreground/15 duration-300 flex flex-col justify-center items-center gap-2 hover:shadow-lg">
       <h1 className="text-2xl tracking-wider font-semibold text-sky capitalize">
         {titleShort}
       </h1>

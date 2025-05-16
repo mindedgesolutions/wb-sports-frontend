@@ -63,7 +63,7 @@ const WbNewsEvents = () => {
           ) : (
             <>
               <div className="grid grid-cols-5 md:grid-cols-3 grid-flow-row gap-0 md:gap-4">
-                <div className="col-span-3">
+                <div className="col-span-3 md:col-span-1">
                   <select
                     className="cs-select"
                     value={newsYear}
