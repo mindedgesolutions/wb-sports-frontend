@@ -15,6 +15,7 @@ import { loader as srWebMountaineeringLoader } from '@/pages/website/wb-services
 import { loader as wbHostelLoader } from '@/pages/cms-services/youth-hostel/WbAppHostelInfo';
 import { loader as srWebHostelListLoader } from '@/pages/website/wb-services/youth-hostel/WbHostelList';
 import { loader as srWebHomepageLoader } from '@/pages/website/wb-services/WbHomePage';
+import { loader as srWebNewsEventsLoader } from '@/pages/website/wb-services/WbNewsEvents';
 // Sports loaders start ------------------------
 import { loader as spLayoutLoader } from '@/pages/cms-sports/SpCmsLayout';
 
@@ -75,7 +76,12 @@ const router = createBrowserRouter([
           { path: ':slug', element: <sy.WbFairsProgrammesSingleWeb /> },
         ],
       },
-      { path: 'news-events', element: <sy.WbNewsEvents /> },
+      {
+        path: 'news-events',
+        element: <sy.WbNewsEvents />,
+        loader: srWebNewsEventsLoader(store),
+      },
+      { path: 'news-events/forms', element: <sy.WbNewsEventsForms /> },
       {
         path: '',
         children: [
@@ -128,6 +134,7 @@ const router = createBrowserRouter([
       { path: 'change-password', element: <sy.WbChangePassword /> },
       { path: 'dashboard', element: <sy.WbCmsDashboard /> },
       { path: 'banners', element: <sy.WbCmsBanners /> },
+      { path: 'governing-body-members', element: <sy.WbAppMicMembers /> },
       {
         path: 'district-block-offices',
         element: <sy.WbAppDistrictBlockOffice />,

@@ -103,3 +103,8 @@ export const sportsList = [
   { label: 'Athletics', value: 'athletics' },
   { label: 'Gymnastic', value: 'gymnastic' },
 ];
+
+export const newsTypes = [
+  { label: 'News', value: 'news' },
+  { label: 'Form', value: 'form' },
+];

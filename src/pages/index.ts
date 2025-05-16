@@ -48,6 +48,8 @@ export { default as WbAppVocationalCentres } from '@/pages/cms-services/vocation
 export { default as WbAppDistrictBlockOffice } from '@/pages/cms-services/WbAppDistrictBlockOffice';
 export { default as WbProfile } from '@/pages/cms-services/profile/WbProfile';
 export { default as WbChangePassword } from '@/pages/cms-services/profile/WbChangePassword';
+export { default as WbAppMicMembers } from '@/pages/cms-services/WbAppMicMembers';
+export { default as WbNewsEventsForms } from '@/pages/website/wb-services/WbNewsEventsForms';
 
 // Service Admin / CMS exports end --------------------------------
 

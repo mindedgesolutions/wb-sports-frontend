@@ -1,5 +1,4 @@
 import { Label } from '@/components/ui/label';
-import { WbcBannerPopover } from '@/components';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
 import { Button } from '@/components/ui/button';
@@ -12,9 +11,10 @@ import { updateSrCounter } from '@/features/commonSlice';
 import { NewsEventsProps } from '@/types/contents';
 import { Textarea } from '@/components/ui/textarea';
 import { newsEvemtsSchema } from '@/types/servicesSchema';
-import { images } from '@/constants';
+import { images, newsTypes } from '@/constants';
 
 type FormProps = {
+  type: string;
   title: string;
   description: string;
   eventDate: Date | string;
@@ -28,6 +28,7 @@ const WbcAddEditNewsEvents = ({
   setEditId: React.Dispatch<React.SetStateAction<number | null>>;
 }) => {
   const [form, setForm] = useState<FormProps>({
+    type: '',
     title: '',
     description: '',
     eventDate: '',
@@ -49,7 +50,10 @@ const WbcAddEditNewsEvents = ({
 
   useEffect(() => {
     if (editData) {
+      resetForm();
+      setEditId(editData.id);
       setForm({
+        type: editData.type || '',
         title: (editData as NewsEventsProps).title,
         description: (editData as NewsEventsProps).description || '',
         eventDate: (editData as NewsEventsProps).event_date || '',
@@ -61,7 +65,9 @@ const WbcAddEditNewsEvents = ({
   // ---------------------------------------
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
   ) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
@@ -78,6 +84,7 @@ const WbcAddEditNewsEvents = ({
 
   const resetForm = () => {
     setForm({
+      type: '',
       title: '',
       description: '',
       eventDate: '',
@@ -155,11 +162,33 @@ const WbcAddEditNewsEvents = ({
   return (
     <div className="border p-2">
       <div className="bg-muted-foreground/10 text-muted-foreground p-2 text-base font-medium tracking-wider">
-        {editId ? 'Edit banner details' : 'Add new banner'}
+        {editId ? 'Edit news / form details' : 'Add news / form'}
       </div>
       <form onSubmit={handleSubmit} autoComplete="off">
         <fieldset disabled={isLoading}>
           <div className="mt-6">
+            <div className="flex flex-col justify-start items-start gap-2 my-4">
+              <Label htmlFor="type" className="text-muted-foreground">
+                Type <span className="text-red-500">*</span>
+              </Label>
+              <select
+                className="cs-select"
+                name="type"
+                id="type"
+                value={form.type}
+                onChange={handleChange}
+              >
+                <option value="">- Select -</option>
+                {newsTypes.map((type) => (
+                  <option key={type.value} value={type.value}>
+                    {type.label}
+                  </option>
+                ))}
+              </select>
+              <span className="text-red-500 text-xs -mt-1">
+                {!form.type && errors?.type}
+              </span>
+            </div>
             <div className="flex flex-col justify-start items-start gap-2 my-4">
               <Label htmlFor="title" className="text-muted-foreground">
                 Title <span className="text-red-500">*</span>
@@ -193,7 +222,7 @@ const WbcAddEditNewsEvents = ({
             </div>
             <div className="flex flex-col justify-start items-start gap-2 my-4">
               <Label htmlFor="eventDate" className="text-muted-foreground">
-                Event date
+                Event date <span className="text-red-500">*</span>
               </Label>
               <Input
                 type="date"
@@ -201,6 +230,7 @@ const WbcAddEditNewsEvents = ({
                 id="eventDate"
                 value={form.eventDate as string}
                 onChange={handleChange}
+                max={new Date().toISOString().split('T')[0]}
               />
               <span className="text-red-500 text-xs -mt-1">
                 {errors?.eventDate}

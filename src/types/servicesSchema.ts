@@ -184,18 +184,36 @@ export type GbMembersSchema = z.infer<typeof gbMembersSchema>;
 
 export const newsEvemtsSchema = z
   .object({
+    type: z
+      .string({ required_error: 'Type is required' })
+      .min(1, 'Type is required'),
     title: z
       .string({ required_error: 'Title is required' })
       .min(1, { message: 'Title is required' }),
     file: z.custom<FileList>(),
+    eventDate: z.string().nonempty({ message: 'Event date is required' }),
     editId: z.number().nullable(),
   })
   .superRefine((data, ctx) => {
+    // console.log(data.editId);
     if (!data.editId && !data.file) {
       ctx.addIssue({
         code: 'custom',
         path: ['file'],
         message: 'File is required',
+      });
+    }
+  })
+  .superRefine((data, ctx) => {
+    const selectedDate = new Date(data.eventDate);
+    selectedDate.setHours(0, 0, 0, 0);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    if (selectedDate > today) {
+      ctx.addIssue({
+        code: 'custom',
+        path: ['eventDate'],
+        message: 'Event date cannot be in the future',
       });
     }
   });

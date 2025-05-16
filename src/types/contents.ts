@@ -234,6 +234,8 @@ export type NewsEventsProps = {
   is_active: boolean;
   created_at: Date;
   updated_at: Date;
+  type: string;
+  event_year: string;
 };
 
 // Sports API wrappers start ------------------------------

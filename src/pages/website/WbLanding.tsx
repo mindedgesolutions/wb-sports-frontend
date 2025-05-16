@@ -43,7 +43,7 @@ const WbLanding = () => {
             </p>
           </div>
           <div className="grid grid-cols-2 gap-8 mt-12">
-            <Link to={`/${import.meta.env.VITE_SERVICES}/home`}>
+            <Link to={`/${import.meta.env.VITE_SERVICES}`}>
               <div className="p-2 bg-white rounded-md flex flex-col justify-center items-center">
                 <img
                   src={images.youth}
@@ -56,7 +56,7 @@ const WbLanding = () => {
               </div>
             </Link>
 
-            <Link to={`/${import.meta.env.VITE_SPORTS}/home`}>
+            <Link to={`/${import.meta.env.VITE_SPORTS}`}>
               <div className="p-2 bg-white rounded-md flex flex-col justify-center items-center">
                 <img
                   src={images.sports}
